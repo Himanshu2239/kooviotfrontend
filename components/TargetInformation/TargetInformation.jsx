@@ -107,7 +107,7 @@ export default function TargetInformation({
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="achieved-target">Today's Target Achieved</Label>
+            <Label htmlFor="achieved-target">Today&apos;s Target Achieved</Label>
             <Input
               id="achieved-target"
               type="number"
