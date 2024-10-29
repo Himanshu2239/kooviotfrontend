@@ -99,7 +99,7 @@ export default function TargetAssignmentDashboard() {
         alert(
           `Successfully assigned target of ${targetValue} for ${selectedSalesperson.name}`
         );
-        fetchTargetData();
+
         setTargetValue(""); // Clear the input after successful assignment
       }
     } catch (error) {
