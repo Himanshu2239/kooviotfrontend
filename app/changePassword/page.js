@@ -51,7 +51,7 @@ export default function Page() {
       const accessToken = localStorage.getItem("accessToken"); // Retrieve the token from localStorage
 
       const response = await axios.post(
-        "http://localhost:8000/common/changePassword",
+       "https://kooviot.vercel.app/common/changePassword",
         {
           oldPassword: oldPassword,
           newPassword: newPassword,
