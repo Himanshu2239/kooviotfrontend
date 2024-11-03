@@ -60,10 +60,12 @@ const AdminMetricsDashboard = () => {
     const day = date.getDate();
     const accessToken = localStorage.getItem("accessToken");
 
+    const payload = { year, month, day: day.toString().padStart(2, "0") };
+
     try {
       const response = await axios.post(
         "https://kooviot.vercel.app/admin/mtd/values",
-        { year, month, day },
+        payload,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
 

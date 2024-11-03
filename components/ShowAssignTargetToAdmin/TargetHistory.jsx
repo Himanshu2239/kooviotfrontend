@@ -63,6 +63,7 @@ const salesPersons = [
   },
   { id: "SP006", name: "Sushila Shaw", jobId: "KIOL2225", area: "Kolkata" },
   { id: "SP007", name: "Ardhendu Aditya", jobId: "KIOL2234", area: "Kolkata" },
+  { id: "SP008", name: "Yogesh Lahoti", jobId: "KIOL2049", area: "Pan India" },
 ];
 
 export default function TargetHistory() {
@@ -96,6 +97,9 @@ export default function TargetHistory() {
     const selectedPerson = salesPersons.find(
       (sp) => sp.id === selectedSalesPerson
     );
+    const payload = getPayload(month, year, selectedPerson.jobId);
+
+    console.log("selectedPersonJobIdmonthlystats", payload);
 
     if (selectedPerson) {
       const url =
@@ -104,13 +108,10 @@ export default function TargetHistory() {
           : "https://kooviot.vercel.app/admin/monthlyStats";
 
       try {
-        const response = await axios.post(
-          url,
-          getPayload(month, year, selectedPerson.jobId),
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const response = await axios.post(url, payload, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log("response.data", response.data);
 
         if (response.status === 200) {
           setTargetData({

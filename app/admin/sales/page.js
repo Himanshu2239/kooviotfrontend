@@ -40,6 +40,7 @@ const salespeople = [
   { name: "Bharat Lal Dubey", jobId: "KIOL2064", area: "Maharashtra" },
   { name: "Sushila Shaw", jobId: "KIOL2225", area: "Kolkata" },
   { name: "Ardhendu Aditya", jobId: "KIOL2234", area: "Kolkata" },
+  { name: "Yogesh Lahoti", jobId: "KIOL2049", area: "Pan India" },
 ];
 
 export default function TargetAssignmentDashboard() {
@@ -163,7 +164,7 @@ export default function TargetAssignmentDashboard() {
         </div>
 
         {/* Section 3: Bar Chart (Target vs Salesperson) */}
-        <div >
+        <div>
           <TargetVsSalespersonChart />
         </div>
       </div>
