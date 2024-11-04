@@ -82,13 +82,20 @@ export default function TargetAssignmentDashboard() {
 
   const handleTargetAssign = async () => {
     const token = localStorage.getItem("accessToken"); // Retrieve the Bearer token from local storage
+    const day = new Date();
+    const month = String(day.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed; add 1 and pad to 2 digits
+    const year = String(day.getFullYear()).padStart(4, "0");
+    const payload = {
+      year,
+      month,
+      target: parseInt(targetValue, 10), // Convert string to number
+      jobId: selectedSalesperson.jobId, // Include jobId in the payload
+    };
+    console.log("payload of monthlyTarget", payload);
     try {
       const response = await axios.post(
         "https://kooviot.vercel.app/admin/monthlyTarget",
-        {
-          target: parseInt(targetValue, 10), // Convert string to number
-          jobId: selectedSalesperson.jobId, // Include jobId in the payload
-        },
+        payload,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Add the Bearer token to the headers
@@ -98,9 +105,8 @@ export default function TargetAssignmentDashboard() {
 
       if (response.status === 200) {
         alert(
-          `Successfully assigned target of ${targetValue} for ${selectedSalesperson.name}`
+        `Successfully assigned target of ${targetValue} for ${selectedSalesperson.name}`
         );
-
         setTargetValue(""); // Clear the input after successful assignment
       }
     } catch (error) {
