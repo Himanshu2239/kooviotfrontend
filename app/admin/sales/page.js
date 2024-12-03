@@ -41,6 +41,7 @@ const salespeople = [
   { name: "Sushila Shaw", jobId: "KIOL2225", area: "Kolkata" },
   { name: "Ardhendu Aditya", jobId: "KIOL2234", area: "Kolkata" },
   { name: "Yogesh Lahoti", jobId: "KIOL2049", area: "Pan India" },
+  { name: "Krishnamoorthi", jobId: "KIOL2243", area: "Singapore" },
 ];
 
 export default function TargetAssignmentDashboard() {
