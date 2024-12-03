@@ -38,6 +38,7 @@ const salespeople = [
   },
   { id: "SP006", name: "Sushila Shaw", jobId: "KIOL2225", area: "Kolkata" },
   { id: "SP007", name: "Ardhendu Aditya", jobId: "KIOL2234", area: "Kolkata" },
+  { id: "SP008", name: "Krishnamoorthi", jobId: "KIOL2243", area: "Singapore" },
 ];
 
 const TaskList = ({ tasks, title }) => (
