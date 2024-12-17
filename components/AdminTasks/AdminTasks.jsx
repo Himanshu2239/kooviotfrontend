@@ -50,7 +50,7 @@ const TaskList = ({ tasks, title }) => (
         tasks.map((task, index) => (
           <li key={index} className="flex items-start space-x-2">
             <span className="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-primary" />
-            <span className="text-sm">{task.taskDescription}</span>
+            <span className="text-sm">{task?.taskDescription}</span>
           </li>
         ))
       ) : (
@@ -167,8 +167,8 @@ export default function AdminTasks() {
               </SelectTrigger>
               <SelectContent>
                 {salespeople.map((person) => (
-                  <SelectItem key={person.id} value={person.jobId}>
-                    {person.name} (Job ID: {person.jobId})
+                  <SelectItem key={person?.id} value={person?.jobId}>
+                    {person?.name} (Job ID: {person.jobId})
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -188,13 +188,13 @@ export default function AdminTasks() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               <ScrollArea className="h-[calc(100vh-30rem)] pr-4">
                 <TaskList
-                  tasks={tasksData.completedTasks}
+                  tasks={tasksData?.completedTasks}
                   title="Completed Tasks"
                 />
               </ScrollArea>
               <ScrollArea className="h-[calc(100vh-30rem)] pr-4">
                 <TaskList
-                  tasks={tasksData.incompleteTasks}
+                  tasks={tasksData?.incompleteTasks}
                   title="Incomplete Tasks"
                 />
               </ScrollArea>
