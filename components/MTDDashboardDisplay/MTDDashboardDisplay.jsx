@@ -17,6 +17,7 @@ import {
 import { Info, CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
+// Reusable MetricCard component
 const MetricCard = ({ title, todayValue, mtdValue, info }) => (
   <Card>
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -45,8 +46,12 @@ const MetricCard = ({ title, todayValue, mtdValue, info }) => (
   </Card>
 );
 
+// Main Dashboard Component
 const AdminMetricsDashboard = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  // State to manage the selected date; initialized as null to indicate fetching the latest report
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  // State to store metrics data
   const [metrics, setMetrics] = useState({
     "Total Dispatch": { today: 0, mtd: 0 },
     Production: { today: 0, mtd: 0 },
@@ -54,18 +59,32 @@ const AdminMetricsDashboard = () => {
     Sales: { today: 0, mtd: 0 },
   });
 
-  const fetchMetrics = async (date) => {
-    const year = date.getFullYear();
-    const month = date.toLocaleString("default", { month: "long" });
-    const day = date.getDate();
+  // State to manage loading state (optional for better UX)
+  const [isLoading, setIsLoading] = useState(false);
+
+  /**
+   * Fetch metrics data from the backend API.
+   * @param {Date|null} date - The date for which to fetch the report. If null, fetches the latest report.
+   */
+  const fetchMetrics = async (date = null) => {
+    let payload = {};
+
+    // If a specific date is provided, construct the payload with year, month, day
+    if (date) {
+      const year = date.getFullYear();
+      const month = date.toLocaleString("default", { month: "long" });
+      const day = date.getDate();
+      payload = { year, month, day: day.toString().padStart(2, "0") };
+    }
+
     const accessToken = localStorage.getItem("accessToken");
 
-    const payload = { year, month, day: day.toString().padStart(2, "0") };
+    setIsLoading(true); // Start loading
 
     try {
       const response = await axios.post(
-        "https://kooviot.vercel.app/admin/mtd/values",
-        payload,
+         "https://kooviot.vercel.app/admin/mtd/values",
+        date ? payload : {},
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
 
@@ -73,6 +92,7 @@ const AdminMetricsDashboard = () => {
         const data = response.data;
         console.log("Response data:", data);
 
+        // Update metrics state with the fetched data
         setMetrics({
           "Total Dispatch": {
             today: data?.dayReport?.totaldispatch || 0,
@@ -91,18 +111,34 @@ const AdminMetricsDashboard = () => {
             mtd: data?.monthReportTillDate?.sales || 0,
           },
         });
+
+        // If fetching the latest report, update the selectedDate to the report's date
+        if (!date && data.date) {
+          const [yearStr, monthName, dayStr] = data.date.split("-");
+          const monthIndex = new Date(`${monthName} 1, 2000`).getMonth(); // Zero-based index
+          const reportDate = new Date(yearStr, monthIndex, parseInt(dayStr, 10));
+          setSelectedDate(reportDate);
+        }
       } else {
         console.warn(`Unexpected response status: ${response.status}`);
       }
     } catch (error) {
       console.error("Error fetching metrics:", error.message || error);
+      // Optionally, you can set error states here to display to the user
+    } finally {
+      setIsLoading(false); // End loading
     }
   };
 
+  // Fetch the latest report on component mount
   useEffect(() => {
-    fetchMetrics(selectedDate);
-  }, [selectedDate]);
+    fetchMetrics();
+  }, []);
 
+  /**
+   * Handle date selection from the calendar.
+   * @param {Date} date - The date selected by the admin.
+   */
   const handleDateSelect = (date) => {
     setSelectedDate(date);
     fetchMetrics(date);
@@ -110,6 +146,7 @@ const AdminMetricsDashboard = () => {
 
   return (
     <div className="container mx-auto p-4 space-y-6">
+      {/* Header Section with Title and Date Picker */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">Metrics Overview</h2>
         <Popover>
@@ -119,20 +156,23 @@ const AdminMetricsDashboard = () => {
               className="w-[240px] justify-start text-left font-normal"
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {format(selectedDate, "PPP")}
+              {selectedDate ? format(selectedDate, "PPP") : "Select Date"}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="end">
             <Calendar
               mode="single"
               selected={selectedDate}
-              onSelect={handleDateSelect}
+              onSelect={(date) => {
+                if (date) handleDateSelect(date);
+              }}
               initialFocus
             />
           </PopoverContent>
         </Popover>
       </div>
 
+      {/* Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
           title="Production"
@@ -152,7 +192,6 @@ const AdminMetricsDashboard = () => {
           mtdValue={metrics["Total Dispatch"].mtd}
           info="Number of items dispatched"
         />
-
         <MetricCard
           title="Sales"
           todayValue={metrics.Sales.today}
@@ -160,8 +199,17 @@ const AdminMetricsDashboard = () => {
           info="Total sales amount in dollars"
         />
       </div>
+
+      {/* Optional: Loading Indicator */}
+      {isLoading && (
+        <div className="flex justify-center items-center">
+          <p className="text-gray-500">Loading metrics...</p>
+        </div>
+      )}
     </div>
   );
 };
 
 export default AdminMetricsDashboard;
+ 
+

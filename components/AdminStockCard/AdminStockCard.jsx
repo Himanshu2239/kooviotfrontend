@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify"; // Import toast for notifications
+import { toast } from "react-toastify";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -13,20 +13,18 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon, Package, PackageOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns"; // Import parseISO to handle ISO date format
 
-const StockItem = ({ title, value, icon: Icon }) => {
-  return (
-    <div className="flex flex-col items-center space-y-2 p-4 border rounded-lg">
-      <Icon className="h-6 w-6 text-muted-foreground" />
-      <h3 className="text-sm font-medium">{title}</h3>
-      <p className="text-2xl font-bold">{value}</p>
-    </div>
-  );
-};
+const StockItem = ({ title, value, icon: Icon }) => (
+  <div className="flex flex-col items-center space-y-2 p-4 border rounded-lg">
+    <Icon className="h-6 w-6 text-muted-foreground" />
+    <h3 className="text-sm font-medium">{title}</h3>
+    <p className="text-2xl font-bold">{value}</p>
+  </div>
+);
 
 const StockCard = () => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date()); // Date displayed on the calendar
   const [stockData, setStockData] = useState({
     totalStocks: 0,
     packedStocks: 0,
@@ -34,19 +32,27 @@ const StockCard = () => {
   });
   const [error, setError] = useState("");
 
-  const fetchStockData = async (selectedDate) => {
+  /**
+   * Fetches stock data from the backend for a specific date
+   * If no date is provided, it fetches the latest available stock data
+   * @param {Date | null} selectedDate
+   */
+  const fetchStockData = async (selectedDate = null) => {
     const token = localStorage.getItem("accessToken");
 
     if (!token) {
       setError("Access token not found. Please log in again.");
+      toast.error("Access token not found. Please log in again.");
       return;
     }
 
-    const payload = {
-      date: selectedDate.getDate(),
-      month: selectedDate.getMonth() + 1,
-      year: selectedDate.getFullYear(),
-    };
+    const payload = selectedDate
+      ? {
+          date: selectedDate.getDate(),
+          month: selectedDate.getMonth() + 1,
+          year: selectedDate.getFullYear(),
+        }
+      : {};
 
     try {
       const response = await axios.post(
@@ -60,43 +66,56 @@ const StockCard = () => {
       );
 
       if (response.status === 200) {
-        const { packedStocks, unpackedStocks, totalStocks } =
-          response.data.data;
+        console.log("Response data:", response.data);
+        const {
+          packedStocks,
+          unpackedStocks,
+          totalStocks,
+          date: responseDate,
+        } = response.data.data;
 
-        if (
-          packedStocks == null &&
-          unpackedStocks == null &&
-          totalStocks == null
-        ) {
-          // Set 0 for all fields if no data is found
-          setStockData({ packedStocks: 0, unpackedStocks: 0, totalStocks: 0 });
-          toast.warn("No stock data found for the selected date.");
+        // Update stock data with response values
+        setStockData({ packedStocks, unpackedStocks, totalStocks });
+
+        // If the API returns a valid date, update the calendar to show that date
+        if (responseDate) {
+          const formattedDate = parseISO(responseDate); // Parse ISO date (e.g., "2024-12-12T00:00:00.000Z")
+          if (!isNaN(formattedDate.getTime())) {
+            setDate(formattedDate); // Set the date if valid
+          } else {
+            console.warn(
+              "Invalid date from API, falling back to today's date."
+            );
+            setDate(new Date()); // Fallback to today's date if the response date is invalid
+          }
         } else {
-          // Set the actual values if data is found
-          setStockData({ packedStocks, unpackedStocks, totalStocks });
-          toast.success("Stocks data retrieved successfully");
+          setDate(new Date()); // Fallback to today's date if no date is provided
         }
+
+        toast.success("Stocks data retrieved successfully");
       } else {
-        throw new Error("Unexpected response status");
+        toast.error("Unexpected response status.");
       }
     } catch (error) {
-      setError(
+      const errorMessage =
         error.response?.data?.message ||
-          "Failed to retrieve stocks data. Please try again."
-      );
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to retrieve stocks data. Please try again."
-      );
+        "Failed to retrieve stocks data. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
-  // Fetch data for the current date on initial load
+  /**
+   * Runs on initial page load to fetch the latest available stock data
+   */
   useEffect(() => {
-    fetchStockData(date);
+    fetchStockData(); // No date is sent to fetch the latest available data
   }, []);
 
-  // Handle date selection and fetch data for the selected date
+  /**
+   * Handles date change event from the calendar
+   * @param {Date} newDate
+   */
   const handleDateChange = (newDate) => {
     setDate(newDate);
     fetchStockData(newDate);
@@ -104,7 +123,7 @@ const StockCard = () => {
 
   return (
     <Card className="w-full max-w-7xl">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 ">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="text-sm font-medium">Stock Overview</CardTitle>
         <Popover>
           <PopoverTrigger asChild>
@@ -116,7 +135,11 @@ const StockCard = () => {
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
+              {date && date instanceof Date && !isNaN(date.getTime()) ? (
+                format(date, "PPP")
+              ) : (
+                <span>Pick a date</span>
+              )}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
