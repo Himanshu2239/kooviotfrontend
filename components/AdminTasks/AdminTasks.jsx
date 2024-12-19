@@ -205,7 +205,7 @@ export default function AdminTasks() {
               </ScrollArea>
               <ScrollArea className="h-[calc(100vh-30rem)] pr-4">
                 <TaskList
-                  tasks={tasksData?.completedTasks || []}
+                  tasks={tasksData?.incompleteTasks || []}
                   title="Incomplete Tasks"
                 />
               </ScrollArea>
