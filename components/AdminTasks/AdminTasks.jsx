@@ -42,11 +42,11 @@ const salespeople = [
   { id: "SP008", name: "Krishnamoorthi", jobId: "KIOL2243", area: "Singapore" },
 ];
 
-const TaskList = ({ tasks, title }) => (
+const TaskList = ({ tasks = [], title }) => (
   <div className="space-y-2">
     <h3 className="text-lg font-semibold capitalize">{title}</h3>
     <ul className="space-y-2">
-      {tasks.length > 0 ? (
+      {Array.isArray(tasks) && tasks.length > 0 ? (
         tasks.map((task, index) => (
           <li key={index} className="flex items-start space-x-2">
             <span className="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-primary" />
@@ -102,14 +102,26 @@ export default function AdminTasks() {
           },
         }
       );
-      console.log(response.data);
-      setTasksData(response.data);
-      setLatestDocument(response.data.latestDocument);
-      setLoading(false);
+      console.log("admin/adminViewTasks", response.data);
+      if (response?.data) {
+        setTasksData(
+          response?.data || {
+            tasks: [],
+            completedTasks: [],
+            incompleteTasks: [],
+            extraTasks: [],
+          }
+        );
+        setLatestDocument(response?.data?.latestDocument);
+      } else {
+        throw new Error("Invalid API response");
+      }
     } catch (error) {
       console.error("Error fetching tasks:", error);
-      setLoading(false);
+
       alert("Failed to fetch tasks. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -129,11 +141,11 @@ export default function AdminTasks() {
     if (latestDocument) {
       const link = document.createElement("a");
       link.href = latestDocument;
-      
+
       // Extract filename from the URL or set a default
-      const urlParts = latestDocument.split('/');
-      const filename = urlParts[urlParts.length - 1] || 'document';
-      
+      const urlParts = latestDocument.split("/");
+      const filename = urlParts[urlParts.length - 1] || "document";
+
       link.setAttribute("download", filename);
       document.body.appendChild(link);
       link.click();
@@ -142,7 +154,6 @@ export default function AdminTasks() {
       alert("No document available for download.");
     }
   };
-  
 
   return (
     <div className="container mx-auto p-4 ">
@@ -194,7 +205,7 @@ export default function AdminTasks() {
               </ScrollArea>
               <ScrollArea className="h-[calc(100vh-30rem)] pr-4">
                 <TaskList
-                  tasks={tasksData?.incompleteTasks}
+                  tasks={tasksData?.completedTasks || []}
                   title="Incomplete Tasks"
                 />
               </ScrollArea>
