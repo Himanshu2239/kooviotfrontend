@@ -44,7 +44,7 @@ export default function SalesManagerDashboard() {
       };
 
       const response = await axios.post(
-        "https://kooviot.vercel.app/user/getMonthlyStatsAndDailyTasks",
+        "http://127.0.0.1:5001/user/getMonthlyStatsAndDailyTasks",
         formattedDate,
         {
           headers: {
@@ -89,19 +89,19 @@ export default function SalesManagerDashboard() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [date]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [date]);
 
   const [salesManager, setSalesManager] = useState({});
 
-  useEffect(() => {
-    const salespersonDetails = localStorage.getItem("userDetails");
-    if (salespersonDetails) {
-      const salesManager = JSON.parse(salespersonDetails);
-      setSalesManager(salesManager);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const salespersonDetails = localStorage.getItem("userDetails");
+  //   if (salespersonDetails) {
+  //     const salesManager = JSON.parse(salespersonDetails);
+  //     setSalesManager(salesManager);
+  //   }
+  // }, []);
 
   const handleDateSelect = (selectedDate) => {
     setDate(selectedDate);
@@ -119,9 +119,9 @@ export default function SalesManagerDashboard() {
     }).format(amount);
   };
 
-  if (loading) {
-    return <LoadingSkeleton />;
-  }
+  // if (loading) {
+  //   return <LoadingSkeleton />;
+  // }
 
   return (
     <div className="flex flex-col md:flex-row bg-background text-foreground">

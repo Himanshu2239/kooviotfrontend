@@ -83,7 +83,7 @@ const AdminMetricsDashboard = () => {
 
     try {
       const response = await axios.post(
-         "https://kooviot.vercel.app/admin/mtd/values",
+         "http://127.0.0.1:5001/admin/mtd/values",
         date ? payload : {},
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
@@ -175,6 +175,7 @@ const AdminMetricsDashboard = () => {
       {/* Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
+          // className='hover:animate-bounce'
           title="Production"
           todayValue={metrics.Production.today}
           mtdValue={metrics.Production.mtd}

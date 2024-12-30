@@ -30,20 +30,20 @@ export default function LoginPage() {
     setError(null); // Clear any previous errors
 
     try {
-      const response = await axios.post("https://kooviot.vercel.app/auth/login", {
+      const response = await axios.post("http://127.0.0.1:5001/auth/login", {
         jobId, // Send jobId instead of username
         password,
       });
-      console.log("Login successful:", response.data);
+      // console.log("Login successful:", response.data);
 
       // Handle successful login, e.g., save token, redirect, etc.
       if (response.status === 200) {
         localStorage.setItem("accessToken", response.data.data.accessToken);
         localStorage.setItem("refreshToken", response.data.data.refreshToken);
-        console.log(
-          localStorage.getItem("accessToken"),
-          localStorage.getItem("refreshToken")
-        );
+        // console.log(
+        //   localStorage.getItem("accessToken"),
+        //   localStorage.getItem("refreshToken")
+        // );
 
         const userRole = response.data.data.user.role;
         if (userRole === "salesperson") {
@@ -57,10 +57,10 @@ export default function LoginPage() {
 
           // Convert the object to a JSON string and store it in localStorage
           localStorage.setItem("userDetails", JSON.stringify(userDetails));
-          console.log(userDetails);
+          // console.log(userDetails);
           router.push("/");
         } else if (userRole === "admin") {
-          console.log("admin login:", response.data);
+          // console.log("admin login:", response.data);
           const adminDetails = {
             name: response.data.data.user.fullName,
             jobId: response.data.data.user.jobId,
@@ -69,7 +69,7 @@ export default function LoginPage() {
           localStorage.setItem("userDetails", JSON.stringify(adminDetails));
           router.push("/admin");
         } else if (userRole === "production") {
-          console.log("production login:", response.data);
+          // console.log("production login:", response.data);
           const productionDetails = {
             name: response.data.data.user.fullName,
             jobId: response.data.data.user.jobId,
@@ -92,10 +92,36 @@ export default function LoginPage() {
     }
   };
 
+  if (loading) {
+    return <>
+      <div className="flex items-center justify-center h-screen  dark:from-gray-800 dark:via-gray-700 dark:to-gray-900">
+        <div className="text-center p-8 bg-white dark:bg-gray-800 shadow-2xl rounded-lg">
+          {/* Animated Text */}
+          <div className="text-2xl font-semibold text-gray-800 dark:text-white mb-6 animate-pulse">
+            Loading...
+          </div>
+
+          {/* Animated Spinner */}
+          <div className="relative flex justify-center items-center mb-6">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-white dark:border-gray-500"></div>
+            <div className="absolute text-xl font-bold text-blue-500 dark:text-gray-300">⏳</div>
+          </div>
+
+          {/* Redirecting Text */}
+          <p className="text-gray-600 dark:text-gray-400 animate-fade-in">
+            Redirecting you back to the homepage...
+          </p>
+        </div>
+      </div>
+    </>
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-900 text-gray-100">
       <Card className="w-full max-w-md bg-gray-800 border-gray-700">
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+        >
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center text-white">
               Login

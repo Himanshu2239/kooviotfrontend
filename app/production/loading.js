@@ -6,7 +6,7 @@ const Loading = () => {
       <div className="max-w-6xl mx-auto">
         {/* Title Placeholder */}
         <div className="h-8 w-1/4 bg-gray-300 rounded mb-8"></div>
-
+        
         {/* Cards Placeholder */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {[...Array(3)].map((_, index) => (

@@ -55,7 +55,7 @@ const ProductionInput = () => {
         const day = selectedDate.getDate().toString().padStart(2, "0");
 
         const response = await axios.post(
-          "https://kooviot.vercel.app/production/mtd/update",
+          "http://127.0.0.1:5001/production/mtd/update",
           {
             year,
             month,

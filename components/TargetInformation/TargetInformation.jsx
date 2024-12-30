@@ -20,7 +20,7 @@ export default function TargetInformation({
   fetchData,
   todayCompletedTarget
 }) {
-  console.log(assignedTarget, completedTarget);
+  // console.log(assignedTarget, completedTarget);
   const [achievedTarget, setAchievedTarget] = useState("");
   const [feedback, setFeedback] = useState(null);
   const [performanceData, setPerformanceData] = useState({
@@ -63,13 +63,13 @@ export default function TargetInformation({
       };
 
       const response = await axios.post(
-        "https://kooviot.vercel.app/user/updateDailyTarget",
+        "http://127.0.0.1:5001/user/updateDailyTarget",
         payload,
         config
       );
 
       // Assuming response.data contains the updated targets
-      console.log("Response from backend:", response.data);
+      // console.log("Response from backend:", response.data);
       setPerformanceData((prev) => ({
         ...prev,
         completed: prev.completed + achieved,

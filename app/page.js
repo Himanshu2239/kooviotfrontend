@@ -9,7 +9,7 @@ import ProtectedRoute from "@/components/ProtectedRouteSalesperson/ProtectedRout
 export default function page() {
   return (
     <ProtectedRoute>
-      <div className=" min-h-full w-full ">
+      <div className=" max-h-full w-full ">
         <Header />
         <UserDashboard />
         {/* <Loading /> */}

@@ -55,7 +55,7 @@ export default function TargetAssignmentDashboard() {
     const token = localStorage.getItem("accessToken"); // Retrieve the Bearer token from local storage
     try {
       const response = await axios.get(
-        "https://kooviot.vercel.app/admin/canSalespersonAddTasks",
+        "http://127.0.0.1:5001/admin/canSalespersonAddTasks",
         {
           headers: {
             Authorization: `Bearer ${token}`, // Add the Bearer token to the headers
@@ -95,7 +95,7 @@ export default function TargetAssignmentDashboard() {
     console.log("payload of monthlyTarget", payload);
     try {
       const response = await axios.post(
-        "https://kooviot.vercel.app/admin/monthlyTarget",
+        "http://127.0.0.1:5001/admin/monthlyTarget",
         payload,
         {
           headers: {

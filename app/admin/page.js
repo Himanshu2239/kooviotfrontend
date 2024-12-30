@@ -79,7 +79,7 @@ export default function AdminDashboard() {
       const accessToken = localStorage.getItem("accessToken");
       try {
         const response = await axios.post(
-          "https://kooviot.vercel.app/admin/files",
+          "http://127.0.0.1:5001/admin/files",
           { fileType: category },
           { headers: { Authorization: `Bearer ${accessToken}` } }
         );
@@ -109,7 +109,7 @@ export default function AdminDashboard() {
 
       try {
         const response = await axios.post(
-          "https://kooviot.vercel.app/admin/files",
+          "http://127.0.0.1:5001/admin/files",
           {
             fileType: "productionReport",
             month: selectedMonth,
@@ -132,24 +132,26 @@ export default function AdminDashboard() {
     <ProtectedRouteAdmin>
       <div className="min-h-screen bg-background text-foreground">
         <Header />
-        <div className="p-8 max-w-7xl flex flex-row justify-center items-center w-full">
-          <MTDDashboardDisplay />
-        </div>
-        <div className="p-3 max-w-6xl mx-8">
-          <StockCard />
-        </div>
         <div>
           <Button
             onClick={() => mounted && router.push("/admin/sales")}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground absolute top-40 right-10"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground absolute top-[4.5rem] right-[3.2rem]"
           >
-            Sales <ExternalLink className="ml-2 h-4 w-4" />
+            Sales <ExternalLink className="ml-2 h-4 w-4"/>
           </Button>
         </div>
+        <div className="p-8 max-w-full flex flex-row justify-center items-center w-full">
+          
+          <MTDDashboardDisplay/>
+        </div>
+        <div className="p-3 max-w-full mx-10">
+          <StockCard />
+        </div>
+      
         <div className="px-10 p-2">
-          <div className="max-w-7xl">
+          <div className="max-w-full">
             <div className="flex justify-between items-center mb-8">
-              <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+              <h1 className="text-2xl ml-4 font-bold">Admin Dashboard</h1>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

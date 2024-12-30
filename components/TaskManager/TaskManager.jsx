@@ -27,16 +27,17 @@ export default function TaskManager() {
   // Fetch user permissions and tasks from the backend
   const fetchTasksAndPermissions = async () => {
     const token = localStorage.getItem("accessToken");
+    // console.log("tk", token)
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
     try {
       const response = await axios.get(
-        "https://kooviot.vercel.app/user/canAddTasks",
+        "http://127.0.0.1:5001/user/canAddTasks",
         config
       );
-
+      // console.log(response.status)
       if (response.status === 200) {
         const { canAssignTasks, tasks, latestDocument } = response.data;
         setIsAddingDisabled(!canAssignTasks);
@@ -96,7 +97,7 @@ export default function TaskManager() {
 
     try {
       const response = await axios.post(
-        "https://kooviot.vercel.app/user/assignDailyTask",
+        "http://127.0.0.1:5001/user/assignDailyTask",
         formData,
         config
       );
@@ -135,7 +136,7 @@ export default function TaskManager() {
 
     try {
       await axios.post(
-        "https://kooviot.vercel.app/user/markTaskAsCompleted",
+        "http://127.0.0.1:5001/user/markTaskAsCompleted",
         { taskId },
         config
       );

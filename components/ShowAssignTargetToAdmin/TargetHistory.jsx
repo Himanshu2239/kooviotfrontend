@@ -101,19 +101,19 @@ export default function TargetHistory() {
     );
     const payload = getPayload(month, year, selectedPerson.jobId);
 
-    console.log("selectedPersonJobIdmonthlystats", payload);
+    // console.log("selectedPersonJobIdmonthlystats", payload);
 
     if (selectedPerson) {
       const url =
         selectedPerson.jobId === "totalMonthlyDetails"
-          ? "https://kooviot.vercel.app/admin/totalStatsOfSalesperson"
-          : "https://kooviot.vercel.app/admin/monthlyStats";
+          ? "http://127.0.0.1:5001/admin/totalStatsOfSalesperson"
+          : "http://127.0.0.1:5001/admin/monthlyStats";
 
       try {
         const response = await axios.post(url, payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("response.data", response.data);
+        // console.log("response.data", response.data);
 
         if (response.status === 200) {
           setTargetData({

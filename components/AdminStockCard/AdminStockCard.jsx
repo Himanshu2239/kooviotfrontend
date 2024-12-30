@@ -56,7 +56,7 @@ const StockCard = () => {
 
     try {
       const response = await axios.post(
-        "https://kooviot.vercel.app/admin/stocks/retrieve",
+        "http://127.0.0.1:5001/admin/stocks/retrieve",
         payload,
         {
           headers: {
@@ -66,7 +66,7 @@ const StockCard = () => {
       );
 
       if (response.status === 200) {
-        console.log("Response data:", response.data);
+        // console.log("Response data:", response.data);
         const {
           packedStocks,
           unpackedStocks,
@@ -122,7 +122,7 @@ const StockCard = () => {
   };
 
   return (
-    <Card className="w-full max-w-7xl">
+    <Card className="w-full max-w-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="text-sm font-medium">Stock Overview</CardTitle>
         <Popover>
