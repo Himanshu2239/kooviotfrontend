@@ -6,7 +6,7 @@ import axios from 'axios';
 import IssueFilter from '@/components/Filter/IssueFilter';
 import SortDropdown from '@/components/SortDropdown/SortDropdown';
 import Header from '@/components/Header/Header';
-import EditIssueStatus from '@/components/EditPage/editIssueStatus';
+import EditIssueStatus from '@/components/EditPage/EditIssueStatus';
 
 
 function Page() {
