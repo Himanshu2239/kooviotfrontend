@@ -16,6 +16,8 @@ import Header from "@/components/Header/Header";
 import Loading from "./loading";
 import ProductionInput from "@/components/ProductionInput/ProductionInput";
 import TotalStocksCard from "@/components/StocksCard/StocksCard";
+import ProtectedRouteProduction from "@/components/ProtectedRouteProduction/ProtectedRouteProduction"
+import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 
 // Exportable document types
 export const DOCUMENT_TYPE = [
@@ -81,7 +83,7 @@ const ProductionDashboard = () => {
       formData.append("fileType", xlsxFiles[index].name);
       formData.append("file", file);
 
-      await axios.post("http://127.0.0.1:5001/production/upload", formData, {
+      await axios.post("https://kooviot.vercel.app/production/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${accessToken}`,
@@ -130,7 +132,7 @@ const ProductionDashboard = () => {
       );
       formData.append("reportYear", selectedYear);
 
-      await axios.post("http://127.0.0.1:5001/production/upload", formData, {
+      await axios.post("https://kooviot.vercel.app/production/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${accessToken}`,
@@ -146,9 +148,11 @@ const ProductionDashboard = () => {
     }
   };
 
-   return <Loading />;
+  if (loading)
+    return <Loading />;
 
   return (
+   <ProtectedRoute>
     <div>
       <Header saleperson={{ jobId: "productionPerson", name: "production" }} />
       <div>
@@ -277,6 +281,7 @@ const ProductionDashboard = () => {
         <TotalStocksCard />
       </div>
     </div>
+   </ProtectedRoute> 
   );
 };
 

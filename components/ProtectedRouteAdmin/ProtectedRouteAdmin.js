@@ -12,12 +12,12 @@ const isAuthenticated = async () => {
   }
 
   try {
-    const response = await axios.post("http://127.0.0.1:5001/common/token", {
+    const response = await axios.post("https://kooviot.vercel.app/common/token", {
       refreshToken,
     });
 
     // console.log("isAuthenticate", response.data);
-
+    
     if (response.data.statusCode === 200 && response.data.data) {
       const { accessToken, refreshToken: newRefreshToken } = response.data.data;
       localStorage.setItem("accessToken", accessToken);
@@ -54,7 +54,10 @@ const ProtectedRouteAdmin = ({ children }) => {
         console.log(pathname);
         if (userDetails?.role === "admin") {
           // console.log("ad")
-          router.push("/admin"); // Redirect to admin-specific URL
+          if(pathname === '/admin')
+            router.push('/admin');
+          else if(pathname === '/changePasswordByAdmin')
+           router.push('/changePasswordByAdmin'); // Redirect to admin-specific URL
         }
         else{
           router.push("/login");
@@ -76,7 +79,7 @@ const ProtectedRouteAdmin = ({ children }) => {
 
         try {
           const response = await axios.post(
-            "http://127.0.0.1:5001/common/token",
+            "https://kooviot.vercel.app/common/token",
             {
               refreshToken,
             }

@@ -1,133 +1,3 @@
-// "use client";
-
-// import { useState, useEffect } from "react";
-// import { useRouter } from "next/navigation"; // Import from next/navigation
-// import axios from "axios";
-
-// const isAuthenticated = async () => {
-//   const refreshToken = localStorage.getItem("refreshToken");
-//   console.log(refreshToken);
-//   if (!refreshToken) {
-//     localStorage.removeItem("accessToken");
-//     return false;
-//   }
-
-//   try {
-//     const response = await axios.post("http://127.0.0.1:5001/common/token", {
-//       refreshToken,
-//     });
-
-//     // console.log("isAuthenticate", response.data);
-
-//     if (response.data.statusCode === 200 && response.data.data) {
-//       const { accessToken, refreshToken: newRefreshToken } = response.data.data;
-//       localStorage.setItem("accessToken", accessToken);
-//       localStorage.setItem("refreshToken", newRefreshToken); // Update refresh token if provided
-//       return true;
-//     } else {
-//       localStorage.removeItem("refreshToken");
-//       localStorage.removeItem("accessToken");
-//       return false;
-//     }
-//   } catch (error) {
-//     console.error("Authentication check failed:", error);
-//     localStorage.removeItem("refreshToken");
-//     localStorage.removeItem("accessToken");
-//     return false;
-//   }
-// };
-
-// const ProtectedRouteAll = ({ children }) => {
-//   const [isAuth, setIsAuth] = useState(null);
-//   const router = useRouter();
-
-// //   useEffect(() => {
-// //     const checkAuth = async () => {
-// //       const result = await isAuthenticated();
-// //       setIsAuth(result);
-// //       if (result) {
-// //         const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-// //         // console.log("salespersonDetailsAuth", userDetails);
-// //         if (userDetails?.role === "salesperson") {
-// //           router.push("/"); // Redirect to admin-specific URL
-// //         }
-// //       } else {
-// //         router.push("/login");
-// //       }
-// //     };
-// //     checkAuth();
-// //   }, [router]);
-
-//   useEffect(() => {
-//     const isAuthfun = async () => {
-//         let result = await isAuthenticated();
-//         setIsAuth(result);
-//     }
-
-//     isAuthfun();
-
-//     if (isAuth) {
-//       const getAccessToken = async () => {
-//         const refreshToken = localStorage.getItem("refreshToken");
-//         if (!refreshToken) return;
-
-//         try {
-//           const response = await axios.post(
-//             "http://127.0.0.1:5001/common/token",
-//             {
-//               refreshToken,
-//             }
-//           );
-
-//           if (response.data.statusCode === 200 && response.data.data) {
-//             const { accessToken, refreshToken: newRefreshToken } =
-//               response.data.data;
-//             localStorage.setItem("accessToken", accessToken);
-//             localStorage.setItem("refreshToken", newRefreshToken); // Update refresh token if provided
-//           } else {
-//             localStorage.removeItem("refreshToken");
-//             localStorage.removeItem("accessToken");
-//             router.push("/login");
-//           }
-//         } catch (e) {
-//           console.error("Token refresh failed:", e);
-//           router.push("/login");
-//         }
-//       };
-
-//       getAccessToken();
-//       const interval = setInterval(getAccessToken, 1000 * 60 * 20); // Refresh token every 20 minutes
-//       return () => clearInterval(interval);
-//     }
-//   }, [isAuth, router]);
-
-//   if (isAuth === null) {
-//     return <div>Loading...</div>;
-//   }
-
-//   if (!isAuth) {
-//     return null; // Avoid rendering content if not authenticated
-//   }
-
-//   return <>{children}</>;
-// };
-
-// export default ProtectedRouteAll;
-
-// components/ProtectedRoute.js
-
-
-
-
-
-
-
-
-
-
-
-
-
 // "use client"
 
 
@@ -198,12 +68,12 @@ const ProtectedRouteAll = ({ children }) => {
         } else {
             setIsAuthenticated(true); // Set authenticated state to true if token exists
         }
-    }, [router]); // Empty dependency array to run only once on mount
+    }, []); // Empty dependency array to run only once on mount
 
     // If authentication check is still in progress (isAuthenticated is null), show a loading state
     if (isAuthenticated === null && pathname != '/login') {
         return (
-            <div className="flex items-center justify-center h-screen  dark:from-gray-800 dark:via-gray-700 dark:to-gray-900">
+            <div className="flex items-center justify-center h-screen dark:from-gray-800 dark:via-gray-700 dark:to-gray-900">
                 <div className="text-center p-8 bg-white dark:bg-gray-800 shadow-2xl rounded-lg">
                     {/* Animated Text */}
                     <div className="text-2xl font-semibold text-gray-800 dark:text-white mb-6 animate-pulse">

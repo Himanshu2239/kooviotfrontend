@@ -19,18 +19,22 @@ import { ro } from "date-fns/locale";
 export default function LoginPage() {
   const [jobId, setJobId] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); // Optional: To handle loading state
+  let [loading, setLoading] = useState(false); // Optional: To handle loading state
   const [error, setError] = useState(null); // Optional: To handle errors
 
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log(1);
+    // loading = true;
+    // console.log(loading);
+    // console.log(loading);
     setLoading(true); // Start loading
     setError(null); // Clear any previous errors
 
     try {
-      const response = await axios.post("http://127.0.0.1:5001/auth/login", {
+      const response = await axios.post("https://kooviot.vercel.app/auth/login", {
         jobId, // Send jobId instead of username
         password,
       });
@@ -40,54 +44,55 @@ export default function LoginPage() {
       if (response.status === 200) {
         localStorage.setItem("accessToken", response.data.data.accessToken);
         localStorage.setItem("refreshToken", response.data.data.refreshToken);
-        // console.log(
-        //   localStorage.getItem("accessToken"),
-        //   localStorage.getItem("refreshToken")
-        // );
-
+    
         const userRole = response.data.data.user.role;
-        if (userRole === "salesperson") {
-          const userDetails = {
-            name: response.data.data.user.fullName,
-            area: response.data.data.user.area,
-            jobId: response.data.data.user.jobId,
-            totalTargetCompleted: response.data.data.user.totalTargetCompleted,
-            role: userRole,
-          };
-
-          // Convert the object to a JSON string and store it in localStorage
-          localStorage.setItem("userDetails", JSON.stringify(userDetails));
-          // console.log(userDetails);
-          router.push("/");
-        } else if (userRole === "admin") {
-          // console.log("admin login:", response.data);
-          const adminDetails = {
-            name: response.data.data.user.fullName,
-            jobId: response.data.data.user.jobId,
-            role: userRole,
-          };
-          localStorage.setItem("userDetails", JSON.stringify(adminDetails));
-          router.push("/admin");
-        } else if (userRole === "production") {
-          // console.log("production login:", response.data);
-          const productionDetails = {
-            name: response.data.data.user.fullName,
-            jobId: response.data.data.user.jobId,
-            role: userRole,
-          };
-          localStorage.setItem(
-            "userDetails",
-            JSON.stringify(productionDetails)
-          );
-          router.push("/production");
-        } else {
-          router.push("/login");
+        if(userRole){
+          if (userRole === "salesperson") {
+            const userDetails = {
+              name: response.data.data.user.fullName,
+              area: response.data.data.user.area,
+              jobId: response.data.data.user.jobId,
+              totalTargetCompleted: response.data.data.user.totalTargetCompleted,
+              role: userRole,
+            };
+  
+            // Convert the object to a JSON string and store it in localStorage
+            localStorage.setItem("userDetails", JSON.stringify(userDetails));
+            // console.log(userDetails);
+            router.push("/");
+          } else if (userRole === "admin") {
+            // console.log("admin login:", response.data);
+            const adminDetails = {
+              name: response.data.data.user.fullName,
+              jobId: response.data.data.user.jobId,
+              role: userRole,
+            };
+            localStorage.setItem("userDetails", JSON.stringify(adminDetails));
+            router.push("/admin");
+          } else if (userRole === "production") {
+            // console.log("production login:", response.data);
+            const productionDetails = {
+              name: response.data.data.user.fullName,
+              jobId: response.data.data.user.jobId,
+              role: userRole,
+            };
+            localStorage.setItem(
+              "userDetails",
+              JSON.stringify(productionDetails)
+            );
+            router.push("/production");
+          } else {
+            router.push("/login");
+          }
         }
+        
       }
     } catch (err) {
       console.error("Login failed:", err);
       setError("Login failed. Please check your credentials and try again.");
     } finally {
+      // loading = false;
+      console.log(loading)
       setLoading(false); // End loading
     }
   };

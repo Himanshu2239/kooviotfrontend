@@ -38,6 +38,12 @@ function OrderFilter({ info, setInfo, originalData, dropdownOpen, setDropdownOpe
         setInfo(data); // Update the filtered data
     };
 
+    const clearFilter = () => {
+        setSalesperson("");
+        setOrderStatus("");
+        setOrderDate("");
+    }
+
     return (
         // <>
         //     <ToastContainer />
@@ -192,18 +198,23 @@ function OrderFilter({ info, setInfo, originalData, dropdownOpen, setDropdownOpe
                             <input
                                 type="date"
                                 className="w-full border rounded-lg px-3 py-2 dark:bg-black dark:border-gray-500 dark:text-white"
+                                // className="w-full border rounded-lg px-3 py-2 bg-gray-100 text-gray-900 dark:bg-black dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+
                                 value={orderDate}
                                 onChange={(e) => setOrderDate(e.target.value)}
                             />
                         </div>
 
                         {/* Apply Button */}
-                        <div>
+                        <div className="flex justify-between">
                             <button
                                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
                                 onClick={applyFilters}
                             >
                                 Apply
+                            </button>
+                            <button onClick={clearFilter} className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-white">
+                                Clear
                             </button>
                         </div>
                     </div>

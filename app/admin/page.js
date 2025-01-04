@@ -31,7 +31,8 @@ import {
 import Header from "@/components/Header/Header";
 import MTDDashboardDisplay from "@/components/MTDDashboardDisplay/MTDDashboardDisplay";
 import StockCard from "@/components/AdminStockCard/AdminStockCard";
-import ProtectedRouteAdmin from "@/components/ProtectedRouteAdmin/ProtectedRouteAdmin";
+// import ProtectedRouteAdmin from "@/components/ProtectedRouteAdmin/ProtectedRouteAdmin";
+import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 
 const categories = [
   { name: "glovesProduction", icon: FileSpreadsheet, color: "bg-blue-500" },
@@ -79,7 +80,7 @@ export default function AdminDashboard() {
       const accessToken = localStorage.getItem("accessToken");
       try {
         const response = await axios.post(
-          "http://127.0.0.1:5001/admin/files",
+          "https://kooviot.vercel.app/admin/files",
           { fileType: category },
           { headers: { Authorization: `Bearer ${accessToken}` } }
         );
@@ -109,7 +110,7 @@ export default function AdminDashboard() {
 
       try {
         const response = await axios.post(
-          "http://127.0.0.1:5001/admin/files",
+          "https://kooviot.vercel.app/admin/files",
           {
             fileType: "productionReport",
             month: selectedMonth,
@@ -129,7 +130,7 @@ export default function AdminDashboard() {
   if (!mounted) return null;
 
   return (
-    <ProtectedRouteAdmin>
+    <ProtectedRoute>
       <div className="min-h-screen bg-background text-foreground">
         <Header />
         <div>
@@ -249,6 +250,6 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-    </ProtectedRouteAdmin>
+    </ProtectedRoute>
   );
 }

@@ -41,6 +41,11 @@ function IssueFilter({ info, setInfo, originalData, dropdownOpen, setDropdownOpe
 
   };
 
+  const clearFilter = () => {
+    setAssignedTo("");
+    setIssueStatus("");
+    setCreatedAt("");
+  }
 
   return (
     // <>
@@ -203,12 +208,15 @@ function IssueFilter({ info, setInfo, originalData, dropdownOpen, setDropdownOpe
             </div>
 
             {/* Apply Button */}
-            <div>
+            <div className="flex flex-row  justify-between">
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
                 onClick={applyFilters}
               >
                 Apply
+              </button>
+              <button onClick={clearFilter} className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-white">
+                Clear
               </button>
             </div>
           </div>

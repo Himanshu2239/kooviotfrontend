@@ -41,7 +41,7 @@
 
 //     // Send POST request to the backend
 //     try {
-//       const response = await axios.post('http://127.0.0.1:5001/user/register', {
+//       const response = await axios.post('https://kooviot.vercel.app/user/register', {
 //         // method: 'POST',
 //         // headers: {
 //         //   'Content-Type': 'application/json',

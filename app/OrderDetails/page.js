@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
-import EditPage from '@/components/EditPage/EditPage';
+import EditPage from '@/components/EditPage/EditOrderStatus';
 import OrderFilter from '@/components/Filter/OrderFilter';
 import Link from 'next/link';
 import Header from '@/components/Header/Header';
+import { useRouter } from "next/navigation";
 // import EditPage from '../components/EditPage';
 // import OrderFilter from '../components/OrderFilter';
 
@@ -19,13 +20,14 @@ const OrderDetails = () => {
     const [originalData, setOriginalData] = useState([]); // Original unfiltered data
     const [showEdit, setShowEdit] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState([]);
+    const router = useRouter();
 
     useEffect(() => {
         // Simulating fetching data
         const fetchData = async () => {
             try {
                 const accessToken = localStorage.getItem("accessToken")
-                const res = await axios.get('http://127.0.0.1:5001/common/getAllOrder',
+                const res = await axios.get('https://kooviot.vercel.app/common/getAllOrder',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`, // Send the token in the Authorization header
@@ -194,25 +196,25 @@ const OrderDetails = () => {
         // </div>
         <div className="">
             <Header />
-            <div className="min-h-screen bg-gray-100 relative dark:bg-black">
+            <div className="min-h-[90vh] bg-gray-100 relative dark:bg-black">
                 <header
                     onClick={handleDropdown}
                     className="bg-white shadow dark:bg-black dark:border-b dark:border-gray-500"
                 >
-                    <div className="container mx-auto px-4 py-3">
+                    <div className="px-4 py-3">
                         <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
                             Order Details
                         </h1>
                     </div>
                 </header>
-                <div className="container mx-auto px-4 py-4">
+                <div className="px-4 py-4">
                     <div className="flex justify-between items-center">
                         <div className="flex space-x-4">
-                            <Link href="/CreateOrder">
-                                <button className="bg-gray-950 text-white px-4 py-2 rounded hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600">
+                            {/* <Link href="/CreateOrder"> */}
+                                <button onClick={() => router.push('/CreateOrder')} className="bg-gray-950 text-white px-4 py-2 rounded hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600">
                                     + Add Order
                                 </button>
-                            </Link>
+                            {/* </Link> */}
                             <input
                                 onChange={handleSearch}
                                 value={searchQuery}
@@ -248,7 +250,7 @@ const OrderDetails = () => {
                 )}
 
                 <div className="mx-auto relative z-0 px-4">
-                    <div className="overflow-y-auto h-[35rem] bg-white shadow rounded-lg dark:bg-black dark:border dark:border-gray-500">
+                    <div className="overflow-y-auto h-[32rem] bg-white shadow rounded-lg dark:bg-black dark:border dark:border-gray-500">
                         {loading ? (
                             <div className="flex justify-center items-center h-full">
                                 <p className="text-gray-500 dark:text-white">Loading orders...</p>

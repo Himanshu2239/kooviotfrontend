@@ -83,7 +83,7 @@ const AdminMetricsDashboard = () => {
 
     try {
       const response = await axios.post(
-         "http://127.0.0.1:5001/admin/mtd/values",
+         "https://kooviot.vercel.app/admin/mtd/values",
         date ? payload : {},
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
@@ -145,7 +145,7 @@ const AdminMetricsDashboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 space-y-6">
+    <div className="w-full mx-auto p-4 space-y-6">
       {/* Header Section with Title and Date Picker */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">Metrics Overview</h2>

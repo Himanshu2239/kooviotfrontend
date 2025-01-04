@@ -71,7 +71,7 @@ export default function TotalStocksCard() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5001/production/stocks/update",
+        "https://kooviot.vercel.app/production/stocks/update",
         payload,
         {
           headers: {
