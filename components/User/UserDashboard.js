@@ -52,6 +52,7 @@ export default function SalesManagerDashboard() {
           },
         }
       );
+       console.log("response.data",response.data);
 
       if (response.status === 200) {
         setAssignedTarget(response.data.monthlyAssignedTarget);
