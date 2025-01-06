@@ -90,19 +90,19 @@ export default function SalesManagerDashboard() {
     }
   };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [date]);
+  useEffect(() => {
+    fetchData();
+  }, [date]);
 
   const [salesManager, setSalesManager] = useState({});
 
-  // useEffect(() => {
-  //   const salespersonDetails = localStorage.getItem("userDetails");
-  //   if (salespersonDetails) {
-  //     const salesManager = JSON.parse(salespersonDetails);
-  //     setSalesManager(salesManager);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const salespersonDetails = localStorage.getItem("userDetails");
+    if (salespersonDetails) {
+      const salesManager = JSON.parse(salespersonDetails);
+      setSalesManager(salesManager);
+    }
+  }, []);
 
   const handleDateSelect = (selectedDate) => {
     setDate(selectedDate);
