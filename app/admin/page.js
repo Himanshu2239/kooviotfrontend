@@ -33,6 +33,7 @@ import MTDDashboardDisplay from "@/components/MTDDashboardDisplay/MTDDashboardDi
 import StockCard from "@/components/AdminStockCard/AdminStockCard";
 // import ProtectedRouteAdmin from "@/components/ProtectedRouteAdmin/ProtectedRouteAdmin";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
+import ManPowerCostingTable from "@/components/ManPowerCostingTable/ManPowerCostingTable";
 
 const categories = [
   { name: "glovesProduction", icon: FileSpreadsheet, color: "bg-blue-500" },
@@ -142,17 +143,20 @@ export default function AdminDashboard() {
           </Button>
         </div>
         <div className="p-8 max-w-full flex flex-row justify-center items-center w-full">
-          
+
           <MTDDashboardDisplay/>
         </div>
         <div className="p-3 max-w-full mx-10">
           <StockCard />
         </div>
-      
+
+        {/* <div className="p-3 max-w-full mx-10 rounded-lg">
+        <ManPowerCostingTable/>
+        </div> */}
         <div className="px-10 p-2">
           <div className="max-w-full">
             <div className="flex justify-between items-center mb-8">
-              <h1 className="text-2xl ml-4 font-bold">Admin Dashboard</h1>
+              <h1 className="text-2xl ml-4 font-bold">Excel Report</h1>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -167,7 +171,7 @@ export default function AdminDashboard() {
                         <div
                           className={`${category.color} text-white p-3 rounded-full mb-4`}
                         >
-                          <category.icon className="h-8 w-8" />
+                          <category.icon className="h-8 w-8"/>
                         </div>
                         <h2 className="text-lg font-semibold capitalize">
                           {category.name}

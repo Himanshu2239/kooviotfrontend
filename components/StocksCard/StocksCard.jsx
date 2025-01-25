@@ -18,7 +18,9 @@ import { format } from "date-fns";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function TotalStocksCard() {
-  const [packedStocks, setPackedStocks] = useState("");
+  const [aGradeStocks, setAGradeStocks] = useState('');
+  const [bGradeStocks, setBGradeStocks] = useState('');
+  const [nonMovingStocks, setNonMovingStocks] = useState('');
   const [unpackedStocks, setUnpackedStocks] = useState("");
   const [total, setTotal] = useState(0);
   const [error, setError] = useState("");
@@ -35,18 +37,25 @@ export default function TotalStocksCard() {
 
   // Update total stocks whenever packed or unpacked stocks change
   useEffect(() => {
-    const packed = parseInt(packedStocks) || 0;
+    const aGrade = parseInt(aGradeStocks) || 0;
+    const bGrade = parseInt(bGradeStocks) || 0;
     const unpacked = parseInt(unpackedStocks) || 0;
+    const nonMoving = parseInt(nonMovingStocks) || 0;
 
-    if (packedStocks !== "" && isNaN(packed)) {
-      setError("Please enter a valid number for packed stocks.");
-    } else if (unpackedStocks !== "" && isNaN(unpacked)) {
+   
+    if(aGrade !== "" && isNaN(aGrade)){
+      setError("Please enter a valid number for A-grade Stock");
+    }
+    else if(bGrade !== '' && isNaN(bGrade)){
+      setError("Please enter a valid number for B-grade Stock");
+    }
+    else if (unpackedStocks !== "" && isNaN(unpacked)) {
       setError("Please enter a valid number for unpacked stocks.");
     } else {
       setError("");
-      setTotal(packed + unpacked);
+      setTotal(aGrade + bGrade + unpacked + nonMoving);
     }
-  }, [packedStocks, unpackedStocks]);
+  }, [aGradeStocks, bGradeStocks, unpackedStocks, nonMovingStocks]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +67,11 @@ export default function TotalStocksCard() {
       return;
     }
 
+    if(!aGradeStocks || !bGradeStocks || !nonMovingStocks || !nonMovingStocks){
+      setError("All field are required");
+      return;
+    }
+
     // Get normalized date values from the selected date
     const { year, month, day } = getNormalizedDate();
 
@@ -65,11 +79,14 @@ export default function TotalStocksCard() {
       year,
       month,
       day,
-      packedStocks: parseInt(packedStocks) || 0,
+      agradeStocks: parseInt(aGradeStocks) || 0,
+      bgradeStocks: parseInt(bGradeStocks) || 0,
+      nonMovingStocks: parseInt(nonMovingStocks) || 0,
       unpackedStocks: parseInt(unpackedStocks) || 0,
     };
 
     try {
+      // console.log(payload)
       const response = await axios.post(
         "https://kooviot.vercel.app/production/stocks/update",
         payload,
@@ -81,20 +98,28 @@ export default function TotalStocksCard() {
       );
 
       if (response.status === 200) {
+        console.log("res", response);
         toast.success("Stocks updated successfully");
+        setAGradeStocks('');
+        setBGradeStocks('');
+        setNonMovingStocks('');
+        setUnpackedStocks('')
+        setTotal(0);
+
+
       } else {
         throw new Error("Unexpected response status");
       }
     } catch (error) {
       setError(
         error.response?.data?.message ||
-          "Failed to update stocks. Please try again."
+        "Failed to update stocks. Please try again."
       );
     }
   };
 
   return (
-    <Card className="w-full max-w-6xl mx-auto">
+    <Card className="w-full max-w-6xl mb-4 mx-auto">
       <CardHeader className="flex flex-col sm:flex-row justify-between items-center">
         <CardTitle className="text-2xl font-bold text-center">
           Total Stocks
@@ -124,13 +149,41 @@ export default function TotalStocksCard() {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="packed-stocks">Packed Stocks</Label>
+            <Label htmlFor="a-grade-stocks">A-Grade Stocks</Label>
             <Input
-              id="packed-stocks"
+              id="a-grade-stocks"
               type="number"
-              placeholder="Enter packed stocks"
-              value={packedStocks}
-              onChange={(e) => setPackedStocks(e.target.value)}
+              placeholder="Enter A-grade stocks"
+              className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              value={aGradeStocks}
+              onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
+              onChange={(e) => setAGradeStocks(e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="b-grade-stocks">B-Grade Stocks</Label>
+            <Input
+              id="b-grade-stocks"
+              type="number"
+              placeholder="Enter B-grade stocks"
+              className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              value={bGradeStocks}
+              onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
+              onChange={(e) => setBGradeStocks(e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="non-moving-stocks">Non-Moving Stocks</Label>
+            <Input
+              id="non-moving-stocks"
+              type="number"
+              className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              placeholder="Enter non-moving stocks"
+              value={nonMovingStocks}
+              onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
+              onChange={(e) => setNonMovingStocks(e.target.value)}
             />
           </div>
           <div className="space-y-2">
@@ -138,8 +191,10 @@ export default function TotalStocksCard() {
             <Input
               id="unpacked-stocks"
               type="number"
+              className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               placeholder="Enter unpacked stocks"
               value={unpackedStocks}
+              onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
               onChange={(e) => setUnpackedStocks(e.target.value)}
             />
           </div>

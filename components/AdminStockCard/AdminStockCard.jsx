@@ -15,11 +15,66 @@ import { CalendarIcon, Package, PackageOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format, parseISO } from "date-fns"; // Import parseISO to handle ISO date format
 
-const StockItem = ({ title, value, icon: Icon }) => (
-  <div className="flex flex-col items-center space-y-2 p-4 border rounded-lg">
-    <Icon className="h-6 w-6 text-muted-foreground" />
-    <h3 className="text-sm font-medium">{title}</h3>
-    <p className="text-2xl font-bold">{value}</p>
+const StockItem = ({ title, agradeStocks, bgradeStocks, nonMovingStocks, value, icon: Icon }) => (
+  <div className={`flex flex-col ${title != 'Packed Stocks' ? "items-center" : ""} space-y-2 p-4 border rounded-lg`}>
+    <Icon className="h-6 w-6 mx-auto text-muted-foreground" />
+    {
+      title === 'Packed Stocks' ? (
+        <div className="flex flex-col justify-center ">
+          <div className="text-center">
+            <h3 className="text-sm font-medium">{title}</h3>
+            <p className="text-2xl font-bold">{value}</p>
+          </div>
+          <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
+            <div className="text-center md:pr-0 pr-2">
+              <h3 className="text-sm text-muted-foreground font-medium">A-grade</h3>
+              <p className="text-xl font-bold">{agradeStocks ? agradeStocks :
+                <div className="font-mono">N/A</div>}</p>
+            </div>
+            <div className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
+              <h3 className="text-sm text-muted-foreground font-medium">B-grade</h3>
+              <p className="text-xl  font-bold">{bgradeStocks ? bgradeStocks :
+                <div className="font-mono">N/A</div>}</p>
+            </div>
+            <div className="text-center md:mt-0 mt-2">
+              <h3 className="text-sm text-muted-foreground font-medium">Non Moving</h3>
+              <p className="text-xl font-bold">{nonMovingStocks ? nonMovingStocks :
+                <div className="font-mono">N/A</div>}</p>
+            </div>
+          </div>
+
+          {/* <div className="flex flex-wrap sm:flex-col justify-between">
+            <div className="text-center">
+              <h3 className="text-sm text-muted-foreground font-medium">A-grade</h3>
+              <p className="text-xl font-bold">
+                {agradeStocks ? agradeStocks : <div className="font-mono">N/A</div>}
+              </p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-sm text-muted-foreground font-medium">B-grade</h3>
+              <p className="text-xl font-bold">
+                {bgradeStocks ? bgradeStocks : <div className="font-mono">N/A</div>}
+              </p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-sm text-muted-foreground font-medium">Non Moving</h3>
+              <p className="text-xl font-bold">
+                {nonMovingStocks ? nonMovingStocks : <div className="font-mono">N/A</div>}
+              </p>
+            </div>
+          </div> */}
+
+        </div>
+      ) : (
+        <>
+          <h3 className="text-sm font-medium">{title}</h3>
+          <div className="text-2xl font-bold mx-auto">
+            <div>{value}</div>
+          </div>
+        </>
+      )
+    }
+
   </div>
 );
 
@@ -28,6 +83,9 @@ const StockCard = () => {
   const [stockData, setStockData] = useState({
     totalStocks: 0,
     packedStocks: 0,
+    agradeStocks: 0,
+    bgradeStocks: 0,
+    nonMovingStocks: 0,
     unpackedStocks: 0,
   });
   const [error, setError] = useState("");
@@ -48,10 +106,10 @@ const StockCard = () => {
 
     const payload = selectedDate
       ? {
-          date: selectedDate.getDate(),
-          month: selectedDate.getMonth() + 1,
-          year: selectedDate.getFullYear(),
-        }
+        date: selectedDate.getDate(),
+        month: selectedDate.getMonth() + 1,
+        year: selectedDate.getFullYear(),
+      }
       : {};
 
     try {
@@ -66,8 +124,13 @@ const StockCard = () => {
       );
 
       if (response.status === 200) {
-        // console.log("Response data:", response.data);
+
+        console.log("Response:", response.data);
+
         const {
+          agradeStocks,
+          bgradeStocks,
+          nonMovingStocks,
           packedStocks,
           unpackedStocks,
           totalStocks,
@@ -75,7 +138,7 @@ const StockCard = () => {
         } = response.data.data;
 
         // Update stock data with response values
-        setStockData({ packedStocks, unpackedStocks, totalStocks });
+        setStockData({ agradeStocks, bgradeStocks, nonMovingStocks, packedStocks, unpackedStocks, totalStocks });
 
         // If the API returns a valid date, update the calendar to show that date
         if (responseDate) {
@@ -117,6 +180,7 @@ const StockCard = () => {
    * @param {Date} newDate
    */
   const handleDateChange = (newDate) => {
+    // console.log("newDate", newDate);
     setDate(newDate);
     fetchStockData(newDate);
   };
@@ -154,7 +218,7 @@ const StockCard = () => {
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 md:grid-cols-3">
-          <StockItem
+          {/* <StockItem
             title="Total Stocks"
             value={stockData.totalStocks}
             icon={Package}
@@ -162,13 +226,37 @@ const StockCard = () => {
           <StockItem
             title="Packed Stocks"
             value={stockData.packedStocks}
+            agradeStocks={stockData.agradeStocks}
+            bgradeStocks={stockData.bgradeStocks}
+            nonMovingStocks={stockData.nonMovingStocks}
+            unpackedStocks={stockData.unpackedStocks}
             icon={Package}
           />
           <StockItem
             title="Unpacked Stocks"
             value={stockData.unpackedStocks}
             icon={PackageOpen}
+          /> */}
+          <StockItem
+            title="Total Stocks"
+            value={stockData.totalStocks !== 0 ? stockData.totalStocks?.toLocaleString() : stockData.totalStocks}
+            icon={Package}
           />
+          <StockItem
+            title="Packed Stocks"
+            value={stockData.packedStocks !== 0 ? stockData.packedStocks?.toLocaleString() : stockData.packedStocks}
+            agradeStocks={stockData.agradeStocks !== 0 ? stockData.agradeStocks?.toLocaleString() : stockData.agradeStocks}
+            bgradeStocks={stockData.bgradeStocks !== 0 ? stockData.bgradeStocks?.toLocaleString() : stockData.bgradeStocks}
+            nonMovingStocks={stockData.nonMovingStocks !== 0 ? stockData.nonMovingStocks?.toLocaleString() : stockData.nonMovingStocks}
+            unpackedStocks={stockData.unpackedStocks !== 0 ? stockData.unpackedStocks?.toLocaleString() : stockData.unpackedStocks}
+            icon={Package}
+          />
+          <StockItem
+            title="Unpacked Stocks"
+            value={stockData.unpackedStocks !== 0 ? stockData.unpackedStocks?.toLocaleString() : stockData.unpackedStocks}
+            icon={PackageOpen}
+          />
+
         </div>
         {error && (
           <p className="text-red-500 text-sm text-center mt-4">{error}</p>

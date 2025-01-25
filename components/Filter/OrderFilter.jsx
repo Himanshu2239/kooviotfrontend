@@ -7,19 +7,60 @@ import 'react-toastify/dist/ReactToastify.css';
 function OrderFilter({ info, setInfo, originalData, dropdownOpen, setDropdownOpen }) {
     const [salesperson, setSalesperson] = useState("");
     const [orderStatus, setOrderStatus] = useState("");
+    const [location, setLocation] = useState("");
     const [orderDate, setOrderDate] = useState("");
 
     // Apply filters function
+
+    const indianStates = [
+        "Andhra Pradesh",
+        "Arunachal Pradesh",
+        "Assam",
+        "Bihar",
+        "Chhattisgarh",
+        "Goa",
+        "Gujarat",
+        "Haryana",
+        "Himachal Pradesh",
+        "Jharkhand",
+        "Karnataka",
+        "Kerala",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Manipur",
+        "Meghalaya",
+        "Mizoram",
+        "Nagaland",
+        "Odisha",
+        "Punjab",
+        "Rajasthan",
+        "Sikkim",
+        "Tamil Nadu",
+        "Telangana",
+        "Tripura",
+        "Uttar Pradesh",
+        "Uttarakhand",
+        "West Bengal",
+        "Others"
+    ];
+
+
+
     const applyFilters = () => {
         let data = originalData;
 
-        console.log(data);
+        // console.log(data);
+        // console.log(location);
 
         if (salesperson) {
             data = data.filter((item) => item.salesPerson.toLowerCase().includes(salesperson.toLowerCase()));
         }
         if (orderStatus) {
             data = data.filter((item) => item.orderStatus === orderStatus);
+        }
+        if (location) {
+            data = data.filter((item) => item.location.toLowerCase() === location.toLowerCase());
+
         }
         if (orderDate) {
             data = data.filter((item) => {
@@ -28,7 +69,7 @@ function OrderFilter({ info, setInfo, originalData, dropdownOpen, setDropdownOpe
             });
         }
 
-        if (!salesperson && !orderStatus && !orderDate) {
+        if (!salesperson && !orderStatus && !orderDate && !location) {
             toast.error("Please enter at least one filter.");
         } else {
             setDropdownOpen(false);
@@ -41,10 +82,13 @@ function OrderFilter({ info, setInfo, originalData, dropdownOpen, setDropdownOpe
     const clearFilter = () => {
         setSalesperson("");
         setOrderStatus("");
+        setLocation("")
         setOrderDate("");
     }
 
     return (
+
+
         // <>
         //     <ToastContainer />
         //     <div className="relative">
@@ -122,12 +166,19 @@ function OrderFilter({ info, setInfo, originalData, dropdownOpen, setDropdownOpe
         //         )}
         //     </div>
         // </>
+
         <>
             <ToastContainer />
             <div className="relative">
                 {/* Filter Button */}
+                {/* <div className="z-50 absolute right-1 top-1">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+
+                </div> */}
                 <button
-                    className="border-2 font-semibold border-gray-400 px-4 py-2 rounded-lg hover:bg-gray-200 dark:border-gray-500 dark:bg-black dark:text-white dark:hover:bg-gray-700"
+                    className="border-2 font-semibold border-gray-400 px-2 py-1 md:px-4 md:py-2 rounded-lg hover:bg-gray-200 dark:border-gray-500 dark:bg-black dark:text-white dark:hover:bg-gray-700"
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                 >
                     Filter
@@ -183,12 +234,26 @@ function OrderFilter({ info, setInfo, originalData, dropdownOpen, setDropdownOpe
                             >
                                 <option value="">Select Status</option>
                                 <option value="PI">PI</option>
+                                <option value="Order Cancelled">Order Cancelled</option>
                                 <option value="PO">PO</option>
                                 <option value="Payment Received">Payment Received</option>
                                 <option value="Packing Process">Packing Process</option>
                                 <option value="Packed">Packed</option>
                                 <option value="Invoice">Invoice</option>
                                 <option value="Dispatched">Dispatched</option>
+                            </select>
+                        </div>
+                        <div className="mb-4">
+                            <label className="block mb-2 font-medium dark:text-white">Location</label>
+                            <select
+                                onChange={(e) => setLocation(e.target.value)}
+                                value={location}
+                                className="w-full overflow-y-scroll rounded-lg px-3 py-2 dark:bg-black dark:border-gray-500 dark:text-white" name="" id=""
+                            >
+                                <option value="">Select State</option>
+                                {indianStates.map((state, index) => (
+                                    <option key={index} value={state}>{state}</option>
+                                ))}
                             </select>
                         </div>
 

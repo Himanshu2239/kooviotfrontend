@@ -18,6 +18,7 @@ import ProductionInput from "@/components/ProductionInput/ProductionInput";
 import TotalStocksCard from "@/components/StocksCard/StocksCard";
 import ProtectedRouteProduction from "@/components/ProtectedRouteProduction/ProtectedRouteProduction"
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
+import Payroll from "@/components/Payroll/Payroll";
 
 // Exportable document types
 export const DOCUMENT_TYPE = [
@@ -277,8 +278,9 @@ const ProductionDashboard = () => {
           </Card>
         </div>
       </div>
-      <div>
+      <div className="">
         <TotalStocksCard />
+        {/* <Payroll/> */}
       </div>
     </div>
    </ProtectedRoute> 

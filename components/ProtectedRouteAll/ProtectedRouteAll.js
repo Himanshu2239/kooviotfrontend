@@ -49,29 +49,140 @@
 // export default ProtectedRouteAll;
 
 
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { usePathname, useRouter } from "next/navigation";
+
+// const ProtectedRouteAll = ({ children }) => {
+//     const [isAuthenticated, setIsAuthenticated] = useState(null); // State to track authentication status
+//     const router = useRouter();
+//     const pathname = usePathname();
+
+//     useEffect(() => {
+//         // Check for the token in localStorage on client side
+//         const token = localStorage.getItem('accessToken');
+//         if (!token) {
+//             // If no token, redirect to login page
+//             router.push('/login');
+//         } else {
+//             setIsAuthenticated(true); // Set authenticated state to true if token exists
+//         }
+//     }, []); // Empty dependency array to run only once on mount
+
+//     // If authentication check is still in progress (isAuthenticated is null), show a loading state
+//     if (isAuthenticated === null && pathname != '/login') {
+//         return (
+//             <div className="flex items-center justify-center h-screen dark:from-gray-800 dark:via-gray-700 dark:to-gray-900">
+//                 <div className="text-center p-8 bg-white dark:bg-gray-800 shadow-2xl rounded-lg">
+//                     {/* Animated Text */}
+//                     <div className="text-2xl font-semibold text-gray-800 dark:text-white mb-6 animate-pulse">
+//                         Loading...
+//                     </div>
+
+//                     {/* Animated Spinner */}
+//                     <div className="relative flex justify-center items-center mb-6">
+//                         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-white dark:border-gray-500"></div>
+//                         <div className="absolute text-xl font-bold text-blue-500 dark:text-gray-300">⏳</div>
+//                     </div>
+
+//                     {/* Redirecting Text */}
+//                     <p className="text-gray-600 dark:text-gray-400 animate-fade-in">
+//                         Redirecting you back to the homepage...
+//                     </p>
+//                 </div>
+//             </div>
+
+//         );
+//     }
+
+//     // If authenticated, render children
+//     return <>{children}</>;
+// };
+
+// export default ProtectedRouteAll;
+
+
+
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { usePathname, useRouter } from "next/navigation";
+
+// const ProtectedRouteAll = ({ children }) => {
+
+//     const [isAuthenticated, setIsAuthenticated] = useState(() => {
+//         // Check for token immediately on initialization
+//         return !!localStorage.getItem('accessToken');
+//     });
+
+//     const router = useRouter();
+//     const pathname = usePathname();
+
+//     useEffect(() => {
+//         // Redirect to login if token is missing
+//         if (!isAuthenticated) {
+//             router.push('/login');
+//         }
+//     }, [isAuthenticated, router]);
+
+//     // If authentication check is still in progress (isAuthenticated is null), show a loading state
+//     if (isAuthenticated === null && pathname !== '/login') {
+//         return (
+//             <div className="flex items-center justify-center h-screen dark:from-gray-800 dark:via-gray-700 dark:to-gray-900">
+//                 <div className="text-center p-8 bg-white dark:bg-gray-800 shadow-2xl rounded-lg">
+//                     {/* Animated Text */}
+//                     <div className="text-2xl font-semibold text-gray-800 dark:text-white mb-6 animate-pulse">
+//                         Loading...
+//                     </div>
+
+//                     {/* Animated Spinner */}
+//                     <div className="relative flex justify-center items-center mb-6">
+//                         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-white dark:border-gray-500"></div>
+//                         <div className="absolute text-xl font-bold text-blue-500 dark:text-gray-300">⏳</div>
+//                     </div>
+
+//                     {/* Redirecting Text */}
+//                     <p className="text-gray-600 dark:text-gray-400 animate-fade-in">
+//                         Redirecting you back to the homepage...
+//                     </p>
+//                 </div>
+//             </div>
+//         );
+//     }
+
+//     // If authenticated, render children
+//     return <>{children}</>;
+// };
+
+// export default ProtectedRouteAll;
+
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 const ProtectedRouteAll = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(null); // State to track authentication status
+    const [isAuthenticated, setIsAuthenticated] = useState(null); // Initial state as null
     const router = useRouter();
     const pathname = usePathname();
 
     useEffect(() => {
-        // Check for the token in localStorage on client side
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-            // If no token, redirect to login page
-            router.push('/login');
-        } else {
-            setIsAuthenticated(true); // Set authenticated state to true if token exists
-        }
-    }, []); // Empty dependency array to run only once on mount
+        // Ensure localStorage is only accessed on the client side
+        const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
 
-    // If authentication check is still in progress (isAuthenticated is null), show a loading state
-    if (isAuthenticated === null && pathname != '/login') {
+        if (!token) {
+            // Redirect to login if no token
+            setIsAuthenticated(false);
+            router.push("/login");
+        } else {
+            setIsAuthenticated(true); // Token exists, user is authenticated
+        }
+    }, [router]);
+
+    // If authentication is still being checked, show a loading state
+    if (isAuthenticated === null && pathname !== "/login") {
         return (
             <div className="flex items-center justify-center h-screen dark:from-gray-800 dark:via-gray-700 dark:to-gray-900">
                 <div className="text-center p-8 bg-white dark:bg-gray-800 shadow-2xl rounded-lg">
@@ -92,7 +203,6 @@ const ProtectedRouteAll = ({ children }) => {
                     </p>
                 </div>
             </div>
-
         );
     }
 
@@ -101,5 +211,7 @@ const ProtectedRouteAll = ({ children }) => {
 };
 
 export default ProtectedRouteAll;
+
+
 
 
