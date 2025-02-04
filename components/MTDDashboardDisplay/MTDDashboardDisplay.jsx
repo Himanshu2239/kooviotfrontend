@@ -47,9 +47,11 @@ const MetricCard = ({ title, todayValue, mtdValue, info }) => (
 );
 
 // Main Dashboard Component
-const AdminMetricsDashboard = () => {
+const AdminMetricsDashboard = ({selectedDateByMain}) => {
   // State to manage the selected date; initialized as null to indicate fetching the latest report
   const [selectedDate, setSelectedDate] = useState(null);
+
+  // console.log("selectedDateByMain", selectedDateByMain)
 
   // State to store metrics data
   const [metrics, setMetrics] = useState({
@@ -90,7 +92,7 @@ const AdminMetricsDashboard = () => {
 
       if (response.status === 200) {
         const data = response.data;
-        console.log("Response data:", data);
+        // console.log("Response data:", data);
 
         // Update metrics state with the fetched data
         setMetrics({
@@ -117,6 +119,7 @@ const AdminMetricsDashboard = () => {
           const [yearStr, monthName, dayStr] = data.date.split("-");
           const monthIndex = new Date(`${monthName} 1, 2000`).getMonth(); // Zero-based index
           const reportDate = new Date(yearStr, monthIndex, parseInt(dayStr, 10));
+          console.log("reportDate", reportDate);
           setSelectedDate(reportDate);
         }
       } else {
@@ -132,12 +135,20 @@ const AdminMetricsDashboard = () => {
 
   // Fetch the latest report on component mount
   useEffect(() => {
-    fetchMetrics();
-  }, []);
+    // console.log("selectedByMain", selectedDateByMain)
+    if(selectedDateByMain)
+    fetchMetrics(selectedDateByMain);
+    else
+    {
+      // console.log("else chal raha")
+      fetchMetrics();
+    }
+   
+  }, [selectedDateByMain]);
 
   /**
    * Handle date selection from the calendar.
-   * @param {Date} date - The date selected by the admin.
+   * @param {Date} date - The date selected by the admin. 
    */
   const handleDateSelect = (date) => {
     setSelectedDate(date);
@@ -145,7 +156,7 @@ const AdminMetricsDashboard = () => {
   };
 
   return (
-    <div className="w-full mx-auto p-4 space-y-6">
+    <div className="w-full mx-auto p-4">
       {/* Header Section with Title and Date Picker */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">Metrics Overview</h2>

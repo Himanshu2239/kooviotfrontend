@@ -78,7 +78,7 @@ const StockItem = ({ title, agradeStocks, bgradeStocks, nonMovingStocks, value, 
   </div>
 );
 
-const StockCard = () => {
+const StockCard = ({selectedDateByMain}) => {
   const [date, setDate] = useState(new Date()); // Date displayed on the calendar
   const [stockData, setStockData] = useState({
     totalStocks: 0,
@@ -172,8 +172,11 @@ const StockCard = () => {
    * Runs on initial page load to fetch the latest available stock data
    */
   useEffect(() => {
-    fetchStockData(); // No date is sent to fetch the latest available data
-  }, []);
+    if(selectedDateByMain)
+    fetchStockData(selectedDateByMain); // No date is sent to fetch the latest available data
+    else
+    fetchStockData();
+  }, [selectedDateByMain]);
 
   /**
    * Handles date change event from the calendar

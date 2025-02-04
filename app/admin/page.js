@@ -28,12 +28,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
 import Header from "@/components/Header/Header";
 import MTDDashboardDisplay from "@/components/MTDDashboardDisplay/MTDDashboardDisplay";
 import StockCard from "@/components/AdminStockCard/AdminStockCard";
 // import ProtectedRouteAdmin from "@/components/ProtectedRouteAdmin/ProtectedRouteAdmin";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import ManPowerCostingTable from "@/components/ManPowerCostingTable/ManPowerCostingTable";
+import RejectionReport from "@/components/RejectionReport/RejectionReport";
 
 const categories = [
   { name: "glovesProduction", icon: FileSpreadsheet, color: "bg-blue-500" },
@@ -69,6 +74,8 @@ export default function AdminDashboard() {
   const [selectedYear, setSelectedYear] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [s3Key, setS3Key] = useState("");
+  const [selectedDate, setSelectedDate] = useState();
+  // const [selectedDateByMain, setSelectedDateByMain] = useState();
 
   useEffect(() => {
     setMounted(true);
@@ -128,26 +135,52 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+    // setSelectedDateByMain(date)
+    // fetchMetrics(date);
+  };
+
   if (!mounted) return null;
 
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-background text-foreground">
         <Header />
-        <div>
+        <div className="flex justify-end">
+          <div className="relative right-[10rem] top-2">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-[240px] justify-start text-left font-normal">
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {selectedDate ? format(selectedDate, "PPP") : "Select Date"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="end">
+              <Calendar
+                mode="single"
+                selected={selectedDate}
+                onSelect={handleDateSelect}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          </div>
           <Button
             onClick={() => mounted && router.push("/admin/sales")}
             className="bg-primary hover:bg-primary/90 text-primary-foreground absolute top-[4.5rem] right-[3.2rem]"
           >
-            Sales <ExternalLink className="ml-2 h-4 w-4"/>
+            Sales <ExternalLink className="ml-2 h-4 w-4" />
           </Button>
         </div>
-        <div className="p-8 max-w-full flex flex-row justify-center items-center w-full">
-
-          <MTDDashboardDisplay/>
+        <div className="p-4 pl-8 pr-8 max-w-full flex flex-row justify-center items-center w-full">
+          <MTDDashboardDisplay selectedDateByMain={selectedDate}/>
+        </div>
+        <div className="p-4 pl-8 pr-8 max-w-full flex flex-row justify-center items-center w-full">
+          <RejectionReport selectedDateByMain={selectedDate}/>
         </div>
         <div className="p-3 max-w-full mx-10">
-          <StockCard />
+          <StockCard selectedDateByMain={selectedDate}/>
         </div>
 
         {/* <div className="p-3 max-w-full mx-10 rounded-lg">
@@ -171,7 +204,7 @@ export default function AdminDashboard() {
                         <div
                           className={`${category.color} text-white p-3 rounded-full mb-4`}
                         >
-                          <category.icon className="h-8 w-8"/>
+                          <category.icon className="h-8 w-8" />
                         </div>
                         <h2 className="text-lg font-semibold capitalize">
                           {category.name}

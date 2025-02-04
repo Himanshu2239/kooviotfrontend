@@ -19,6 +19,7 @@ import TotalStocksCard from "@/components/StocksCard/StocksCard";
 import ProtectedRouteProduction from "@/components/ProtectedRouteProduction/ProtectedRouteProduction"
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import Payroll from "@/components/Payroll/Payroll";
+import RejectionReportForm from "@/components/RejectionReportForm.jsx/RejectionReportForm";
 
 // Exportable document types
 export const DOCUMENT_TYPE = [
@@ -87,7 +88,7 @@ const ProductionDashboard = () => {
       await axios.post("https://kooviot.vercel.app/production/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`, 
         },
       });
 
@@ -280,6 +281,7 @@ const ProductionDashboard = () => {
       </div>
       <div className="">
         <TotalStocksCard />
+        <RejectionReportForm/>
         {/* <Payroll/> */}
       </div>
     </div>

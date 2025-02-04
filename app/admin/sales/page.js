@@ -42,6 +42,7 @@ const salespeople = [
   { name: "Ardhendu Aditya", jobId: "KIOL2234", area: "Kolkata" },
   { name: "Yogesh Lahoti", jobId: "KIOL2049", area: "Pan India" },
   { name: "Krishnamoorthi", jobId: "KIOL2243", area: "Singapore" },
+  { name: "Munin Saikia", jobId: "KIOL2246", area: "Pan India"} // Added in 29/02/2025
 ];
 
 export default function TargetAssignmentDashboard() {
@@ -116,6 +117,30 @@ export default function TargetAssignmentDashboard() {
     }
   };
 
+
+
+
+   // Trigger download via JavaScript (e.g., on button click)
+// function handleDownloadReport() {
+//   console.log("click")
+//   fetch("https://kooviot.vercel.app/export-tasks", {
+//     method: "GET",
+//   })
+//   .then(response => response.blob())  // Convert response to blob
+//   .then(blob => {
+//     const link = document.createElement("a");
+//     link.href = URL.createObjectURL(blob); // Create a URL for the blob
+//     link.download = "Tasks_Report.xlsx";  // Set download file name
+//     link.click();  // Trigger the download
+//   })
+//   .catch(error => console.error("Error downloading report:", error));
+// }
+
+
+
+
+
+
   return (
     <div>
       <Header saleperson={{ name: "Admin", jobId: "ADMIN001" }} />
@@ -169,7 +194,7 @@ export default function TargetAssignmentDashboard() {
         <div>
           <AdminTasks />
         </div>
-
+        {/* <button className="bg-gray-500 text-xl w-48 h-28" onclick={handleDownloadReport()}>Download Report</button> */}
         {/* Section 3: Bar Chart (Target vs Salesperson) */}
         <div>
           <TargetVsSalespersonChart />

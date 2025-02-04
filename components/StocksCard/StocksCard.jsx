@@ -67,7 +67,7 @@ export default function TotalStocksCard() {
       return;
     }
 
-    if(!aGradeStocks || !bGradeStocks || !nonMovingStocks || !nonMovingStocks){
+    if(!aGradeStocks || !bGradeStocks || !nonMovingStocks || !nonMovingStocks || !unpackedStocks){
       setError("All field are required");
       return;
     }
@@ -105,8 +105,7 @@ export default function TotalStocksCard() {
         setNonMovingStocks('');
         setUnpackedStocks('')
         setTotal(0);
-
-
+        
       } else {
         throw new Error("Unexpected response status");
       }
