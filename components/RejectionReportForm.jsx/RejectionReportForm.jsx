@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,6 +31,18 @@ export default function RejectionReportForm() {
     const day = selectedDate.getDate().toString().padStart(2, "0");
     return { year, month, day };
   };
+
+  useEffect(() => {
+     if(packingRejection && lineRejection){
+       console.log("scarp calculation");
+       let totalScrap = totalRejection * 3.1;
+       let scrapInMT = totalScrap/1000000;
+       setScrap(scrapInMT);
+     }
+     else{
+       setScrap('')
+     }
+  },[packingRejection, lineRejection])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -110,10 +122,12 @@ export default function RejectionReportForm() {
             <Input
               id="line-rejection"
               type="number"
-              placeholder="Enter line rejection in MT"
+              placeholder="Enter line rejection in pcs"
               value={lineRejection}
               onChange={(e) => setLineRejection(e.target.value)}
-              className="appearance-none"
+              // className="appearance-none"
+              className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
             />
           </div>
 
@@ -122,10 +136,14 @@ export default function RejectionReportForm() {
             <Input
               id="packing-rejection"
               type="number"
-              placeholder="Enter packing rejection in MT"
+              placeholder="Enter packing rejection in pcs"
               value={packingRejection}
               onChange={(e) => setPackingRejection(e.target.value)}
-              className="appearance-none"
+              // className="appearance-none"
+              className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
+
+
             />
           </div>
 
@@ -134,10 +152,15 @@ export default function RejectionReportForm() {
             <Input
               id="scrap"
               type="number"
-              placeholder="Enter scrap in MT"
+              // placeholder="Enter scrap in MT"
               value={scrap}
+              readOnly
               onChange={(e) => setScrap(e.target.value)}
-              className="appearance-none"
+              // className="appearance-none"
+              className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
+
+
             />
           </div>
 

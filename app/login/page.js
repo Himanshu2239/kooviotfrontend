@@ -41,59 +41,89 @@ export default function LoginPage() {
       // console.log("Login successful:", response.data);
 
       // Handle successful login, e.g., save token, redirect, etc.
+      // if (response.status === 200) {
+      //   localStorage.setItem("accessToken", response.data.data.accessToken);
+      //   localStorage.setItem("refreshToken", response.data.data.refreshToken);
+    
+      //   const userRole = response.data.data.user.role;
+      //   if(userRole){
+      //     if (userRole === "salesperson") {
+      //       const userDetails = {
+      //         name: response.data.data.user.fullName,
+      //         area: response.data.data.user.area,
+      //         jobId: response.data.data.user.jobId,
+      //         totalTargetCompleted: response.data.data.user.totalTargetCompleted,
+      //         role: userRole,
+      //       };
+  
+      //       // Convert the object to a JSON string and store it in localStorage
+      //       localStorage.setItem("userDetails", JSON.stringify(userDetails));
+      //       // console.log(userDetails);
+      //       router.push("/");
+      //     } else if (userRole === "admin") {
+      //       // console.log("admin login:", response.data);
+      //       const adminDetails = {
+      //         name: response.data.data.user.fullName,
+      //         jobId: response.data.data.user.jobId,
+      //         role: userRole,
+      //       };
+      //       localStorage.setItem("userDetails", JSON.stringify(adminDetails));
+      //       router.push("/admin");
+      //     } else if (userRole === "production") {
+      //       // console.log("production login:", response.data);
+      //       const productionDetails = {
+      //         name: response.data.data.user.fullName,
+      //         jobId: response.data.data.user.jobId,
+      //         role: userRole,
+      //       };
+      //       localStorage.setItem(
+      //         "userDetails",
+      //         JSON.stringify(productionDetails)
+      //       );
+      //       router.push("/production");
+      //     } else {
+      //       router.push("/login");
+      //     }
+      //   }
+        
+      // }
+    
       if (response.status === 200) {
         localStorage.setItem("accessToken", response.data.data.accessToken);
         localStorage.setItem("refreshToken", response.data.data.refreshToken);
-    
+
         const userRole = response.data.data.user.role;
-        if(userRole){
+
+        if (userRole) {
+          const userDetails = {
+            name: response.data.data.user.fullName,
+            jobId: response.data.data.user.jobId,
+            role: userRole,
+          };
+
           if (userRole === "salesperson") {
-            const userDetails = {
-              name: response.data.data.user.fullName,
-              area: response.data.data.user.area,
-              jobId: response.data.data.user.jobId,
-              totalTargetCompleted: response.data.data.user.totalTargetCompleted,
-              role: userRole,
-            };
-  
-            // Convert the object to a JSON string and store it in localStorage
-            localStorage.setItem("userDetails", JSON.stringify(userDetails));
-            // console.log(userDetails);
+            userDetails.area = response.data.data.user.area;
+            userDetails.totalTargetCompleted = response.data.data.user.totalTargetCompleted;
             router.push("/");
           } else if (userRole === "admin") {
-            // console.log("admin login:", response.data);
-            const adminDetails = {
-              name: response.data.data.user.fullName,
-              jobId: response.data.data.user.jobId,
-              role: userRole,
-            };
-            localStorage.setItem("userDetails", JSON.stringify(adminDetails));
             router.push("/admin");
           } else if (userRole === "production") {
-            // console.log("production login:", response.data);
-            const productionDetails = {
-              name: response.data.data.user.fullName,
-              jobId: response.data.data.user.jobId,
-              role: userRole,
-            };
-            localStorage.setItem(
-              "userDetails",
-              JSON.stringify(productionDetails)
-            );
             router.push("/production");
           } else {
             router.push("/login");
           }
+
+          localStorage.setItem("userDetails", JSON.stringify(userDetails));
         }
-        
       }
     } catch (err) {
       console.error("Login failed:", err);
       setError("Login failed. Please check your credentials and try again.");
     } finally {
       // loading = false;
-      console.log(loading)
-      setLoading(false); // End loading
+      // console.log(loading)
+      setTimeout(() => setLoading(false), 1000);
+      // setLoading(false); // End loading
     }
   };
 

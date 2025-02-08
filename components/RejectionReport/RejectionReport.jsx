@@ -248,7 +248,7 @@ const MetricCard = ({ title, todayValue, monthValue, info }) => (
 );
 
 const RejectionReport = ({selectedDateByMain}) => {
-  const [selectedDate, setSelectedDate] = useState();
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [metrics, setMetrics] = useState({
     today: { total: 0, line: 0, packing: 0, scrap: 0 },
     month: { total: 0, line: 0, packing: 0, scrap: 0 },
@@ -272,7 +272,7 @@ const RejectionReport = ({selectedDateByMain}) => {
       payload = formattedDate;
       date = payload;
        
-    
+      
       // payload = {
       //   year: date.getFullYear(),
       //   month: date.toLocaleString("default", { month: "long" }),
@@ -325,7 +325,7 @@ const RejectionReport = ({selectedDateByMain}) => {
         });
       }
     } catch (error) {
-      console.error("Error fetching metrics:", error.message || error);
+      console.error("Error fetching metrics:", error || error);
     } finally {
       setIsLoading(false);
     }

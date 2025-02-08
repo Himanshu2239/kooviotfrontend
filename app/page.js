@@ -12,7 +12,7 @@ export default function page() {
     <ProtectedRoute>
       <div className=" max-h-full w-full ">
         <Header />
-        <UserDashboard/>
+        <UserDashboard />
         {/* <Loading /> */}
         {/* <OrderForm /> */}
       </div>

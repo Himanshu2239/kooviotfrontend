@@ -47,8 +47,11 @@ const ProtectedRoute = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname()
 
+  // console.log("checkAuth is running")
+
   useEffect(() => {
     const checkAuth = async () => {
+      // console.log("checkAuth is running")
       const result = await isAuthenticated();
       setIsAuth(result);
       if (result) {

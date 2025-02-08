@@ -162,24 +162,87 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import axios from "axios";
+
+
 
 const ProtectedRouteAll = ({ children }) => {
+
+    const isAuth = async () => {
+        const refreshToken = localStorage.getItem("refreshToken");
+        if (!refreshToken) {
+            localStorage.removeItem("accessToken");
+            return false;
+        }
+
+        try {
+            const response = await axios.post("https://kooviot.vercel.app/common/token", {
+                refreshToken,
+            });
+
+            // console.log("isAuthenticate", response.data);
+
+            if (response.data.statusCode === 200 && response.data.data) {
+                const { accessToken, refreshToken: newRefreshToken } = response.data.data;
+                localStorage.setItem("accessToken", accessToken);
+                localStorage.setItem("refreshToken", newRefreshToken); // Update refresh token if provided
+                return true;
+            } else {
+                localStorage.removeItem("refreshToken");
+                localStorage.removeItem("accessToken");
+                return false;
+            }
+        } catch (error) {
+            console.error("Authentication check failed:", error);
+            localStorage.removeItem("refreshToken");
+            localStorage.removeItem("accessToken");
+            return false;
+        }
+    };
+
+
     const [isAuthenticated, setIsAuthenticated] = useState(null); // Initial state as null
     const router = useRouter();
     const pathname = usePathname();
 
-    useEffect(() => {
-        // Ensure localStorage is only accessed on the client side
-        const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+    // console.log("page is loading")
 
-        if (!token) {
-            // Redirect to login if no token
-            setIsAuthenticated(false);
-            router.push("/login");
-        } else {
-            setIsAuthenticated(true); // Token exists, user is authenticated
+    useEffect(() => {
+
+        // console.log("Auth is running 1")
+
+        const checkAuthentication = async () => {
+            // console.log("Auth is running")
+            const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+            if (!token) {
+                const checkAuth = await isAuth();
+                // console.log("checkAuth", checkAuth);
+                if (checkAuth) {
+                    console.log("checkAuth is true");
+                    setIsAuthenticated(true);
+                }
+                else {
+                    setIsAuthenticated(false);
+                    router.push('/login');
+                }
+            }
+            else {
+                setIsAuthenticated(true);
+            }
         }
-    }, [router]);
+
+        checkAuthentication()
+        // Ensure localStorage is only accessed on the client side
+        // const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+
+        // if (!token) {
+        //     // Redirect to login if no token
+        //     setIsAuthenticated(false);
+        //     router.push("/login");
+        // } else {
+        //     setIsAuthenticated(true); // Token exists, user is authenticated
+        // }
+    }, [router, pathname]);
 
     // If authentication is still being checked, show a loading state
     if (isAuthenticated === null && pathname !== "/login") {
