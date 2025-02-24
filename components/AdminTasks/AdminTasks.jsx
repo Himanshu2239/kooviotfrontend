@@ -152,7 +152,7 @@ export default function AdminTasks() {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://127.0.0.1:8000/admin/adminViewTasks",
+        "https://kooviot.vercel.app/adminViewTasks",
         payload,
         {
           headers: { Authorization: `Bearer ${token}` },
