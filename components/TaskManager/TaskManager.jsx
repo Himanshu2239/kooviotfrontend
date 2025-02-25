@@ -275,7 +275,7 @@ export default function TaskManager() {
 
       {/* Incomplete Tasks */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-3">Today's Tasks</h2>
+        <h2 className="text-xl font-semibold mb-3">Today&apos;s Tasks</h2>
         {incompleteTasks.length === 0 ? (
           <p className="text-muted-foreground">
             No tasks for today. Add a new task!
