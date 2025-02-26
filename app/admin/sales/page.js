@@ -38,10 +38,7 @@ const salespeople = [
   { name: "Vineesh Mehta", jobId: "KIOL2239", area: "Delhi" },
   { name: "Soma Naveen Chandra", jobId: "KIOL2070", area: "Hyderabad" },
   { name: "Bharat Lal Dubey", jobId: "KIOL2064", area: "Maharashtra" },
-  { name: "Sushila Shaw", jobId: "KIOL2225", area: "Kolkata" },
-  { name: "Ardhendu Aditya", jobId: "KIOL2234", area: "Kolkata" },
   { name: "Yogesh Lahoti", jobId: "KIOL2049", area: "Pan India" },
-  { name: "Krishnamoorthi", jobId: "KIOL2243", area: "Singapore" },
   { name: "Munin Saikia", jobId: "KIOL2246", area: "Pan India"} // Added in 29/02/2025
 ];
 

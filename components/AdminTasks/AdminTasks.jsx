@@ -45,9 +45,8 @@ const salespeople = [
     jobId: "KIOL2064",
     area: "Maharashtra",
   },
-  { id: "SP006", name: "Sushila Shaw", jobId: "KIOL2225", area: "Kolkata" },
-  { id: "SP007", name: "Ardhendu Aditya", jobId: "KIOL2234", area: "Kolkata" },
-  { id: "SP008", name: "Krishnamoorthi", jobId: "KIOL2243", area: "Singapore" },
+  {id:"SP006",name:"Munin Sakia",jobId:"KIOL2246",area:"PAN INDIA"},
+  {id:"SP007",name:"Yogesh Lahoti",jobId:"KIOL2049",area:"PAN INDIA"},
 ];
 
 const TaskList = ({ tasks = [], title }) => (
