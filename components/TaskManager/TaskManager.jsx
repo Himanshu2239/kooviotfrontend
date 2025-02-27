@@ -152,10 +152,10 @@ export default function TaskManager() {
     }
 
     // Validate phone number to ensure exactly 10 digits
-    if (!/^\d{10}$/.test(phoneNumber.trim())) {
-      alert("Please enter a valid 10-digit phone number.");
-      return;
-    }
+    // if (!/^\d{10}$/.test(phoneNumber.trim())) {
+    //   alert("Please enter a valid 10-digit phone number.");
+    //   return;
+    // }
 
     // // Validate email if provided
     // if (
