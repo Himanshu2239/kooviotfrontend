@@ -151,11 +151,11 @@ export default function TaskManager() {
       return;
     }
 
-    // Validate phone number to ensure exactly 10 digits
-    // if (!/^\d{10}$/.test(phoneNumber.trim())) {
-    //   alert("Please enter a valid 10-digit phone number.");
-    //   return;
-    // }
+   // If phoneNumber is provided (non-empty after trimming), validate that it's exactly 10 digits.
+if (phoneNumber.trim() && !/^\d{10}$/.test(phoneNumber.trim())) {
+  alert("Please enter a valid 10-digit phone number.");
+  return;
+}
 
     // // Validate email if provided
     // if (
