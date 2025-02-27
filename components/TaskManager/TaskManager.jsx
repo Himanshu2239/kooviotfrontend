@@ -158,14 +158,14 @@ export default function TaskManager() {
       return;
     }
 
-    // Validate email if provided
-    if (
-      emailId.trim() &&
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(emailId.trim())
-    ) {
-      alert("Please enter a valid email address.");
-      return;
-    }
+    // // Validate email if provided
+    // if (
+    //   emailId.trim() &&
+    //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(emailId.trim())
+    // ) {
+    //   alert("Please enter a valid email address.");
+    //   return;
+    // }
 
     const token = localStorage.getItem("accessToken");
     const config = { headers: { Authorization: `Bearer ${token}` } };
