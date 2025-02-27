@@ -145,7 +145,6 @@ export default function TaskManager() {
     if (
       !contactPersonName.trim() ||
       !companyName.trim() ||
-      !phoneNumber.trim() ||
       !feedback.trim()
     ) {
       alert("All fields except Email id are mandatory.");
@@ -175,7 +174,7 @@ export default function TaskManager() {
       contactPersonName: contactPersonName.trim(),
       companyName: companyName.trim(),
       emailId: emailId.trim() || null,
-      phoneNumber: phoneNumber.trim(),
+      phoneNumber: phoneNumber.trim() || null,
       feedback: feedback.trim(),
     };
 
