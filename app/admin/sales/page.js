@@ -39,7 +39,8 @@ const salespeople = [
   { name: "Soma Naveen Chandra", jobId: "KIOL2070", area: "Hyderabad" },
   { name: "Bharat Lal Dubey", jobId: "KIOL2064", area: "Maharashtra" },
   { name: "Yogesh Lahoti", jobId: "KIOL2049", area: "Pan India" },
-  { name: "Munin Saikia", jobId: "KIOL2246", area: "Pan India"} // Added in 29/02/2025
+  { name: "Munin Saikia", jobId: "KIOL2246", area: "Pan India"}, // Added in 29/02/2025
+  {name: "Shourajit Biswas", jobId: "KIOL2247", area: "Agartala" },
 ];
 
 export default function TargetAssignmentDashboard() {
