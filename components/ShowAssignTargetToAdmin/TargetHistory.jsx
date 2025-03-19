@@ -67,7 +67,7 @@ const salesPersons = [
   { id: "SP009", name: "Krishnamoorthi", jobId: "KIOL2243", area: "Singapore" },
   { id: "SP010", name: "Munin Saikia", jobId: "KIOL2246", area: "Pan India"},
   { id: "SP011", name: "Shourajit Biswas", jobId: "KIOL2247", area: "Agartala" },
-  { id: "SP011", name: "others", jobId: "others", area: "Pan India" }
+  { id: "SP012", name: "others", jobId: "others", area: "Pan India" }
 ];
 
 export default function TargetHistory() {
