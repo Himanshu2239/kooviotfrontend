@@ -32,17 +32,17 @@ export default function RejectionReportForm() {
     return { year, month, day };
   };
 
-  useEffect(() => {
-     if(packingRejection && lineRejection){
-       console.log("scarp calculation");
-       let totalScrap = totalRejection * 3.1;
-       let scrapInMT = totalScrap/1000000;
-       setScrap(scrapInMT);
-     }
-     else{
-       setScrap('')
-     }
-  },[packingRejection, lineRejection])
+  // useEffect(() => {
+  //    if(packingRejection && lineRejection){
+  //      console.log("scarp calculation");
+  //      let totalScrap = totalRejection * 3.1;
+  //      let scrapInMT = totalScrap/1000000;
+  //      setScrap(scrapInMT);
+  //    }
+  //    else{
+  //      setScrap('')
+  //    }
+  // },[packingRejection, lineRejection])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,10 +54,10 @@ export default function RejectionReportForm() {
       return;
     }
 
-    if (!lineRejection || !packingRejection || !scrap) {
-      setError("All fields are required.");
-      return;
-    }
+    // if (!lineRejection || !packingRejection || !scrap) {
+    //   setError("All fields are required.");
+    //   return;
+    // }
 
     const { year, month, day } = getNormalizedDate();
 
@@ -152,15 +152,13 @@ export default function RejectionReportForm() {
             <Input
               id="scrap"
               type="number"
-              // placeholder="Enter scrap in MT"
+              placeholder="Enter scrap in MT"
               value={scrap}
-              readOnly
+              //  readOnly
               onChange={(e) => setScrap(e.target.value)}
               // className="appearance-none"
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
-
-
             />
           </div>
 
