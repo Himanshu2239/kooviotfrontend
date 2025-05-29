@@ -11,6 +11,7 @@ import { getNormalizedDate, gradeOptions, isValidBatchId, materialCodeOptions } 
 import axios from "axios"
 import { toast, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
+import LogoutButton from "@/components/Mes/logout/logoutButton"
 
 
 
@@ -141,7 +142,7 @@ export default function DispatchPage() {
       console.error(err.response.data.error)
       toast.error(err.response.data.error)
     }
-    finally{
+    finally {
       setIsloading(false);
     }
   }
@@ -157,6 +158,9 @@ export default function DispatchPage() {
   return (
     <div className="p-10 m-16 rounded-lg bg-gradient-to-b from-white to-indigo-100">
       <ToastContainer hideProgressBar />
+      <div className="absolute top-4 right-4 z-50">
+        <LogoutButton/>
+      </div>
       <h1 className="text-2xl font-bold text-center text-blue-800 mb-6">Dispatch Out</h1>
 
       <div className="flex justify-between mb-6">

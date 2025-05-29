@@ -10,7 +10,9 @@ import ProductionForm from "@/components/Mes/Production/ProductionForm";
 import RejectionForm from "@/components/Mes/Production/RejectionForm";
 import WorkLogForm from "@/components/Mes/Production/WorkLogForm";
 import { categories } from "@/app/constant";
-import { Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import LogoutButton from "@/components/Mes/logout/logoutButton";
+import { useRouter } from "next/navigation";
 
 export default function ProductionPage() {
   const [date, setDate] = useState();
@@ -56,7 +58,7 @@ export default function ProductionPage() {
       toast.error("Please fill in all required fields.");
       return;
     }
-    
+
     const { year, month, day } = getNormalizedDate();
     const accessToken = localStorage.getItem("accessToken");
     const payload = {
@@ -119,7 +121,7 @@ export default function ProductionPage() {
       // alert("Something went wrong!");
       toast.error("Something went wrong!");
     }
-    finally{
+    finally {
       setIsLoading(false);
     }
   };
@@ -175,6 +177,8 @@ export default function ProductionPage() {
 
   }, [addWorkLog]);
 
+  const router = useRouter();
+
 
   // Generate batch ID when date or shift changes
 
@@ -194,6 +198,17 @@ export default function ProductionPage() {
   return (
     <div>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+      <button
+        onClick={() => router.push('/production')}
+        className="flex items-center gap-2 px-4 py-2 text-sm bg-blue-800 hover:bg-blue-900 text-white mt-4 ml-2 font-semibold rounded-lg transition"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Previous Form
+      </button>
+
+      <div className="absolute top-4 right-4 z-50">
+        <LogoutButton />
+      </div>
       <div className="p-10 h-screen  mx-auto bg-gradient-to-b from-white to-green-50">
         <h1 className="text-2xl font-bold text-center text-blue-900 mb-4">Production</h1>
         <div className="grid grid-cols-3 md:grid-cols-4 gap-6 mb-4">
@@ -260,7 +275,7 @@ export default function ProductionPage() {
               setRejTotalPieces={setRejTotalPieces}
               rejectionItems={rejectionItems}
               setRejectionItems={setRejectionItems}
-            /> */}  
+            /> */}
 
 
           </div>
