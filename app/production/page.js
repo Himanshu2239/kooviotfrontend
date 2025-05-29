@@ -93,7 +93,7 @@ const ProductionDashboard = () => {
       });
 
       alert(`${xlsxFiles[index].name} file uploaded successfully!`);
-    } catch (error) {
+    } catch (error) { 
       console.error("Error uploading file:", error);
       alert(`Error uploading ${xlsxFiles[index].name}: ${error.message}`);
     } finally {
@@ -132,6 +132,7 @@ const ProductionDashboard = () => {
         "reportMonth",
         (months.indexOf(selectedMonth) + 1).toString()
       );
+      
       formData.append("reportYear", selectedYear);
 
       await axios.post("https://kooviot.vercel.app/production/upload", formData, {

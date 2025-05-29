@@ -38,13 +38,14 @@ export default function LoginPage() {
         jobId, // Send jobId instead of username
         password,
       });
+
       // console.log("Login successful:", response.data);
 
       // Handle successful login, e.g., save token, redirect, etc.
       // if (response.status === 200) {
       //   localStorage.setItem("accessToken", response.data.data.accessToken);
       //   localStorage.setItem("refreshToken", response.data.data.refreshToken);
-    
+
       //   const userRole = response.data.data.user.role;
       //   if(userRole){
       //     if (userRole === "salesperson") {
@@ -55,7 +56,7 @@ export default function LoginPage() {
       //         totalTargetCompleted: response.data.data.user.totalTargetCompleted,
       //         role: userRole,
       //       };
-  
+
       //       // Convert the object to a JSON string and store it in localStorage
       //       localStorage.setItem("userDetails", JSON.stringify(userDetails));
       //       // console.log(userDetails);
@@ -85,9 +86,9 @@ export default function LoginPage() {
       //       router.push("/login");
       //     }
       //   }
-        
+
       // }
-    
+
       if (response.status === 200) {
         localStorage.setItem("accessToken", response.data.data.accessToken);
         localStorage.setItem("refreshToken", response.data.data.refreshToken);
@@ -100,15 +101,19 @@ export default function LoginPage() {
             jobId: response.data.data.user.jobId,
             role: userRole,
           };
-
+          if (userRole === "packing" || userRole === "invoice") {
+            userDetails.area = response.data.data.user.area;
+            router.push('/mes/packing')
+          }
           if (userRole === "salesperson") {
             userDetails.area = response.data.data.user.area;
             userDetails.totalTargetCompleted = response.data.data.user.totalTargetCompleted;
             router.push("/");
-          } else if (userRole === "admin") {
+          } else if (userRole === "admin") { 
             router.push("/admin");
-          } else if (userRole === "production") {
-            router.push("/production");
+          } else if (userRole === "production" || userRole === "packing" || userRole === "invoice" || userRole === "dispatchout") {
+            // router.push('/production');
+            router.push(`/mes/${userRole}`);
           } else {
             router.push("/login");
           }
