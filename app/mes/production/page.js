@@ -27,6 +27,7 @@ export default function ProductionPage() {
   // const [rejMaterialCode, setRejMaterialCode] = useState("");
   // const [rejPieces, setRejPieces] = useState("");
   const [rejTotalPieces, setRejTotalPieces] = useState("");
+  const [lineRejInKg, setLineRejInKg] = useState("");
 
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
@@ -39,6 +40,8 @@ export default function ProductionPage() {
   // const [rejectionItems, setRejectionItems] = useState([]);
   const [workLogItems, setWorkLogItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [productionInKg, setProductionInKg] = useState("");
+  const [totalProductionInKg, setTotalProductionInKg] = useState("");
 
 
   // const [errors, setErrors] = useState({});
@@ -53,7 +56,7 @@ export default function ProductionPage() {
   };
 
   const handleSubmit = async () => {
-    if (!date || !shift || !line || !rejTotalPieces || !productionItems.length || !workLogItems.length) {
+    if (!date || !shift || !line || !rejTotalPieces || !productionItems.length || !workLogItems.length || !lineRejInKg) {
       // alert("Please fill in all required fields.");
       toast.error("Please fill in all required fields.");
       return;
@@ -72,8 +75,10 @@ export default function ProductionPage() {
       line,
       productionItems,
       totalPieces: parseInt(totalPieces || "0"),
+      totalProductionInKg,
       // rejectionItems,
       lineRejection: parseInt(rejTotalPieces || "0"),
+      lineRejectionInkg: parseFloat(lineRejInKg || "0"),
       workLogItems,
       totalDuration
     };
@@ -107,7 +112,8 @@ export default function ProductionPage() {
         setLine("");
         setProductionItems([]);
         setTotalPieces("");
-        // setRejectionItems([]);
+        setTotalProductionInKg("");
+        setLineRejInKg("")        // setRejectionItems([]);
         setRejTotalPieces("");
         setWorkLogItems([]);
         setTotalDuration("");
@@ -211,7 +217,7 @@ export default function ProductionPage() {
       </div>
       <div className="p-10 h-screen  mx-auto bg-gradient-to-b from-white to-green-50">
         <h1 className="text-2xl font-bold text-center text-blue-900 mb-4">Production</h1>
-        <div className="grid grid-cols-3 md:grid-cols-4 gap-6 mb-4">
+        <div className="grid grid-cols-3 md:grid-cols-5 gap-6 mb-4">
           <InputField label="Date:" type="date" value={date} onChange={setDate} />
           {/* <InputField label="Batch ID:" value={batchId} onChange={setBatchId} readOnly={true}/> */}
           {/* <InputField label="Shift:" value={shift} onChange={setShift} /> */}
@@ -243,7 +249,8 @@ export default function ProductionPage() {
             </select>
           </div>
           {/*production total Rejection */}
-          <InputField label="Line Rejection:" type="Number" value={rejTotalPieces} onChange={setRejTotalPieces} />
+          <InputField label="Line Rejection(Pcs):" type="Number" value={rejTotalPieces} onChange={setRejTotalPieces} />
+          <InputField label="Line Rejection(Kg):" type="Number" value={lineRejInKg} onChange={setLineRejInKg} />
         </div>
 
         <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
@@ -259,8 +266,12 @@ export default function ProductionPage() {
               setMaterialCode={setMaterialCode}
               pieces={pieces}
               setPieces={setPieces}
+              productionInKg={productionInKg}
+              setProductionInKg={setProductionInKg}
               totalPieces={totalPieces}
               setTotalPieces={setTotalPieces}
+              totalProductionInKg={totalProductionInKg}
+              setTotalProductionInKg={setTotalProductionInKg}
               productionItems={productionItems}
               setProductionItems={setProductionItems}
             />
