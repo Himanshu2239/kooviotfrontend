@@ -114,7 +114,7 @@ export default function DispatchPage() {
 
     const { year, month, day } = getNormalizedDate(date);
     try {
-      const response = await axios.post('https://kooviot.vercel.app/production/dispachOutMes/update', { year, month, day, items, totalPieces, mtdType: "totaldispatch", invoiceNo },
+      const response = await axios.post('http://127.0.0.1:5001/production/dispachOutMes/update', { year, month, day, items, totalPieces, mtdType: "totaldispatch", invoiceNo },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -139,8 +139,9 @@ export default function DispatchPage() {
         toast.error("Failed to submit.")
       }
     } catch (err) {
-      console.error(err.response.data.error)
-      toast.error(err.response.data.error)
+      console.log(err);
+      console.error(err.response.data.message);
+      toast.error(err.response.data.message);
     }
     finally {
       setIsloading(false);
@@ -173,7 +174,7 @@ export default function DispatchPage() {
           <label className="block mb-1 font-medium">Material Code</label>
           <select className="h-9 bg-gray-200 rounded px-2 w-full" value={materialCode} onChange={(e) => setMaterialCode(e.target.value)}>
             <option value="">Select</option>
-            {materialCodeOptions.map((opt) => <option key={opt}>{opt}</option>)}
+            {materialCodeOptions.map((opt, index) => <option key={index}>{opt}</option>)}
           </select>
           {errors.materialCode && <p className="text-red-500 text-sm">{errors.materialCode}</p>}
         </div>

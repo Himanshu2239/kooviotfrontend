@@ -43,9 +43,9 @@ export default function Header() {
       document.documentElement.classList.toggle("dark", storedTheme === "dark");
     } else {
       // Set default theme to dark
-      setTheme("dark");
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      setTheme("light");
+      document.documentElement.classList.add("light");
+      localStorage.setItem("theme", "light");
     }
   }, []);
 

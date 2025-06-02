@@ -3,7 +3,7 @@
 import InputField from "@/components/Mes/components/input-field";
 import AddItemsButton from "@/components/Mes/components/add-items";
 import { toast } from "react-toastify";
-import { materialCodeOptions } from "@/app/constant";
+import { materialCodeForProduction } from "@/app/constant";
 import { Trash2 } from "lucide-react";
 
 
@@ -74,7 +74,7 @@ export default function ProductionForm({
             onChange={(e) => setMaterialCode(e.target.value)}
           >
             <option value="">Select</option>
-            {materialCodeOptions.map((code) => (
+            {materialCodeForProduction.map((code) => (
               <option key={code} value={code}>
                 {code}
               </option>
