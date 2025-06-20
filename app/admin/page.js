@@ -39,6 +39,8 @@ import StockCard from "@/components/AdminStockCard/AdminStockCard";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import ManPowerCostingTable from "@/components/ManPowerCostingTable/ManPowerCostingTable";
 import RejectionReport from "@/components/RejectionReport/RejectionReport";
+import MaterialStockReport from "@/components/Mes/admin/MaterialStockReport";
+import BatchWiseStockReport from "@/components/Mes/admin/BatchStockReport";
 
 const categories = [
   { name: "glovesProduction", icon: FileSpreadsheet, color: "bg-blue-500" },
@@ -183,15 +185,18 @@ export default function AdminDashboard() {
           <StockCard selectedDateByMain={selectedDate}/>
         </div>
 
-        {/* <div className="p-3 max-w-full mx-10 rounded-lg">
-        <ManPowerCostingTable/>
-        </div> */}
+        <div className="p-3 grid md:grid-cols-2 grid-cols-1 md:space-y-0 space-y-4 max-w-full rounded-lg">
+        <MaterialStockReport/>
+        <BatchWiseStockReport/>
+        {/* <ManPowerCostingTable/> */}
+        </div>
+
         <div className="px-10 p-2">
           <div className="max-w-full">
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-2xl ml-4 font-bold">Excel Report</h1>
             </div>
-
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {categories.map((category) => (
                 <Dialog key={category.name}>

@@ -28,7 +28,7 @@ export default function RejectionForm() {
 
         if (Object.keys(newErrors).length) return setErrors(newErrors)
 
-        setItems([...items, { id: Date.now(), batchId, materialCode, pieces, reason }])
+        setItems([...items, { id: Date.now(), batchId, materialCode, pieces:Number(pieces), reason }])
         // setDate("") 
         setBatchId("")
         setMaterialCode("")
@@ -60,7 +60,7 @@ export default function RejectionForm() {
         const toastId = toast.loading("Submitting packing data...");
 
         try {
-            const response = await axios.post("https://kooviot.vercel.app/production/packingRejMes/update", {
+            const response = await axios.post("https://kooviot.vercel.app/packing/wipRejection/update", {
                 year,
                 month,
                 day,
@@ -75,9 +75,11 @@ export default function RejectionForm() {
                 }
             );
 
+            // console.log("response", response);
+
             if (response.status === 200 || response.status === 201) {
                 toast.update(toastId, {
-                    render: "Packing Rejection data submitted successfully!",
+                    render: response.data.message,
                     type: "success",
                     isLoading: false,
                     autoClose: 3000,
@@ -121,8 +123,8 @@ export default function RejectionForm() {
 
     return (
         <div>
-            <div className="flex justify-between">
-                <h2 className="text-xl font-semibold text-purple-700 mb-4">Rejection Entry</h2>
+            <div className="flex justify-between p-4">
+                <h2 className="text-xl font-semibold text-purple-700 mb-4">WIP Rejection Entry</h2>
                 <InputField label="" type="date" value={date} onChange={setDate} error={errors.date} />
             </div>
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-4">
@@ -135,8 +137,8 @@ export default function RejectionForm() {
                         onChange={(e) => setMaterialCode(e.target.value)}
                     >
                         <option value="">Select</option>
-                        {materialCodeOptions.map((code) => (
-                            <option key={code} value={code}>
+                        {materialCodeOptions.map((code, index) => (
+                            <option key={index} value={code}>
                                 {code}
                             </option>
                         ))}
@@ -157,7 +159,7 @@ export default function RejectionForm() {
             <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">Reason</label>
                 <textarea
-                    className="w-full border rounded p-2"
+                    className="w-full bg-gray-200 border rounded p-2"
                     rows={3}
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}

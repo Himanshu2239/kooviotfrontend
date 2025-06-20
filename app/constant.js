@@ -25,7 +25,7 @@ export const categories = [
 //     "GLOVES6DFTBU01"
 // ];
 
-export const materialCodeOptions = [
+export const materialCodeOptions = [...new Set([
   "GLOVES3AFTBL01", "GLOVES3AFTBL02", "GLOVES3BFTBL01", "GLOVES3BFTBL02", "GLOVES3CFTBL01", "GLOVES3CFTBL02",
   "GLOVE3DFTBL01", "GLOVES3DFTBL02", "GLOVES3EFTBL01", "GLOVES3EFTBL02", "GLOVES3AFTBU01", "GLOVES3AFTBU02",
   "GLOVES3BFTBU01", "GLOVES3BFTBU02", "GLOVES3CFTBU01", "GLOVE3CFTBU02", "GLOVES3DFTBU01", "GLOVE3DFTBU02",
@@ -57,10 +57,12 @@ export const materialCodeOptions = [
   "GLOVES8CDTOR01", "GLOVES8CDTOR02", "GLOVES8DDTOR01", "GLOVES8DDTOR02", "GLOVES8EDTOR01", "GLOVES8EDTOR02",
   "GLOVES8FDTOR01", "GLOVES8FDTOR02", "GLOVES8GDTOR01", "GLOVES8GDTOR02", "GLOVES8CFUBL01", "GLOVES8CFUBL02",
   "GLOVES3BFTWH01", "GLOVES3CFTWH01", "GLOVES3DFTWH01"
-];
+])];
 
 
-export const materialCodeForProduction = [
+
+
+export const materialCodeForProduction = [... new Set([
     "GLOVES3AFTBL",
     "GLOVES3BFTBL",
     "GLOVES3CFTBL",
@@ -180,7 +182,7 @@ export const materialCodeForProduction = [
     "GLOVES3BFTWH",
     "GLOVES3CFTWH",
     "GLOVES3DFTWH"
-]
+].map((val) => val +'01'))]
 
 
 export const gradeOptions = ["A", "B", "Non moving"];

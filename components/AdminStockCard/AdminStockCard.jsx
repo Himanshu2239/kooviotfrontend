@@ -15,70 +15,149 @@ import { CalendarIcon, Package, PackageOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format, parseISO } from "date-fns"; // Import parseISO to handle ISO date format
 
-const StockItem = ({ title, agradeStocks, bgradeStocks, nonMovingStocks, value, icon: Icon }) => (
-  <div className={`flex flex-col ${title != 'Packed Stocks' ? "items-center" : ""} space-y-2 p-4 border rounded-lg`}>
+// const StockItem = ({ title, agradeStocks, bgradeStocks, nonMovingStocks, wipAgradeStocks, wipBgradeStocks, value, icon: Icon }) => (
+//   <div className={`flex flex-col ${title != 'Packed Stocks' ? "items-center" : ""} space-y-2 p-4 border rounded-lg`}>
+//     <Icon className="h-6 w-6 mx-auto text-muted-foreground" />
+//     {
+//       title === 'Packed Stocks' ? (
+//         <div className="flex flex-col justify-center ">
+//           <div className="text-center">
+//             <h3 className="text-sm font-medium">{title}</h3>
+//             <p className="text-2xl font-bold">{value}</p>
+//           </div>
+//           <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
+//             <div className="text-center md:pr-0 pr-2">
+//               <h3 className="text-sm text-muted-foreground font-medium">A-grade</h3>
+//               <p className="text-xl font-bold">{agradeStocks ? agradeStocks :
+//                 <div className="font-mono">N/A</div>}</p>
+//             </div>
+//             <div className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
+//               <h3 className="text-sm text-muted-foreground font-medium">B-grade</h3>
+//               <p className="text-xl  font-bold">{bgradeStocks ? bgradeStocks :
+//                 <div className="font-mono">N/A</div>}</p>
+//             </div>
+//             <div className="text-center md:mt-0 mt-2">
+//               <h3 className="text-sm text-muted-foreground font-medium">Non Moving</h3>
+//               <p className="text-xl font-bold">{nonMovingStocks ? nonMovingStocks :
+//                 <div className="font-mono">N/A</div>}</p>
+//             </div>
+//           </div>
+
+//           {/* <div className="flex flex-wrap sm:flex-col justify-between">
+//             <div className="text-center">
+//               <h3 className="text-sm text-muted-foreground font-medium">A-grade</h3>
+//               <p className="text-xl font-bold">
+//                 {agradeStocks ? agradeStocks : <div className="font-mono">N/A</div>}
+//               </p>
+//             </div>
+//             <div className="text-center">
+//               <h3 className="text-sm text-muted-foreground font-medium">B-grade</h3>
+//               <p className="text-xl font-bold">
+//                 {bgradeStocks ? bgradeStocks : <div className="font-mono">N/A</div>}
+//               </p>
+//             </div>
+//             <div className="text-center">
+//               <h3 className="text-sm text-muted-foreground font-medium">Non Moving</h3>
+//               <p className="text-xl font-bold">
+//                 {nonMovingStocks ? nonMovingStocks : <div className="font-mono">N/A</div>}
+//               </p>
+//             </div>
+//           </div> */}
+
+//         </div>
+//       ) :
+//         (
+//           (
+//             title === 'Unpacked Stocks' ?
+//               <>
+//                <h3 className="text-sm font-medium">{title}</h3>
+//                 <div className="text-2xl font-bold mx-auto">
+//                   <div>{value}</div>
+//                 </div>
+//                 <div className="flex justify-between">
+//                   <div className="flex flex-col">
+//                     <div>Wip A</div>
+//                     <div>{wipAgradeStocks}</div>
+//                   </div>
+//                   <div className="flex flex-col">
+//                     <div>Wip B</div>
+//                     <div>{wipBgradeStocks}</div>
+//                   </div>
+//                 </div>
+//               </>
+//               :
+//               <>
+//                 <h3 className="text-sm font-medium">{title}</h3>
+//                 <div className="text-2xl font-bold mx-auto">
+//                   <div>{value}</div>
+//                 </div>
+//               </>
+//           )
+//         )
+//     }
+
+//   </div>
+// );
+
+const StockItem = ({ title, agradeStocks, bgradeStocks, nonMovingStocks, wipAgradeStocks, wipBgradeStocks, value, icon: Icon }) => (
+  <div className={`flex flex-col ${title !== 'Packed Stocks' ? "items-center" : ""} space-y-2 p-4 border rounded-lg`}>
     <Icon className="h-6 w-6 mx-auto text-muted-foreground" />
-    {
-      title === 'Packed Stocks' ? (
-        <div className="flex flex-col justify-center ">
-          <div className="text-center">
-            <h3 className="text-sm font-medium">{title}</h3>
-            <p className="text-2xl font-bold">{value}</p>
-          </div>
-          <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
-            <div className="text-center md:pr-0 pr-2">
-              <h3 className="text-sm text-muted-foreground font-medium">A-grade</h3>
-              <p className="text-xl font-bold">{agradeStocks ? agradeStocks :
-                <div className="font-mono">N/A</div>}</p>
-            </div>
-            <div className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
-              <h3 className="text-sm text-muted-foreground font-medium">B-grade</h3>
-              <p className="text-xl  font-bold">{bgradeStocks ? bgradeStocks :
-                <div className="font-mono">N/A</div>}</p>
-            </div>
-            <div className="text-center md:mt-0 mt-2">
-              <h3 className="text-sm text-muted-foreground font-medium">Non Moving</h3>
-              <p className="text-xl font-bold">{nonMovingStocks ? nonMovingStocks :
-                <div className="font-mono">N/A</div>}</p>
-            </div>
-          </div>
 
-          {/* <div className="flex flex-wrap sm:flex-col justify-between">
-            <div className="text-center">
-              <h3 className="text-sm text-muted-foreground font-medium">A-grade</h3>
-              <p className="text-xl font-bold">
-                {agradeStocks ? agradeStocks : <div className="font-mono">N/A</div>}
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-sm text-muted-foreground font-medium">B-grade</h3>
-              <p className="text-xl font-bold">
-                {bgradeStocks ? bgradeStocks : <div className="font-mono">N/A</div>}
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-sm text-muted-foreground font-medium">Non Moving</h3>
-              <p className="text-xl font-bold">
-                {nonMovingStocks ? nonMovingStocks : <div className="font-mono">N/A</div>}
-              </p>
-            </div>
-          </div> */}
+    <div className="text-center">
+      <h3 className="text-sm font-medium">{title}</h3>
+      <p className="text-2xl font-bold">{value}</p>
+    </div>
 
-        </div>
-      ) : (
-        <>
-          <h3 className="text-sm font-medium">{title}</h3>
-          <div className="text-2xl font-bold mx-auto">
-            <div>{value}</div>
+    {title === 'Packed Stocks' && (
+      <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
+        {[
+          { label: 'A-grade', value: agradeStocks },
+          { label: 'B-grade', value: bgradeStocks },
+          { label: 'Non Moving', value: nonMovingStocks }
+        ].map((item, index) => (
+          <div key={index} className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
+            <h3 className="text-sm text-muted-foreground font-medium">{item.label}</h3>
+            <p className="text-xl font-bold">{item.value ?? <div className="font-mono">N?A</div>}</p>
           </div>
-        </>
-      )
-    }
+        ))}
+      </div>
+    )}
+
+    {/* {title === 'Unpacked Stocks' && (
+      <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
+        {[
+          { label: 'Wip A', value: wipAgradeStocks },
+          { label: 'Wip B', value: wipBgradeStocks }
+        ].map((item, index) => (
+          <div key={index} className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
+            <h3 className="text-sm text-muted-foreground font-medium">{item.label}</h3>
+            <p className="text-xl font-bold">{item.value !== 0  ? :}</p>
+          </div>
+        ))}
+      </div>
+    )} */}
+    {title === 'Unpacked Stocks' && (
+      <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
+        {[
+          { label: 'Wip A', value: (wipAgradeStocks === 0 && wipBgradeStocks === 0 && value !== 0) ? 'N/A' : wipAgradeStocks },
+          { label: 'Wip B', value: (wipAgradeStocks === 0 && wipBgradeStocks === 0 && value !== 0) ? 'N/A' : wipBgradeStocks }
+        ].map((item, index) => (
+          <div key={index} className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
+            <h3 className="text-sm text-muted-foreground font-medium">{item.label}</h3>
+            <p className="text-xl font-bold">
+              {item.value === 'N/A' ? <div className="font-mono">N/A</div> : item.value}
+            </p>
+          </div>
+        ))}
+      </div>
+    )}
 
   </div>
 );
 
-const StockCard = ({selectedDateByMain}) => {
+
+
+const StockCard = ({ selectedDateByMain }) => {
   const [date, setDate] = useState(new Date()); // Date displayed on the calendar
   const [stockData, setStockData] = useState({
     totalStocks: 0,
@@ -86,6 +165,8 @@ const StockCard = ({selectedDateByMain}) => {
     agradeStocks: 0,
     bgradeStocks: 0,
     nonMovingStocks: 0,
+    wipAgradeStocks: 0,
+    wipBgradeStocks: 0,
     unpackedStocks: 0,
   });
   const [error, setError] = useState("");
@@ -132,15 +213,18 @@ const StockCard = ({selectedDateByMain}) => {
           bgradeStocks,
           nonMovingStocks,
           packedStocks,
+          wipAgradeStocks,
+          wipBgradeStocks,
           unpackedStocks,
           totalStocks,
           date: responseDate,
         } = response.data.data;
 
         // Update stock data with response values
-        setStockData({ agradeStocks, bgradeStocks, nonMovingStocks, packedStocks, unpackedStocks, totalStocks });
+        setStockData({ agradeStocks, bgradeStocks, nonMovingStocks, packedStocks, unpackedStocks, totalStocks, wipAgradeStocks, wipBgradeStocks });
 
         // If the API returns a valid date, update the calendar to show that date
+
         if (responseDate) {
           const formattedDate = parseISO(responseDate); // Parse ISO date (e.g., "2024-12-12T00:00:00.000Z")
           if (!isNaN(formattedDate.getTime())) {
@@ -172,10 +256,10 @@ const StockCard = ({selectedDateByMain}) => {
    * Runs on initial page load to fetch the latest available stock data
    */
   useEffect(() => {
-    if(selectedDateByMain)
-    fetchStockData(selectedDateByMain); // No date is sent to fetch the latest available data
+    if (selectedDateByMain)
+      fetchStockData(selectedDateByMain); // No date is sent to fetch the latest available data
     else
-    fetchStockData();
+      fetchStockData();
   }, [selectedDateByMain]);
 
   /**
@@ -257,6 +341,8 @@ const StockCard = ({selectedDateByMain}) => {
           <StockItem
             title="Unpacked Stocks"
             value={stockData.unpackedStocks !== 0 ? stockData.unpackedStocks?.toLocaleString() : stockData.unpackedStocks}
+            wipAgradeStocks={stockData.wipAgradeStocks !== 0 ? stockData.wipAgradeStocks?.toLocaleString() : stockData.wipAgradeStocks}
+            wipBgradeStocks={stockData.wipBgradeStocks !== 0 ? stockData.wipBgradeStocks?.toLocaleString() : stockData.wipBgradeStocks}
             icon={PackageOpen}
           />
 

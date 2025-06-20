@@ -29,7 +29,7 @@ export default function ProductionForm({
         id: Date.now(),
         batchId,
         materialCode,
-        pieces,
+        pieces : Number(pieces),
         productionInKg,
       };
       const updated = [...productionItems, newItem];

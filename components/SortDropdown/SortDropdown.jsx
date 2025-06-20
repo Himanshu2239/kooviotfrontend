@@ -22,14 +22,6 @@ function SortDropdown({ info, setInfo, originalData }) {
   }
 
   return (
-    // <div className='flex flex-row justify-center'>
-    //     <div className='py-2'>Sort By</div>
-    //     <select onChange={(e) => handleChange(e)} className='w-[11rem] ml-4 h-[2.5rem]'  name="" id="">Sort By
-    //         <option value="">Select</option>
-    //         <option value="issueDateLatest">By Issue Date (Latest)</option>
-    //         <option value="issueDateOldest">By Issue Date (Oldest)</option>
-    //     </select>
-    // </div>
     <div className="flex flex-row justify-center">
       <div className="py-2 text-gray-800 dark:text-white">Sort By</div>
       <select

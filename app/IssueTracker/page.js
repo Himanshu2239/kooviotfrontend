@@ -75,7 +75,7 @@ function Page() {
         setInfo(SearchItem)
     }
 
-    console.log(editSvg)
+    // console.log(editSvg)
     // location.reload();
 
     return (

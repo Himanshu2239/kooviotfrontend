@@ -51,7 +51,6 @@ export default function ProductionPage() {
     const year = dateObj.getFullYear().toString();
     const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
     const day = dateObj.getDate().toString().padStart(2, "0");
-
     return { year, month, day };
   };
 
@@ -175,9 +174,6 @@ export default function ProductionPage() {
       return sum + durationMinutes;
     }, 0);
 
-    // console.log("duration", updatedItems);
-    // console.log("totalMinutes", totalMinutes);
-
     setWorkLogItems(updatedItems);
     setTotalDuration(formatMinutes(totalMinutes));
 
@@ -210,6 +206,13 @@ export default function ProductionPage() {
       >
         <ArrowLeft className="w-4 h-4" />
         Previous Form
+      </button>
+
+      <button
+        onClick={() => router.push('/mes/report/production')}
+        className="bg-purple-600 absolute top-4 right-[10rem] z-50  hover:bg-purple-700 text-white px-4 py-2 rounded shadow"
+      >
+        View Report
       </button>
 
       <div className="absolute top-4 right-4 z-50">

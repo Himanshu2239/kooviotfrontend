@@ -12,6 +12,7 @@ import axios from "axios"
 import { toast, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import LogoutButton from "@/components/Mes/logout/logoutButton"
+import { useRouter } from "next/navigation"
 
 
 
@@ -23,7 +24,7 @@ export default function DispatchPage() {
   const [invoiceNo, setInvoiceNo] = useState("")
   const [batchId, setBatchId] = useState("")
   const [materialCode, setMaterialCode] = useState("Select")
-  const [grade, setGrade] = useState("Select")
+  const [grade, setGrade] = useState("")
   const [packagingType, setPackagingType] = useState("Select")
   // const [itemCode, setItemCode] = useState("")
   // const [lotNo, setLotNo] = useState("")
@@ -37,7 +38,7 @@ export default function DispatchPage() {
   const resetFields = () => {
     setBatchId("")
     setMaterialCode("Select")
-    setGrade("Select")
+    setGrade("")
     setPackagingType("Select")
     // setItemCode("")
     // setLotNo("")
@@ -72,8 +73,6 @@ export default function DispatchPage() {
       materialCode,
       grade,
       packagingType,
-      // itemCode,
-      // lotNo,
       pieces: parseInt(pieces),
       customer,
     }
@@ -95,39 +94,16 @@ export default function DispatchPage() {
     }
 
     setIsloading(true);
-    // const newErrors = {};
-    // if (!date){
-    //   newErrors.date = "Date is required";
-    //   console.log("data", newErrors);
-    //   setErrors(newErrors)
-    //   return;
-    //   // return;/
-    // }
-    // if (!invoiceNo){
-    //   newErrors.invoiceNo = "Invoice No is required";
-    //   // console.log("invoice Error", newErrors);
-    //   setErrors(newErrors);
-    //   //  return Object.keys(newErrors).length === 0
-    //   return;
-    // }
-
 
     const { year, month, day } = getNormalizedDate(date);
     try {
-      const response = await axios.post('http://127.0.0.1:5001/production/dispachOutMes/update', { year, month, day, items, totalPieces, mtdType: "totaldispatch", invoiceNo },
+      const response = await axios.post('https://kooviot.vercel.app/production/dispachOutMes/update', { year, month, day, items, totalPieces, mtdType: "totaldispatch", invoiceNo },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       )
-
-      // console.log("response", response)
-      // await fetch("/api/dispatch", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ date, invoiceNo, items }),
-      // })
 
       if (response.status === 200) {
         // alert("Dispatch submitted successfully!")
@@ -148,21 +124,36 @@ export default function DispatchPage() {
     }
   }
 
+  const handleChangeMcode = (e) => {
+    const val = e.target.value;
+    if (val.slice(-2) === '01')
+      setGrade('A')
+    else
+      setGrade('B')
+    setMaterialCode(val);
+  }
+
   const totalPieces = items.reduce((sum, item) => sum + item.pieces, 0)
 
-  // console.log(items)
-
-  // const handleSubmit = async() => {
-
-  // }
+  const router = useRouter();
 
   return (
     <div className="p-10 m-16 rounded-lg bg-gradient-to-b from-white to-indigo-100">
       <ToastContainer hideProgressBar />
+       <button
+          onClick={() => router.push('/mes/report/dispatchOut')}
+          className="bg-purple-600 absolute top-4 right-[10rem] z-50  hover:bg-purple-700 text-white px-4 py-2 rounded shadow"
+        >
+          View Report
+        </button>
       <div className="absolute top-4 right-4 z-50">
-        <LogoutButton/>
+        <LogoutButton />
       </div>
-      <h1 className="text-2xl font-bold text-center text-blue-800 mb-6">Dispatch Out</h1>
+      {/* <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold text-blue-800">Dispatch Out</h1>
+      </div> */}
+      <h1 className="text-2xl font-bold text-center text-blue-800 mb-6">Dispatch Out</h1> 
+     
 
       <div className="flex justify-between mb-6">
         <InputField label="Date:" type="date" value={date} onChange={setDate} error={errors.date} />
@@ -172,19 +163,20 @@ export default function DispatchPage() {
         <InputField label="Batch ID:" value={batchId} onChange={setBatchId} error={errors.batchId} />
         <div>
           <label className="block mb-1 font-medium">Material Code</label>
-          <select className="h-9 bg-gray-200 rounded px-2 w-full" value={materialCode} onChange={(e) => setMaterialCode(e.target.value)}>
+          <select className="h-9 bg-gray-200 rounded px-2 w-full" value={materialCode} onChange={(e) => handleChangeMcode(e)}>
             <option value="">Select</option>
-            {materialCodeOptions.map((opt, index) => <option key={index}>{opt}</option>)}
+            {materialCodeOptions.map((opt, index) => <option key={opt}>{opt}</option>)}
           </select>
           {errors.materialCode && <p className="text-red-500 text-sm">{errors.materialCode}</p>}
         </div>
         <div>
-          <label className="block mb-1 font-medium">Grade</label>
+          <InputField label="Grade" value={grade} />
+          {/* <label className="block mb-1 font-medium">Grade</label>
           <select className="h-9 bg-gray-200 rounded px-2 w-full" value={grade} onChange={(e) => setGrade(e.target.value)}>
             <option value="" >Select</option>
             {gradeOptions.map((opt) => <option key={opt}>{opt}</option>)}
           </select>
-          {errors.grade && <p className="text-red-500 text-sm">{errors.grade}</p>}
+          {errors.grade && <p className="text-red-500 text-sm">{errors.grade}</p>} */}
         </div>
       </div>
 
@@ -193,8 +185,8 @@ export default function DispatchPage() {
           <label className="block mb-1 font-medium">Packaging Type</label>
           <select className="h-9 bg-gray-200 rounded px-2 w-full" value={packagingType} onChange={(e) => setPackagingType(e.target.value)}>
             <option>Select</option>
-            <option>Box Packing</option>
-            <option>Poly Packing</option>
+            <option>Box packing</option>
+            <option>Poly packing</option>
           </select>
           {errors.packagingType && <p className="text-red-500 text-sm">{errors.packagingType}</p>}
         </div>
