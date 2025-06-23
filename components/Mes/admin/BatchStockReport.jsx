@@ -38,7 +38,7 @@ export default function BatchWiseStockReport() {
                 console.log("jsonDataBatch", json)
                 setData(json.data);
             } catch (err) {
-                console.error("Failed to fetch stock data", err);
+                console.log("Failed to fetch stock data", err);
             }
         };
         fetchData();

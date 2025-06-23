@@ -113,7 +113,7 @@ const PackingTable = () => {
                             <th className="px-4 py-2">Material Code</th>
                             <th className="px-4 py-2">Grade</th>
                             <th className="px-4 py-2">Packing Type</th>
-                            <th className="px-4 py-2">Glove Count</th>
+                            <th className="px-4 py-2">Count(Per Pack)</th>
                             <th className="px-4 py-2">Pieces</th>
                         </tr>
                     </thead>

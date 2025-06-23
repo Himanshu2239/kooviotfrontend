@@ -18,10 +18,10 @@ const WipBgradeTable = () => {
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        console.log("token", token);
+        // console.log("token", token);
         const fetchData = async () => {
             try {
-                const res = await axios.get('http://127.0.0.1:5001/packing/wipBgradeEntry/fetch',
+                const res = await axios.get('https://kooviot.vercel.app/packing/wipBgradeEntry/fetch',
                     {
                         headers: {
                             Authorization: `Bearer ${token}`

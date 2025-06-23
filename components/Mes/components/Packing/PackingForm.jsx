@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Loader2, Trash2 } from "lucide-react"
 import InputField from "../input-field"
 import AddItemsButton from "../add-items"
-import { gloveOptions, isValidBatchId, materialCodeOptions } from "@/app/constant"
+import { batchIdOptions, boxOptions, isValidBatchId, materialCodeOptions, polyOptions } from "@/app/constant"
 import { gradeOptions } from "@/app/constant"
 import { packingTypeOptions } from "@/app/constant"
 import axios from "axios"
@@ -72,17 +72,17 @@ export default function PackingForm() {
         setErrors({})
     }
 
-    
+
     useEffect(() => {
-        if(materialCode){
-           const endWithMaterialCode = materialCode.slice(-2);
-           if(endWithMaterialCode === '01')
-             setGrade('A');
-           else
-            setGrade('B');
+        if (materialCode) {
+            const endWithMaterialCode = materialCode.slice(-2);
+            if (endWithMaterialCode === '01')
+                setGrade('A');
+            else
+                setGrade('B');
         }
-    },[materialCode])
-    
+    }, [materialCode])
+
     const handleDelete = (id) => {
         const deletedItem = items.find((item) => item.id === id)
         setItems(items.filter((item) => item.id !== id))
@@ -162,6 +162,8 @@ export default function PackingForm() {
         }
     };
 
+    // console.log("batchId", batchIdOptions);
+
     return (
 
         <div className="p-4 md:p-6">
@@ -186,6 +188,24 @@ export default function PackingForm() {
                     error={errors.batchId}
                     readOnly={false}
                 />
+                {/* <div>
+                    <label className="block text-sm font-medium">Batch ID</label>
+                    <select
+                        className="w-full border rounded mt-1 h-10 bg-gray-200 px-2"
+                        value={batchId}
+                        onChange={(e) => setBatchId(e.target.value)}
+                    >
+                        <option value="">Select</option>
+                        {batchIdOptions.map((id) => (
+                            <option value={id}>
+                                {id}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.batchId && (
+                        <p className="text-red-600 text-sm mt-1">{errors.batchId}</p>
+                    )}
+                </div> */}
 
                 <div>
                     <label className="block text-sm font-medium">Material Code</label>
@@ -207,12 +227,12 @@ export default function PackingForm() {
                 </div>
 
                 <div>
-                     <InputField
-                       label="Grade"
-                       type="text"
-                       value={grade}
-                       error={errors.grade}
-                     />
+                    <InputField
+                        label="Grade"
+                        type="text"
+                        value={grade}
+                        error={errors.grade}
+                    />
                     {/* <label className="block text-sm font-medium">Grade</label>
                     <select
                         className="w-full border rounded mt-1 h-10 bg-gray-200 px-2"
@@ -275,20 +295,32 @@ export default function PackingForm() {
                                 onChange={(e) => setGloveCount(e.target.value)}
                             >
                                 <option value="">Select</option>
-                                {gloveOptions.map((g) => (
+                                {boxOptions.map((g) => (
                                     <option key={g} value={g}>
                                         {g}
                                     </option>
                                 ))}
                             </select>
                         ) : (
-                            <input
-                                type="number"
+                            <select
                                 className="w-full border rounded mt-1 h-10 bg-gray-200 px-2"
                                 value={gloveCount}
                                 onChange={(e) => setGloveCount(e.target.value)}
-                                placeholder="Enter glove count per bag"
-                            />
+                            >
+                                <option value="">Select</option>
+                                {polyOptions.map((g) => (
+                                    <option key={g} value={g}>
+                                        {g}
+                                    </option>
+                                ))}
+                            </select>
+                            // <input
+                            //     type="number"
+                            //     className="w-full border rounded mt-1 h-10 bg-gray-200 px-2"
+                            //     value={gloveCount}
+                            //     onChange={(e) => setGloveCount(e.target.value)}
+                            //     placeholder="Enter glove count per bag"
+                            // />
                         )}
                         {errors.gloveCount && (
                             <p className="text-red-600 text-sm mt-1">{errors.gloveCount}</p>

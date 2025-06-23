@@ -298,7 +298,7 @@ export default function MaterialStockReport() {
         const res = await fetch('https://kooviot.vercel.app/admin/fetchBatchStockData');
         const json = await res.json();
         const allMaterials = json.data.flatMap((batch) => batch.materials);
-        console.log("allMaterial", allMaterials)
+        // console.log("allMaterial", allMaterials)
         setData(allMaterials);
       } catch (err) {
         console.error("Failed to fetch stock data", err);
