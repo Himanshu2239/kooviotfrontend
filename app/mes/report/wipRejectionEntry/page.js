@@ -74,12 +74,12 @@ const WipRejectionTable = () => {
 
     const exportToExcel = () => {
         const flatData = filteredData.flatMap(record =>
-            record.items.map(item => ({
-                Date: new Date(record.date).toLocaleDateString(),
+            record.items.map((item, itemIndex) => ({
+                Date: itemIndex === 0 ? new Date(record.date).toLocaleDateString() : "",
                 BatchID: item.batchId,
                 MaterialCode: item.materialCode,
                 Pieces: item.pieces,
-                TotalRejection: record.totalRejection,
+                TotalRejection: itemIndex === 0 ? record.totalPackingRej : "",
             }))
         );
         const ws = XLSX.utils.json_to_sheet(flatData);

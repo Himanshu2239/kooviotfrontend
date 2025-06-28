@@ -21,7 +21,7 @@ const WipBgradeTable = () => {
         // console.log("token", token);
         const fetchData = async () => {
             try {
-                const res = await axios.get('https://kooviot.vercel.app/packing/wipBgradeEntry/fetch',
+                const res = await axios.get('http://127.0.0.1:5001/packing/wipBgradeEntry/fetch',
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -32,7 +32,7 @@ const WipBgradeTable = () => {
                 // console.log("res", res);
 
                 if (res.data.success) {
-                    // console.log("atData", res.data.data);
+                    console.log("atData", res.data.data);
                     setData(res.data.data);
                     setFilteredData(res.data.data);
                 }
@@ -79,12 +79,12 @@ const WipBgradeTable = () => {
 
     const exportToExcel = () => {
         const flatData = filteredData.flatMap(record =>
-            record.items.map(item => ({
-                Date: new Date(record.date).toLocaleDateString(),
+            record.items.map((item, itemIndex)=> ({
+                Date: itemIndex === 0 ? new Date(record.date).toLocaleDateString() : "",
                 BatchID: item.batchId,
                 MaterialCode: item.materialCode,
                 Pieces: item.pieces,
-                TotalWipBgrade: record.totalWipBgrade,
+                TotalWipBgrade: itemIndex === 0 ? record.totalWipBgrade : "",
             }))
         );
         const ws = XLSX.utils.json_to_sheet(flatData);

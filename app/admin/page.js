@@ -185,7 +185,7 @@ export default function AdminDashboard() {
           <StockCard selectedDateByMain={selectedDate}/>
         </div>
 
-        <div className="p-3 grid md:grid-cols-2 grid-cols-1 md:space-y-0 space-y-4 max-w-full rounded-lg">
+        <div className="p-3 pl-12 pr-12 grid md:grid-cols-2 grid-cols-1 md:space-y-0 space-x-4 space-y-4 max-w-full rounded-lg">
         <MaterialStockReport/>
         <BatchWiseStockReport/>
         {/* <ManPowerCostingTable/> */}

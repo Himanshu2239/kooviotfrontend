@@ -55,24 +55,32 @@ const PackingTable = () => {
         setCurrentPage(1); // reset to first page on filter change
     }, [dateFilter, startDate, endDate, enableFilter, materialCode, data]);
 
+
     const exportToExcel = () => {
-        const flattenedData = filteredData.flatMap(record =>
-            record.items.map(item => ({
-                Date: new Date(record.date).toLocaleDateString(),
-                BatchID: item.batchId,
-                MaterialCode: item.materialCode,
-                Grade: item.grade,
-                PackingType: item.packingType,
-                GloveCount: item.gloveCount,
-                Pieces: item.pieces,
-                TotalPieces: record.totalPacking
-            }))
-        );
-        const ws = XLSX.utils.json_to_sheet(flattenedData);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Packing Report");
-        XLSX.writeFile(wb, "Packing_Report.xlsx");
-    };
+    console.log("filteredData", filteredData)
+    const flattenedData = filteredData.flatMap((record, index) => {
+        const items = record.items.map((item, itemIndex) => ({
+            Date: itemIndex === 0 ? new Date(record.date).toLocaleDateString() :"" ,
+            BatchID: item.batchId,
+            MaterialCode: item.materialCode,
+            Grade: item.grade,
+            PackingType: item.packingType,
+            GloveCount: item.gloveCount,
+            Pieces: item.pieces,
+            TotalPieces: itemIndex === 0 ? record.totalPacking : ""
+        }));
+        // Add empty row after each block
+        return [...items];
+    });
+
+    console.log("flattenData", flattenedData);
+
+    const ws = XLSX.utils.json_to_sheet(flattenedData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Packing Report");
+    XLSX.writeFile(wb, "Packing_Report.xlsx");
+};
+
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;

@@ -170,6 +170,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 import FilterBar from '@/components/Mes/components/Packing/FilterBar';
+import { materialCodeOptions } from '@/app/constant';
 
 const ProductionTable = () => {
   const [data, setData] = useState([]);
@@ -178,6 +179,9 @@ const ProductionTable = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [materialCode, setMaterialCode] = useState('')
+  const [enableFilter, setEnableFilter] = useState(false);
+
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -222,16 +226,16 @@ const ProductionTable = () => {
 
   const exportToExcel = () => {
     const flatData = filteredData.flatMap(record =>
-      record.productionItems.map(item => ({
-        Date: formatDate(record.date),
-        Shift: record.shift,
-        Line: record.line,
+      record.productionItems.map((item, itemIndex) => ({
+        Date: itemIndex === 0 ? formatDate(record.date) : "",
+        Shift: itemIndex === 0 ? record.shift : "",
+        Line: itemIndex === 0 ? record.line : "",
         BatchID: item.batchId,
         MaterialCode: item.materialCode,
         Pieces: item.pieces,
         ProductionInKg: item.productionInKg,
-        TotalPieces: record.totalPieces,
-        TotalKg: record.totalProductionInKg
+        TotalPieces: itemIndex === 0 ? record.totalPieces : "",
+        TotalKg: itemIndex === 0 ? record.totalProductionInKg : ""
       }))
     );
     const ws = XLSX.utils.json_to_sheet(flatData);
@@ -252,12 +256,17 @@ const ProductionTable = () => {
       <h2 className="text-2xl text-red-600 font-bold mb-6">Production Report</h2>
 
       <FilterBar
+        enableFilter={enableFilter}
+        setEnableFilter={setEnableFilter}
         dateFilter={dateFilter}
         setDateFilter={setDateFilter}
         startDate={startDate}
         setStartDate={setStartDate}
         endDate={endDate}
         setEndDate={setEndDate}
+        setMaterialCode={setMaterialCode}
+        materialCode={materialCode}
+        materialOptions={materialCodeOptions}
         exportToExcel={exportToExcel}
       />
 

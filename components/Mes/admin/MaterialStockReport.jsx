@@ -356,7 +356,7 @@ export default function MaterialStockReport() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <Card className="w-full max-w-2xl mx-auto rounded-2xl border border-zinc-300 shadow-md">
+      <Card className="w-full mx-auto rounded-2xl border border-zinc-300 shadow-md">
         <CardContent className="p-6">
           <div className='flex flex-row justify-between items-center mb-4'>
             <h2 className='text-xl font-extrabold tracking-tight text-gray-800 dark:text-white'>

@@ -24,6 +24,8 @@ const FilterBar = ({
     materialOptions,
     exportToExcel
 }) => {
+
+
     return (
         <div className="flex h-auto flex-col md:flex-row p-4 rounded-lg shadow space-x-2">
             <div className={`flex items-center justify-between w-full gap-4 mb-2`}>
@@ -36,13 +38,9 @@ const FilterBar = ({
             {enableFilter && (
                 <div className="flex md:flex-row flex-col justify-between md:gap-32 gap-4">
                     {/* Date Filter */}
-                    {/* <div className="flex items-center gap-2">
-                        <Label className="whitespace-nowrap text-sm">Filter by Date</Label>
-                        <Input type="date" value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="flex-1" />
-                    </div> */}
                     <div className="relative flex items-center gap-2">
-                        <Label className="whitespace-nowrap text-sm">Filter by Date</Label>
-                        <Input type="date" value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="flex-1 pr-6" />
+                        <Label className="whitespace-nowrap relative text-sm">Filter by Date</Label>
+                        <Input type="date" value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="" />
                         <AnimatePresence>
                             {dateFilter && (
                                 <motion.button
@@ -51,45 +49,58 @@ const FilterBar = ({
                                     exit={{ opacity: 0, scale: 0.8 }}
                                     transition={{ duration: 0.3 }}
                                     onClick={() => setDateFilter('')}
-                                    className="absolute left-[15rem] bottom-[1.6rem] text-white bg-red-600 rounded-full"
+                                    className="absolute right-0 bottom-[1.6rem] text-white bg-red-600 rounded-full"
                                 >
                                     <X strokeWidth={3} size={18} />
                                 </motion.button>
                             )}
                         </AnimatePresence>
-                        {/* {dateFilter && (
-                            <button
-                                onClick={() => setDateFilter('')}
-                                className="absolute left-[15rem] transition-all duration-300 bottom-[1.6rem] text-white bg-red-600 rounded-full "
-                            >
-
-                                <X 
-                                strokeWidth={3}
-                                size={18} />
-
-                            </button>
-                        )} */}
                     </div>
-
-                    <div className='flex gap-4'>
+                    <div className='flex flex-col md:flex-row gap-4'>
                         {/* Start Date */}
-                        <div className="flex items-center gap-2">
+                        <div className="relative flex items-center gap-2">
                             <Label className="whitespace-nowrap text-sm">Start Date</Label>
                             <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="flex-1" />
+                            <AnimatePresence>
+                                {startDate && (
+                                    <motion.button
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.3 }}
+                                        onClick={() => setStartDate('')}
+                                        className="absolute right-0 bottom-[1.6rem] z-30 text-white bg-red-600 rounded-full"
+                                    >
+                                        <X strokeWidth={3} size={18} />
+                                    </motion.button>
+                                )}
+                            </AnimatePresence>
                         </div>
-
                         {/* End Date */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 relative">
                             <Label className="whitespace-nowrap text-sm">End Date</Label>
                             <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="flex-1" />
+                            <AnimatePresence>
+                                {endDate && (
+                                    <motion.button
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.3 }}
+                                        onClick={() => setEndDate('')}
+                                        className="absolute right-0 bottom-[1.6rem] text-white bg-red-600 rounded-full"
+                                    >
+                                        <X strokeWidth={3} size={18} />
+                                    </motion.button>
+                                )}
+                            </AnimatePresence>
                         </div>
                     </div>
-
                     {/* Material Code Dropdown */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 relative">
                         <Label className="whitespace-nowrap text-sm">Material Code</Label>
                         <Select value={materialCode} onValueChange={setMaterialCode}>
-                            <SelectTrigger className="w-full">
+                            <SelectTrigger className="w-full min-w-[11.4rem]">
                                 <SelectValue placeholder="Select" />
                             </SelectTrigger>
                             <SelectContent>
@@ -100,6 +111,20 @@ const FilterBar = ({
                                 ))}
                             </SelectContent>
                         </Select>
+                        <AnimatePresence>
+                            {materialCode && (
+                                <motion.button
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.8 }}
+                                    transition={{ duration: 0.3 }}
+                                    onClick={() => setMaterialCode('')}
+                                    className="absolute right-0 bottom-[1.6rem] text-white bg-red-600 rounded-full"
+                                >
+                                    <X strokeWidth={3} size={18} />
+                                </motion.button>
+                            )}
+                        </AnimatePresence>
                     </div>
                 </div>
             )}

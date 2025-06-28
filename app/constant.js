@@ -1,4 +1,4 @@
-import axios from "axios";
+
 
 export const categories = [
     { name: "Total Dispatch", info: "Total number of items dispatched" },
@@ -60,7 +60,6 @@ export const materialCodeOptions = [...new Set([
     "GLOVES8FDTOR01", "GLOVES8FDTOR02", "GLOVES8GDTOR01", "GLOVES8GDTOR02", "GLOVES8CFUBL01", "GLOVES8CFUBL02",
     "GLOVES3BFTWH01", "GLOVES3CFTWH01", "GLOVES3DFTWH01"
 ])];
-
 
 
 
@@ -235,7 +234,7 @@ const getBatchIdOptions = async () => {
 
 // getListofBatchId();
 
-export const batchIdOptions = await getBatchIdOptions();
+// export const batchIdOptions = await getBatchIdOptions();
 
 // console.log("batchIdOptions", batchIdOptions);
 

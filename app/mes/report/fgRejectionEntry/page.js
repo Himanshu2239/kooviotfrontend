@@ -71,14 +71,14 @@ const FgRecheckingRejectionTable = () => {
 
     const exportToExcel = () => {
         const flatData = filteredData.flatMap(record =>
-            record.items.map(item => ({
-                Date: new Date(record.date).toLocaleDateString(),
+            record.items.map((item, itemIndex)=> ({
+                Date: itemIndex === 0 ? new Date(record.date).toLocaleDateString() : "",
                 BatchID: item.batchId,
                 MaterialCode: item.materialCode,
                 PackingType: item.packingType,
                 Pieces: item.pieces,
                 Reason: item.reason,
-                TotalRejection: record.totalRejection,
+                TotalRejection: itemIndex === 0 ? record.totalRejection : "",
             }))
         );
         const ws = XLSX.utils.json_to_sheet(flatData);

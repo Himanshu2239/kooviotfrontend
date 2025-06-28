@@ -436,7 +436,9 @@ export default function Header() {
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
-
+              <DropdownMenuItem onClick={() => handleReportNavigation('mCodeStockReport')}>
+                Stock
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleReportNavigation('dispatchOut')}>
                 Dispatch
               </DropdownMenuItem>
