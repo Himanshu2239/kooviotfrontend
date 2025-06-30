@@ -33,7 +33,7 @@ export default function BatchWiseStockReport() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch('https://kooviot.vercel.app/admin/fetchBatchStockData');
+                const res = await fetch('http://127.0.0.1:5001/admin/fetchBatchStockData');
                 const json = await res.json();
                 console.log("jsonDataBatch", json)
                 setData(json.data);
@@ -62,8 +62,10 @@ export default function BatchWiseStockReport() {
     if (!selectedBatch) return <Skeleton className="h-40 w-full" />;
 
     // Aggregate values across all materials in the selected batch
+
+    // console.log("selectedBatchId", selectedBatch);
     const totals = headings.reduce((acc, { key }) => {
-        acc[key] = selectedBatch.materials.reduce((sum, mat) => sum + (mat[key] || 0), 0);
+        acc[key] = selectedBatch.materials.reduce((sum, mat) => mat.materialCode.slice(-1) !== 'R' ?  sum + (mat[key] || 0) : sum + 0, 0);
         return acc;
     }, {});
 

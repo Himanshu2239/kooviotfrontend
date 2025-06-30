@@ -39,7 +39,7 @@ export default function EditIssueStatus({ data, editSvg, setEditStatus }) {
       // console.log(userDetail.role)
       // console.log(selectedStatus);
       if (userDetail?.role === 'admin') {
-        const res = await axios.put('https://kooviot.vercel.app/common/updateIssueStatus', { id, selectedStatus },
+        const res = await axios.put('http://127.0.0.1:5001/common/updateIssueStatus', { id, selectedStatus },
           {
             headers: {
               Authorization: `Bearer ${accessToken}`, // Send the token in the Authorization header

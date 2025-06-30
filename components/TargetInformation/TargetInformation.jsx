@@ -63,7 +63,7 @@ export default function TargetInformation({
       };
 
       const response = await axios.post(
-        "https://kooviot.vercel.app/user/updateDailyTarget",
+        "http://127.0.0.1:5001/user/updateDailyTarget",
         payload,
         config
       );

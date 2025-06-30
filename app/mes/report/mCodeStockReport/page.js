@@ -35,7 +35,7 @@ export default function StockReportPage() {
         const fetchStockData = async () => {
             try {
                 setIsLoading(true);
-                const res = await axios.get('https://kooviot.vercel.app/admin/fetchBatchStockData');
+                const res = await axios.get('http://127.0.0.1:5001/admin/fetchBatchStockData');
                 const rawData = res.data.data;
 
                 // console.log("rawData", rawData);
@@ -131,11 +131,11 @@ export default function StockReportPage() {
                 enableFilter={enableFilter} // hiding date filters
                 setEnableFilter={setEnableFilter}
                 dateFilter={false}
-                setDateFilter={() => { }}
+                setDateFilter={() => {}}
                 startDate={null}
-                setStartDate={() => { }}
+                setStartDate={() => {}}
                 endDate={null}
-                setEndDate={() => { }}
+                setEndDate={() => {}}
                 exportToExcel={exportToExcel}
             />
             <div className="overflow-x-auto h-[65vh] border shadow-md rounded-lg mt-6">

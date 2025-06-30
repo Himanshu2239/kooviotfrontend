@@ -82,7 +82,7 @@ export default function Payroll() {
     try {
       // console.log(payload)
       const response = await axios.post(
-        "https://kooviot.vercel.app/production/manPowerCosting/update",
+        "http://127.0.0.1:5001/production/manPowerCosting/update",
         payload,
         {
           headers: {

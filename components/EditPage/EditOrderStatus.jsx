@@ -35,7 +35,7 @@ const EditPage = ({ selectedOrder, setShowEdit, setSaveChange, showEdit }) => {
                 const Id = selectedOrder._id
                 // console.log(userId, Id)
                 const orderStatus = selectedProcess;
-                const res = await axios.put('https://kooviot.vercel.app/common/updateOrderStatus',
+                const res = await axios.put('http://127.0.0.1:5001/common/updateOrderStatus',
                     { Id, orderStatus }, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`, // Send the token in the Authorization header

@@ -64,7 +64,7 @@ export default function InvoicePage() {
     //  console.log(token)
     try {
       const response = await axios.post(
-        "https://kooviot.vercel.app/production/invoiceMesData/update",
+        "http://127.0.0.1:5001/production/invoiceMesData/update",
         { year, month, day, invoiceNo, items, totalPieces },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -102,7 +102,7 @@ export default function InvoicePage() {
 
       // Make the logout request to the backend
       // const response = await axios.get(
-      //   "https://kooviot.vercel.app/common/logoutUser",
+      //   "http://127.0.0.1:5001/common/logoutUser",
       //   {
       //     headers: {
       //       Authorization: `Bearer ${accessToken}`, // Send token in the header

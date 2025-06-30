@@ -13,7 +13,7 @@
 //     useEffect(() => {
 //         async function fetchData() {
 //             try {
-//                 const res = await fetch("https://kooviot.vercel.app/admin/fetchProductionMesData");
+//                 const res = await fetch("http://127.0.0.1:5001/admin/fetchProductionMesData");
 //                 const json = await res.json();
 //                 if (json.success) {
 //                     const sorted = [...json.data].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -188,7 +188,7 @@ const ProductionTable = () => {
     const token = localStorage.getItem("accessToken");
     const fetchData = async () => {
       try {
-        const res = await axios.get("https://kooviot.vercel.app/admin/fetchProductionMesData", {
+        const res = await axios.get("http://127.0.0.1:5001/admin/fetchProductionMesData", {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.data.success) {
@@ -277,15 +277,15 @@ const ProductionTable = () => {
               <th className="px-4 py-2" rowSpan="2">Date</th>
               <th className="px-4 py-2" rowSpan="2">Shift</th>
               <th className="px-4 py-2" rowSpan="2">Line</th>
-              <th className="px-4 py-2 text-center" colSpan="4">Items</th>
-              <th className="px-4 py-2" rowSpan="2">Total Pieces</th>
-              <th className="px-4 py-2" rowSpan="2">Total Kg</th>
+              <th className="px-4 py-2 text-center" colSpan="4"></th>
+              <th className="px-4 py-2" rowSpan="2">Total (Pieces)</th>
+              <th className="px-4 py-2" rowSpan="2">Total (Kg)</th>
             </tr>
             <tr>
               <th className="px-4 py-2">Batch ID</th>
               <th className="px-4 py-2">Material Code</th>
-              <th className="px-4 py-2">Pieces</th>
-              <th className="px-4 py-2">Kg</th>
+              <th className="px-4 py-2">Quantity(Pieces)</th>
+              <th className="px-4 py-2">Quantity(Kg)</th>
             </tr>
           </thead>
           <tbody>
@@ -296,18 +296,18 @@ const ProductionTable = () => {
                 </td>
               </tr>
             ) : (
-              currentItems.map(record =>
-                record.productionItems.map((item, index) => (
+              currentItems.map((record, index) =>
+                record.productionItems.map((item, itemIndex) => (
                   <tr key={`${record._id}-${index}`} className={index % 2 === 0 ? 'bg-white' : 'bg-red-50'}>
-                    <td className="px-4 py-2">{index === 0 ? formatDate(record.date) : ''}</td>
-                    <td className="px-4 py-2">{index === 0 ? record.shift : ''}</td>
-                    <td className="px-4 py-2">{index === 0 ? record.line : ''}</td>
+                    <td className="px-4 py-2">{itemIndex === 0 ? formatDate(record.date) : ''}</td>
+                    <td className="px-4 py-2">{itemIndex === 0 ? record.shift : ''}</td>
+                    <td className="px-4 py-2">{itemIndex === 0 ? record.line : ''}</td>
                     <td className="px-4 py-2">{item.batchId}</td>
                     <td className="px-4 py-2">{item.materialCode}</td>
                     <td className="px-4 py-2">{item.pieces}</td>
                     <td className="px-4 py-2">{item.productionInKg}</td>
-                    <td className="px-4 py-2">{index === 0 ? record.totalPieces : ''}</td>
-                    <td className="px-4 py-2">{index === 0 ? record.totalProductionInKg : ''}</td>
+                    <td className="px-4 py-2">{itemIndex === 0 ? record.totalPieces : ''}</td>
+                    <td className="px-4 py-2">{itemIndex === 0 ? record.totalProductionInKg : ''}</td>
                   </tr>
                 ))
               )

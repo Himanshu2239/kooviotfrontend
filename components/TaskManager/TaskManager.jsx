@@ -45,7 +45,7 @@ export default function TaskManager() {
 
     try {
       const response = await axios.get(
-        "https://kooviot.vercel.app/user/canAddTasks",
+        "http://127.0.0.1:5001/user/canAddTasks",
         config
       );
 
@@ -107,7 +107,7 @@ export default function TaskManager() {
 
     try {
       const response = await axios.post(
-        "https://kooviot.vercel.app/user/assignDailyTask",
+        "http://127.0.0.1:5001/user/assignDailyTask",
         formData,
         config
       );
@@ -180,7 +180,7 @@ if (phoneNumber.trim() && !/^\d{10}$/.test(phoneNumber.trim())) {
 
     try {
       await axios.post(
-        "https://kooviot.vercel.app/user/markTaskAsCompleted",
+        "http://127.0.0.1:5001/user/markTaskAsCompleted",
         payload,
         config
       );

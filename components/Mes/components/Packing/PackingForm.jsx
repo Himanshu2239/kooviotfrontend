@@ -113,7 +113,7 @@ export default function PackingForm() {
         const toastId = toast.loading("Submitting packing data...");
 
         try {
-            const response = await axios.post("https://kooviot.vercel.app/packing/fgEntry/update", {
+            const response = await axios.post("http://127.0.0.1:5001/packing/fgEntry/update", {
                 year,
                 month,
                 day,

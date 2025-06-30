@@ -32,7 +32,7 @@ const OrderDetails = () => {
         const fetchData = async () => {
             try {
                 const accessToken = localStorage.getItem("accessToken")
-                const res = await axios.get('https://kooviot.vercel.app/common/getAllOrder',
+                const res = await axios.get('http://127.0.0.1:5001/common/getAllOrder',
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`, // Send the token in the Authorization header

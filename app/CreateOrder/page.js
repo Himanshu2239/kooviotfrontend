@@ -92,7 +92,7 @@ function Page() {
             setErrors({});
             console.log(clientName);
             try {
-                await axios.post('https://kooviot.vercel.app/common/addOrder', {
+                await axios.post('http://127.0.0.1:5001/common/addOrder', {
                     clientName,
                     salesPerson,
                     location,

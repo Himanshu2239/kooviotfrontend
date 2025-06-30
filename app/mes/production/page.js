@@ -87,7 +87,7 @@ export default function ProductionPage() {
     // console.log("payload", payload);
 
     try {
-      const res = await fetch("https://kooviot.vercel.app/production/productionMesData/update", {
+      const res = await fetch("http://127.0.0.1:5001/production/productionMesData/update", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
