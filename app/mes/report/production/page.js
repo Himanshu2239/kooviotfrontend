@@ -13,7 +13,7 @@
 //     useEffect(() => {
 //         async function fetchData() {
 //             try {
-//                 const res = await fetch("http://127.0.0.1:5001/admin/fetchProductionMesData");
+//                 const res = await fetch("https://kooviot.vercel.app/admin/fetchProductionMesData");
 //                 const json = await res.json();
 //                 if (json.success) {
 //                     const sorted = [...json.data].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -188,7 +188,7 @@ const ProductionTable = () => {
     const token = localStorage.getItem("accessToken");
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://127.0.0.1:5001/admin/fetchProductionMesData", {
+        const res = await axios.get("https://kooviot.vercel.app/admin/fetchProductionMesData", {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.data.success) {

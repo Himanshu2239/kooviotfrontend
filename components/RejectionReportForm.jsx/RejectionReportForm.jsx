@@ -74,7 +74,7 @@ export default function RejectionReportForm() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5001/production/rejectionReport/update",
+        "https://kooviot.vercel.app/production/rejectionReport/update",
         payload,
         {
           headers: { Authorization: `Bearer ${token}` },

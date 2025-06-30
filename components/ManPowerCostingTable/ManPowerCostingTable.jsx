@@ -56,7 +56,7 @@ const ManPowerCostingTable = () => {
 
         try {
             const response = await axios.post(
-                "http://127.0.0.1:5001/admin/manPowerCosting",
+                "https://kooviot.vercel.app/admin/manPowerCosting",
                 payload,
                 {
                     headers: {

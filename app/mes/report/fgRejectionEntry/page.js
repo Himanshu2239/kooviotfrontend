@@ -20,7 +20,7 @@ const FgRecheckingRejectionTable = () => {
         const token = localStorage.getItem("accessToken");
         const fetchData = async () => {
             try {
-                const res = await axios.get('http://127.0.0.1:5001/packing/fgRecheckingRejection/fetch', {
+                const res = await axios.get('https://kooviot.vercel.app/packing/fgRecheckingRejection/fetch', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 

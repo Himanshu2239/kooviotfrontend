@@ -22,7 +22,7 @@ const DispatchOutTable = () => {
         const token = localStorage.getItem("accessToken");
         const fetchData = async () => {
             try {
-                const res = await axios.get('http://127.0.0.1:5001/production/dispatchOut/fetch', {
+                const res = await axios.get('https://kooviot.vercel.app/production/dispatchOut/fetch', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 if (res.data.success) {

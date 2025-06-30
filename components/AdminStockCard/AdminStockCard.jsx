@@ -195,7 +195,7 @@ const StockCard = ({ selectedDateByMain }) => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5001/admin/stocks/retrieve",
+        "https://kooviot.vercel.app/admin/stocks/retrieve",
         payload,
         {
           headers: {

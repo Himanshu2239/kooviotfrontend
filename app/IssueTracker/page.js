@@ -26,7 +26,7 @@ function Page() {
         if (userDetails?.role === 'admin')
             setEditSvg(true);
         try {
-            const res = await axios.get('http://127.0.0.1:5001/common/getIssue',
+            const res = await axios.get('https://kooviot.vercel.app/common/getIssue',
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`, // Send the token in the Authorization header

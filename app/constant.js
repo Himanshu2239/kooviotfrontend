@@ -442,7 +442,7 @@ export const isValidBatchId = (batchId) => {
 
 const getBatchIdOptions = async () => {
     try {
-        const res = await fetch('http://127.0.0.1:5001/admin/fetchBatchStockData');
+        const res = await fetch('https://kooviot.vercel.app/admin/fetchBatchStockData');
         const jsonData = await res.json();
         const actualData = jsonData.data;
         const batchIds = actualData.map((data) => data.batchId);

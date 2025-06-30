@@ -12,7 +12,7 @@
 //   }
 
 //   try {
-//     const response = await axios.post("http://127.0.0.1:5001/common/token", {
+//     const response = await axios.post("https://kooviot.vercel.app/common/token", {
 //       refreshToken,
 //     });
 
@@ -65,7 +65,7 @@
 
 //         try {
 //           const response = await axios.post(
-//             "http://127.0.0.1:5001/common/token",
+//             "https://kooviot.vercel.app/common/token",
 //             {
 //               refreshToken,
 //             }
@@ -121,7 +121,7 @@ const isAuthenticated = async () => {
   }
 
   try {
-    const response = await axios.post("http://127.0.0.1:5001/common/token", {
+    const response = await axios.post("https://kooviot.vercel.app/common/token", {
       refreshToken,
     });
 
@@ -185,7 +185,7 @@ const ProtectedRouteProduction = ({ children }) => {
 
         try {
           const response = await axios.post(
-            "http://127.0.0.1:5001/common/token",
+            "https://kooviot.vercel.app/common/token",
             {
               refreshToken,
             }

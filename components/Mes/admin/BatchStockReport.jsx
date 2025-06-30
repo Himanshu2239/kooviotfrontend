@@ -33,7 +33,7 @@ export default function BatchWiseStockReport() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch('http://127.0.0.1:5001/admin/fetchBatchStockData');
+                const res = await fetch('https://kooviot.vercel.app/admin/fetchBatchStockData');
                 const json = await res.json();
                 console.log("jsonDataBatch", json)
                 setData(json.data);

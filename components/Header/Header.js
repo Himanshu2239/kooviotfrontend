@@ -68,7 +68,7 @@
 
 //       // Make the logout request to the backend
 //       const response = await axios.get(
-//         "http://127.0.0.1:5001/common/logoutUser",
+//         "https://kooviot.vercel.app/common/logoutUser",
 //         {
 //           headers: {
 //             Authorization: `Bearer ${accessToken}`, // Send token in the header
@@ -315,7 +315,7 @@ export default function Header() {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.get(
-        "http://127.0.0.1:5001/common/logoutUser",
+        "https://kooviot.vercel.app/common/logoutUser",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

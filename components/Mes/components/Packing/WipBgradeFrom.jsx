@@ -58,7 +58,7 @@ export default function WipBGradeEntry() {
         const toastId = toast.loading("Submitting BGrade WIP data...");
 
         try {
-            const response = await axios.post("http://127.0.0.1:5001/packing/wipBgradeEntry/update", {
+            const response = await axios.post("https://kooviot.vercel.app/packing/wipBgradeEntry/update", {
                 year,
                 month,
                 day,

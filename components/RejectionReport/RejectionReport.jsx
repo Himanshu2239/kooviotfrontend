@@ -86,7 +86,7 @@
 
 //     try {
 //       const response = await axios.post(
-//         "http://127.0.0.1:5001/admin/rejectionReport",
+//         "https://kooviot.vercel.app/admin/rejectionReport",
 //         date ? payload : {},
 //         { headers: { Authorization: `Bearer ${accessToken}` } }
 //       );
@@ -289,7 +289,7 @@ const RejectionReport = ({selectedDateByMain}) => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5001/admin/rejectionReport",
+        "https://kooviot.vercel.app/admin/rejectionReport",
         date ? { payload } : {},
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );

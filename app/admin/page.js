@@ -90,7 +90,7 @@ export default function AdminDashboard() {
       const accessToken = localStorage.getItem("accessToken");
       try {
         const response = await axios.post(
-          "http://127.0.0.1:5001/admin/files",
+          "https://kooviot.vercel.app/admin/files",
           { fileType: category },
           { headers: { Authorization: `Bearer ${accessToken}` } }
         );
@@ -120,7 +120,7 @@ export default function AdminDashboard() {
 
       try {
         const response = await axios.post(
-          "http://127.0.0.1:5001/admin/files",
+          "https://kooviot.vercel.app/admin/files",
           {
             fileType: "productionReport",
             month: selectedMonth,

@@ -19,7 +19,7 @@ const PackingTable = () => {
     useEffect(() => {
         const fetchPackingData = async () => {
             try {
-                const res = await axios.get("http://127.0.0.1:5001/admin/report/fetchPackingMesData");
+                const res = await axios.get("https://kooviot.vercel.app/admin/report/fetchPackingMesData");
                 if (res.data.success) {
                     setData(res.data.data);
                     setFilteredData(res.data.data);

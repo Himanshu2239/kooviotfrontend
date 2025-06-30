@@ -59,7 +59,7 @@ export default function MaterialStockReport() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('http://127.0.0.1:5001/admin/fetchBatchStockData');
+        const res = await fetch('https://kooviot.vercel.app/admin/fetchBatchStockData');
         const json = await res.json();
         const allMaterials = json.data.flatMap((batch) => batch.materials);
         // console.log("allMaterial", allMaterials)
