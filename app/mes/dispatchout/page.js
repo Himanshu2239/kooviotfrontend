@@ -30,6 +30,7 @@ export default function DispatchPage() {
   // const [lotNo, setLotNo] = useState("")
   const [pieces, setPieces] = useState("")
   const [customer, setCustomer] = useState("")
+  // const [totalAmount, setTotalAmount] = useState("")
   const [items, setItems] = useState([])
   const [errors, setErrors] = useState({});
   const [isLoading, setIsloading] = useState(false);
@@ -140,20 +141,20 @@ export default function DispatchPage() {
   return (
     <div className="p-10 m-16 rounded-lg bg-gradient-to-b from-white to-indigo-100">
       <ToastContainer hideProgressBar />
-       <button
-          onClick={() => router.push('/mes/report/dispatchOut')}
-          className="bg-purple-600 absolute top-4 right-[10rem] z-50  hover:bg-purple-700 text-white px-4 py-2 rounded shadow"
-        >
-          View Report
-        </button>
+      <button
+        onClick={() => router.push('/mes/report/dispatchOut')}
+        className="bg-purple-600 absolute top-4 right-[10rem] z-50  hover:bg-purple-700 text-white px-4 py-2 rounded shadow"
+      >
+        View Report
+      </button>
       <div className="absolute top-4 right-4 z-50">
         <LogoutButton />
       </div>
       {/* <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-blue-800">Dispatch Out</h1>
       </div> */}
-      <h1 className="text-2xl font-bold text-center text-blue-800 mb-6">Dispatch Out</h1> 
-     
+      <h1 className="text-2xl font-bold text-center text-blue-800 mb-6">Dispatch Out</h1>
+
 
       <div className="flex justify-between mb-6">
         <InputField label="Date:" type="date" value={date} onChange={setDate} error={errors.date} />
@@ -199,8 +200,10 @@ export default function DispatchPage() {
         {/* <InputField label="Lot No." value={lotNo} onChange={setLotNo} error={errors.lotNo} /> */}
       </div>
 
-      <div className="flex justify-center mb-6">
+      <div className="flex justify-center space-x-96 mb-6">
         <AddItemsButton onClick={handleAddItem} color="purple" />
+        {/* <InputField label="Total Amount(₹)" type="number" value={totalAmount} onChange={setTotalAmount} /> */}
+
       </div>
 
       {items.length > 0 && (

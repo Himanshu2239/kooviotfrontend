@@ -57,8 +57,6 @@ const OrderDetails = () => {
             setshowEditIcon(true);
     }, [])
 
-    // const userDetails = localStorage.getItem("userDetails");
-    // console.log("1",userDetails)
 
     // Handle dropdown toggle
     const handleDropdown = () => {
@@ -77,15 +75,6 @@ const OrderDetails = () => {
         );
         setInfo(filteredInfo);
     };
-
-    // const showEditIcon = () => {
-    //     const userDetails = JSON.parse(localStorage.getItem('userDetails'));
-    //     console.log("user", userDetails);
-    //     if (userDetails.role === 'admin')
-    //         return true;
-    //     else
-    //         return false;
-    // }
 
     const handleEditStatus = (data) => {
         // console.log(data);
@@ -295,10 +284,6 @@ const OrderDetails = () => {
                                                             </span>
                                                         </div>}
                                                     </div>
-                                                    {/* <div className="mr-4 inline-block align-middle">
-
-                                                    </div> */}
-
                                                 </td>
                                                 <td className="px-2 py-4 border-b-2 border-gray-200 dark:text-white dark:border-gray-500">
                                                     {data.orderDate}

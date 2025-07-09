@@ -25,15 +25,10 @@ export default function LoginPage() {
   const router = useRouter();
 
   const handleSubmit = async (e) => {
-     setLoading(true)
+    setLoading(true)
     e.preventDefault();
-    // console.log(1);
-    // loading = true;
-    // console.log(loading);
-    // console.log(loading);
-   ; // Start loading
     setError(null); // Clear any previous errors
-    
+
     try {
       const response = await axios.post("https://kooviot.vercel.app/auth/login", {
         jobId, // Send jobId instead of username
@@ -56,7 +51,7 @@ export default function LoginPage() {
             userDetails.area = response.data.data.user.area;
             userDetails.totalTargetCompleted = response.data.data.user.totalTargetCompleted;
             router.push("/");
-          } else if (userRole === "admin") { 
+          } else if (userRole === "admin") {
             router.push("/admin");
           } else if (userRole === "production" || userRole === "packing" || userRole === "dispatchout") {
             // router.push('/production');
@@ -74,8 +69,8 @@ export default function LoginPage() {
     } finally {
       // loading = false;
       // console.log(loading)
-      // setTimeout(() => setLoading(false), 10);/
-      setLoading(false); // End loading
+      setTimeout(() => setLoading(false), 1000);
+      // setLoading(false); // End loading
     }
   };
 

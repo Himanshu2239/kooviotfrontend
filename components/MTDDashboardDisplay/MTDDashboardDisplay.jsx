@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useActionState } from "react";
 import axios from "axios";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
@@ -15,39 +15,85 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Info, CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { format, setMonth } from "date-fns";
+import Image from "next/image";
+import productionSvgImage from '../../assets/admin/mtd/production.png'
+import packingSvgImage from '../../assets/admin/mtd/packing.png'
+import dispatchSvgImage from '../../assets/admin/mtd/dispatch.png'
+import salesSvgImage from '../../assets/admin/mtd/sales.png'
+import headingSvgImage from '../../assets/admin/mtd/headingReport.png'
+
 
 // Reusable MetricCard component
-const MetricCard = ({ title, todayValue, mtdValue, info }) => (
-  <Card>
-    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-      <CardTitle className="text-sm font-medium">
-        {title}
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger className="ml-1">
-              <Info className="h-4 w-4 text-muted-foreground" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{info}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </CardTitle>
-    </CardHeader>
-    <CardContent>
-      <div className="text-2xl font-bold">{mtdValue.toLocaleString()}</div>
-      <p className="text-xs text-muted-foreground">Month-to-Date</p>
-      <div className="mt-4 text-lg font-semibold">
-        {todayValue.toLocaleString()}
+const MetricCard = ({ title, todayValue, mtdValue, info, svgIcon, isLoading }) => {
+
+  let [monthCount, setMonthCount] = useState(0);
+  let [dateCount, setDateCount] = useState(0);
+
+  const prevValue = useRef(0);
+
+  useEffect(() => {
+    const counting = setInterval(() => {
+      if (isLoading) {
+        if (prevValue.current > 0) {
+          setMonthCount(0);
+          setDateCount(0)
+          prevValue.current = 0;
+        }
+        setMonthCount(prev => prev + 1000);
+        setDateCount(prev => prev + 1000);
+      }
+      else {
+        setMonthCount(mtdValue);
+        setDateCount(todayValue);
+        prevValue.current = mtdValue;
+        clearInterval(counting);
+      }
+    }, 10);
+    return () => clearInterval(counting);
+  }, [isLoading])
+
+  
+  return (
+    <Card className="shadow-xl flex flex-row justify-between">
+      <div>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-lg text-blue-600 font-medium">
+            {title}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger className="ml-1">
+                  <Info className="h-4 w-4 text-red-400 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{info}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl text-green-600 font-bold">{monthCount.toLocaleString('en-IN')}</div>
+          <p className="text-xs text-muted-foreground text-cyan-600">Month-to-Date</p>
+          <div className="mt-4 text-lg text-rose-500  font-semibold">
+            {dateCount.toLocaleString('en-IN')}
+          </div>
+          <p className="text-xs text-cyan-600 text-muted-foreground">Today</p>
+        </CardContent>
       </div>
-      <p className="text-xs text-muted-foreground">Today</p>
-    </CardContent>
-  </Card>
-);
+      <div className="shadow-xl h-[16vh] m-4 p-4 bg-green-100 rounded-full flex items-center justify-center">
+        <Image
+          src={svgIcon}
+          height={80}
+          className=""
+        />
+      </div>
+    </Card>
+  )
+}
 
 // Main Dashboard Component
-const AdminMetricsDashboard = ({selectedDateByMain}) => {
+const AdminMetricsDashboard = ({ selectedDateByMain }) => {
   // State to manage the selected date; initialized as null to indicate fetching the latest report
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -85,7 +131,7 @@ const AdminMetricsDashboard = ({selectedDateByMain}) => {
 
     try {
       const response = await axios.post(
-         "https://kooviot.vercel.app/admin/mtd/values",
+        "https://kooviot.vercel.app/admin/mtd/values",
         date ? payload : {},
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
@@ -136,14 +182,15 @@ const AdminMetricsDashboard = ({selectedDateByMain}) => {
   // Fetch the latest report on component mount
   useEffect(() => {
     // console.log("selectedByMain", selectedDateByMain)
-    if(selectedDateByMain)
-    fetchMetrics(selectedDateByMain);
-    else
-    {
+    if (selectedDateByMain){
+      fetchMetrics(selectedDateByMain);
+      setSelectedDate(selectedDateByMain)
+    }
+    else {
       // console.log("else chal raha")
       fetchMetrics();
     }
-   
+
   }, [selectedDateByMain]);
 
   /**
@@ -158,13 +205,21 @@ const AdminMetricsDashboard = ({selectedDateByMain}) => {
   return (
     <div className="w-full mx-auto p-4">
       {/* Header Section with Title and Date Picker */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Metrics Overview</h2>
+      <div className="flex justify-between items-center mb-4 ">
+        <div className="flex justify-start space-x-2 md:text-2xl text-[1rem] font-semibold p-2 rounded-lg shadow-lg text-green-600 bg-white">
+          <Image
+            src={headingSvgImage}
+            height={30}
+            // width={20}
+            className=""
+          />
+         <h2> Metrics Overview</h2>
+        </div>
         <Popover>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className="w-[240px] justify-start text-left font-normal"
+              className="md:w-[240px] justify-start text-left font-normal"
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
               {selectedDate ? format(selectedDate, "PPP") : "Select Date"}
@@ -191,37 +246,45 @@ const AdminMetricsDashboard = ({selectedDateByMain}) => {
           todayValue={metrics.Production.today}
           mtdValue={metrics.Production.mtd}
           info="Number of items produced"
+          svgIcon={productionSvgImage}
+          isLoading={isLoading}
         />
         <MetricCard
           title="Packing"
           todayValue={metrics.Packing.today}
           mtdValue={metrics.Packing.mtd}
           info="Number of items packed"
+          svgIcon={packingSvgImage}
+          isLoading={isLoading}
         />
         <MetricCard
           title="Total Dispatch"
           todayValue={metrics["Total Dispatch"].today}
           mtdValue={metrics["Total Dispatch"].mtd}
           info="Number of items dispatched"
+          svgIcon={dispatchSvgImage}
+          isLoading={isLoading}
         />
         <MetricCard
           title="Sales"
           todayValue={metrics.Sales.today}
           mtdValue={metrics.Sales.mtd}
-          info="Total sales amount in dollars"
+          info="Total sales amount in rupees"
+          svgIcon={salesSvgImage}
+          isLoading={isLoading}
         />
       </div>
 
       {/* Optional: Loading Indicator */}
-      {isLoading && (
+      {/* {isLoading && (
         <div className="flex justify-center items-center">
           <p className="text-gray-500">Loading metrics...</p>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
 
 export default AdminMetricsDashboard;
- 
+
 

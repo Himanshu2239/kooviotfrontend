@@ -132,7 +132,7 @@ export default function BatchWiseStockReport() {
                                         {label}
                                     </td>
                                     <td className="px-4 py-2 text-right font-bold text-blue-700 dark:text-blue-400">
-                                        {totals[key] ?? 0}
+                                        {totals[key].toLocaleString("en-IN") ?? 0}
                                     </td>
                                 </motion.tr>
                             ))}

@@ -22,14 +22,17 @@ const categoryFields = [
 ];
 
 export default function StockReportPage() {
+    const [actualData, setAtualData] = useState([])
     const [aggregatedData, setAggregatedData] = useState({});
     const [materialCode, setMaterialCode] = useState('');
     const [filteredCodes, setFilteredCodes] = useState([]);
     const [enableFilter, setEnableFilter] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [dateFilter, setDateFilter] = useState();
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState()
 
-
-
+    
 
     useEffect(() => {
         const fetchStockData = async () => {
@@ -39,7 +42,7 @@ export default function StockReportPage() {
                 const rawData = res.data.data;
 
                 // console.log("rawData", rawData);
-
+                setAtualData(rawData);
                 // Initialize materialMap with all material codes from constant.js
                 const materialMap = {};
                 materialCodeOptions.forEach((code) => {
@@ -60,6 +63,7 @@ export default function StockReportPage() {
                         });
                     });
                 });
+
                 setAggregatedData(materialMap);
                 setFilteredCodes(Object.keys(materialMap));
             } catch (err) {
@@ -71,15 +75,38 @@ export default function StockReportPage() {
         };
         fetchStockData();
     }, []);
-
+     
+    
+    const calculateMaterialWiseStock = () => {
+       let materialArr = []
+       materialCodeOptions.forEach((code) => {
+          const materialCode = code;
+          const materialWithCtg = {materialCode, ...categoryFields};
+          materialArr = [materialWithCtg, ...materialArr];
+       })
+       console.log("materialArr", materialArr);
+    }
 
     useEffect(() => {
+        if(dateFilter){
+           const givenFilteredDate = new Date(dateFilter)
+           const filterActualData = actualData.filter((data) => {
+            //   console.log("data", data);
+              const dataDate = new Date(data.date);
+              return givenFilteredDate >= dataDate;
+           })
+
+           calculateMaterialWiseStock();
+        
+           console.log("filterActualData", filterActualData);
+
+        }
         if (materialCode) {
             setFilteredCodes([materialCode]);
         } else {
             setFilteredCodes(Object.keys(aggregatedData));
         }
-    }, [materialCode, aggregatedData]);
+    }, [materialCode, aggregatedData, dateFilter]);
 
 
     const exportToExcel = () => {
@@ -130,12 +157,12 @@ export default function StockReportPage() {
                 materialOptions={materialCodeOptions}
                 enableFilter={enableFilter} // hiding date filters
                 setEnableFilter={setEnableFilter}
-                dateFilter={false}
-                setDateFilter={() => {}}
-                startDate={null}
-                setStartDate={() => {}}
-                endDate={null}
-                setEndDate={() => {}}
+                dateFilter={dateFilter}
+                setDateFilter={setDateFilter}
+                startDate={startDate}
+                setStartDate={setStartDate}
+                endDate={endDate}
+                setEndDate={setEndDate}
                 exportToExcel={exportToExcel}
             />
             <div className="overflow-x-auto h-[65vh] border shadow-md rounded-lg mt-6">

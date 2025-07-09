@@ -186,7 +186,7 @@ export default function MaterialStockReport() {
                     className="px-4 py-2 text-right font-bold text-blue-700 dark:text-blue-400"
                     title={`Value for ${label}`}
                   >
-                    {selectedMaterial[key]}
+                    {selectedMaterial[key].toLocaleString('en-IN')}
                   </td>
                 </motion.tr>
               ))}

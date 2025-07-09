@@ -14,13 +14,6 @@ export default function Loading() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Hero Section Skeleton */}
-      {/* <section className="bg-primary text-primary-foreground py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <Skeleton className="h-10 w-3/4 mx-auto mb-4" />
-          <Skeleton className="h-6 w-2/3 mx-auto mb-8" />
-          <Skeleton className="h-10 w-40 mx-auto" />
-        </div>
-      </section> */}
       <HeaderSkeleton />
 
       {/* Main Content Skeleton */}

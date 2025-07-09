@@ -147,48 +147,49 @@ export default function AdminDashboard() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-background text-foreground">
+      <div className="min-h-screen bg-gradient-to-b from-purple-50 to-purple-100 dark:from-gray-900 dark:to-gray-800 text-foreground">
         <Header />
-        <div className="flex justify-end">
-          <div className="relative right-[10rem] top-2">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-[240px] justify-start text-left font-normal">
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {selectedDate ? format(selectedDate, "PPP") : "Select Date"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="end">
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={handleDateSelect}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+        <div className="flex justify-between bg-white p-4 ml-8 mr-8 rounded-lg border-[1px] sticky top-0 mt-4 shadow-lg">
+          <div className="">
+            <label className="font-semibold mr-2 text-red-600">Date overview:</label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="w-[240px] justify-start text-left font-normal">
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {selectedDate ? format(selectedDate, "PPP") : "Select Date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="end">
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={handleDateSelect}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
           <Button
             onClick={() => mounted && router.push("/admin/sales")}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground absolute top-[4.5rem] right-[3.2rem]"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             Sales <ExternalLink className="ml-2 h-4 w-4" />
           </Button>
         </div>
         <div className="p-4 pl-8 pr-8 max-w-full flex flex-row justify-center items-center w-full">
-          <MTDDashboardDisplay selectedDateByMain={selectedDate}/>
+          <MTDDashboardDisplay selectedDateByMain={selectedDate} />
         </div>
         <div className="p-4 pl-8 pr-8 max-w-full flex flex-row justify-center items-center w-full">
-          <RejectionReport selectedDateByMain={selectedDate}/>
+          <RejectionReport selectedDateByMain={selectedDate} />
         </div>
         <div className="p-3 max-w-full mx-10">
-          <StockCard selectedDateByMain={selectedDate}/>
+          <StockCard selectedDateByMain={selectedDate} />
         </div>
 
         <div className="p-3 pl-12 pr-12 grid md:grid-cols-2 grid-cols-1 md:space-y-0 space-x-4 space-y-4 max-w-full rounded-lg">
-        <MaterialStockReport/>
-        <BatchWiseStockReport/>
-        {/* <ManPowerCostingTable/> */}
+          <MaterialStockReport />
+          <BatchWiseStockReport />
+          {/* <ManPowerCostingTable/> */}
         </div>
 
         <div className="px-10 p-2">
@@ -196,7 +197,7 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-2xl ml-4 font-bold">Excel Report</h1>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {categories.map((category) => (
                 <Dialog key={category.name}>

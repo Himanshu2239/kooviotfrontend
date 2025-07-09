@@ -9,7 +9,7 @@ export default function AddItemsButton({ className = "", color = "blue", onClick
   }
 
   return (
-    <button onClick={onClick} className={`${colorClasses[color]} text-white px-4 py-1 rounded ${className}`}>
+    <button onClick={onClick} className={`${colorClasses[color]} text-white px-4 py-1 max-h-10 rounded ${className}`}>
       Add Items +
     </button>
   )
