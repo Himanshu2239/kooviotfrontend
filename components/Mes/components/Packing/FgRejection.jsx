@@ -2,9 +2,10 @@
 import { useMemo, useState } from "react";
 import { Loader2, Trash2 } from "lucide-react";
 import InputField from "../input-field";
-import { getNormalizedDate, materialCodeOptions } from "@/app/constant";
+import { batchIdOptions, getNormalizedDate, materialCodeOptions } from "@/app/constant";
 import { toast } from "react-toastify";
 import axios from "axios";
+import CodeInput from "../../CodeInput/CodeInput";
 
 export default function FgRecheckingRejectionEntry() {
     const [items, setItems] = useState([]);
@@ -21,19 +22,23 @@ export default function FgRecheckingRejectionEntry() {
         const newErrors = {};
         if (!date) newErrors.date = "Date is required";
         if (!batchId) newErrors.batchId = "Batch ID is required";
+        else if (!batchIdOptions.includes(batchId))
+            newErrors.batchId = "Invalid batchId"
+        else if (!materialCodeOptions.includes(materialCode))
+            newErrors.materialCode = "Invalid material code."
         if (!materialCode) newErrors.materialCode = "Material code is required";
+        else if (!materialCodeOptions.includes(materialCode))
+            newErrors.materialCode = "Invalid material code."
         if (!pieces) newErrors.pieces = "Pieces are required";
         if (!packingType) newErrors.packingType = "Packing type is required";
         if (!reason) newErrors.reason = "Reason is required";
 
         if (Object.keys(newErrors).length) return setErrors(newErrors);
-
-        // setItems([...items, { id: Date.now(), batchId, materialCode, pieces }]);\
         setItems([...items, {
             id: Date.now(),
             batchId,
             materialCode,
-            pieces:Number(pieces),
+            pieces: Number(pieces),
             packingType,
             reason
         }]);
@@ -52,7 +57,7 @@ export default function FgRecheckingRejectionEntry() {
     }, [items]);
 
     const handleSubmit = async () => {
-        setIsLoading(true); 
+        setIsLoading(true);
         const { year, month, day } = getNormalizedDate(date);
         // const token = localStorage.getItem("accessToken");
 
@@ -71,12 +76,12 @@ export default function FgRecheckingRejectionEntry() {
                 items,
                 totalRejection: Number(totalPieces),
             }
-            // , {
-            //     headers: {
-            //         Authorization: `Bearer ${token}`,
-            //     },
-            // }
-        );
+                // , {
+                //     headers: {
+                //         Authorization: `Bearer ${token}`,
+                //     },
+                // }
+            );
 
             if (response.status === 200 || response.status === 201) {
                 toast.update(toastId, {
@@ -114,9 +119,13 @@ export default function FgRecheckingRejectionEntry() {
                 <InputField label="" type="date" value={date} onChange={setDate} error={errors.date} />
             </div>
             <div className="grid md:grid-cols-4 grid-cols-1 gap-4 mb-4">
-                <InputField label="Batch ID:" value={batchId} onChange={setBatchId} error={errors.batchId} />
+                {/* <InputField label="Batch ID:" value={batchId} onChange={setBatchId} error={errors.batchId} /> */}
                 <div>
-                    <label className="block text-sm font-medium">Material Code</label>
+                    <CodeInput label="BatchId" code={batchId} setCode={setBatchId} codeOptions={batchIdOptions} />
+                    {errors.batchId && <p className="text-red-600 text-sm">{errors.batchId}</p>}
+                </div>
+                <div>
+                    {/* <label className="block text-sm font-medium">Material Code</label>
                     <select
                         className="w-full border rounded mt-1 h-9 bg-gray-200"
                         value={materialCode}
@@ -128,7 +137,8 @@ export default function FgRecheckingRejectionEntry() {
                                 {code}
                             </option>
                         ))}
-                    </select>
+                    </select> */}
+                    <CodeInput code={materialCode} setCode={setMaterialCode} codeOptions={materialCodeOptions} />
                     {errors.materialCode && <p className="text-red-600 text-sm">{errors.materialCode}</p>}
                 </div>
                 <InputField
@@ -171,7 +181,7 @@ export default function FgRecheckingRejectionEntry() {
                     Add Entry
                 </button>
             </div>
-            
+
             {items.length > 0 && (
                 <div className="bg-red-50 rounded-lg p-4">
                     <h3 className="text-lg font-semibold mb-3">Fg Rejection Items</h3>

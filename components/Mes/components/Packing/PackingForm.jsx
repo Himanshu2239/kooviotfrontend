@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 import { Loader2, Trash2 } from "lucide-react"
 import InputField from "../input-field"
 import AddItemsButton from "../add-items"
-import { boxOptions, isValidBatchId, materialCodeOptions, polyOptions } from "@/app/constant"
+import { batchIdOptions, boxOptions, isValidBatchId, materialCodeOptions, polyOptions } from "@/app/constant"
 import { gradeOptions } from "@/app/constant"
 import { packingTypeOptions } from "@/app/constant"
 import axios from "axios"
 import { toast, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import LogoutButton from "../../logout/logoutButton"
+import CodeInput from "../../CodeInput/CodeInput"
 
 export default function PackingForm() {
     const [items, setItems] = useState([])
@@ -30,9 +31,13 @@ export default function PackingForm() {
         if (!date) newErrors.date = "Date is required";
         if (!batchId)
             newErrors.batchId = "batchId is required"
+        else if(!batchIdOptions.includes(batchId))
+            newErrors.batchId = "Invalid batchId"
         // if (!isValidBatchId(batchId) && batchId)
         //     newErrors.batchId = "Invalid BatchId"
         if (!materialCode) newErrors.materialCode = "Material code is required"
+        else if (!materialCodeOptions.includes(materialCode))
+            newErrors.materialCode = "Invalid material code."
         if (!grade) newErrors.grade = "Grade is required"
         if (!pieces) newErrors.pieces = "Pieces are required"
         // if (!lotNo) newErrors.lotNo = "Lot number is required"
@@ -76,10 +81,12 @@ export default function PackingForm() {
     useEffect(() => {
         if (materialCode) {
             const endWithMaterialCode = materialCode.slice(-2);
-            if (endWithMaterialCode === '01')
+            if (endWithMaterialCode === '01' || endWithMaterialCode === '1R')
                 setGrade('A');
-            else
+            else if(endWithMaterialCode === '02')
                 setGrade('B');
+            else
+                setGrade('')
         }
     }, [materialCode])
 
@@ -181,15 +188,15 @@ export default function PackingForm() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <InputField
+                {/* <InputField
                     label="Batch ID:"
                     value={batchId}
                     onChange={setBatchId}
                     error={errors.batchId}
                     readOnly={false}
-                />
-                {/* <div>
-                    <label className="block text-sm font-medium">Batch ID</label>
+                /> */}
+                <div>
+                    {/* <label className="block text-sm font-medium">Batch ID</label>
                     <select
                         className="w-full border rounded mt-1 h-10 bg-gray-200 px-2"
                         value={batchId}
@@ -201,14 +208,15 @@ export default function PackingForm() {
                                 {id}
                             </option>
                         ))}
-                    </select>
+                    </select> */}
+                    <CodeInput label="BatchId" code={batchId} setCode={setBatchId} codeOptions={batchIdOptions} />
                     {errors.batchId && (
                         <p className="text-red-600 text-sm mt-1">{errors.batchId}</p>
                     )}
-                </div> */}
+                </div>
 
                 <div>
-                    <label className="block text-sm font-medium">Material Code</label>
+                    {/* <label className="block text-sm font-medium">Material Code</label>
                     <select
                         className="w-full border rounded mt-1 h-10 bg-gray-200 px-2"
                         value={materialCode}
@@ -220,7 +228,8 @@ export default function PackingForm() {
                                 {code}
                             </option>
                         ))}
-                    </select>
+                    </select> */}
+                    <CodeInput code={materialCode} setCode={setMaterialCode} codeOptions={materialCodeOptions} />
                     {errors.materialCode && (
                         <p className="text-red-600 text-sm mt-1">{errors.materialCode}</p>
                     )}

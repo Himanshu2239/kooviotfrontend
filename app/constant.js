@@ -96,10 +96,10 @@ export const materialCodeOptions = [...new Set([
   "GLOVES4BFTBU01",
   "GLOVES4BFTBU02",
   "GLOVES4CFTBU01",
-  "GLOVES4CFTBU01R",
+  "RGLOVES4CFTBU01",
   "GLOVES4CFTBU02",
   "GLOVE4DFTBU01",
-  'GLOVE4DFTBU01R',
+  'RGLOVE4DFTBU01',
   "GLOVES4DFTBU02",
   "GLOVES4EFTBU02",
   "GLOVES4CFUBL01",
@@ -116,10 +116,10 @@ export const materialCodeOptions = [...new Set([
   "GLOVES5DFTBL02",
   "GLOVES5BFTBU01",
   "GLOVES5CFTBU01",
-  "GLOVES5CFTBU01R",
+  "RGLOVES5CFTBU01",
   "GLOVES5CFTBU02",
   "GLOVES5DFTBU01",
-  "GLOVES5DFTBU01R",
+  "RGLOVES5DFTBU01",
   "GLOVES5DFTBU02",
   "GLOVES5EFTBU01",
   "GLOVES5EFTBU02",
@@ -187,6 +187,8 @@ export const materialCodeOptions = [...new Set([
 ])]
 
 
+
+// materialCodeOptions.filter()
 
 // export const materialCodeForProduction = [... new Set([
 //     "GLOVES3AFTBL",
@@ -458,7 +460,7 @@ const getBatchIdOptions = async () => {
 
 // getListofBatchId();
 
-// export const batchIdOptions = await getBatchIdOptions();
+export const batchIdOptions = await getBatchIdOptions();
 
 // console.log("batchIdOptions", batchIdOptions);
 

@@ -2,9 +2,11 @@
 import { useMemo, useState } from "react";
 import { Loader2, Trash2 } from "lucide-react";
 import InputField from "../input-field";
-import { getNormalizedDate, materialCodeOptions } from "@/app/constant";
+import { batchIdOptions, getNormalizedDate, materialCodeOptions } from "@/app/constant";
 import { toast } from "react-toastify";
 import axios from "axios";
+// import MaterialCodeInput from "../../matCodeInput/MaterialCodeInput";
+import CodeInput from "../../CodeInput/CodeInput";
 
 export default function WipBGradeEntry() {
     const [items, setItems] = useState([]);
@@ -15,31 +17,35 @@ export default function WipBGradeEntry() {
     const [batchId, setBatchId] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const bgradeMaterialCode = materialCodeOptions.filter((mCode) => {
+        return mCode.slice(-2) === '01'
+    })
+
     const handleAdd = () => {
         const newErrors = {};
         if (!date) newErrors.date = "Date is required";
         if (!batchId) newErrors.batchId = "Batch ID is required";
+        else if(!batchIdOptions.includes(batchId))
+            newErrors.batchId = "Invalid batchId"
         if (!materialCode) newErrors.materialCode = "Material code is required";
+        else if (!bgradeMaterialCode.includes(materialCode))
+            newErrors.materialCode = "Invalid material code."
         if (!pieces) newErrors.pieces = "Pieces are required";
-
         if (Object.keys(newErrors).length) return setErrors(newErrors);
-
+        
         const updatedItems = [...items, { id: Date.now(), batchId, materialCode, pieces: Number(pieces) }]
-        // console.log("updatedItems", updatedItems)
+        console.log("updatedItems", updatedItems);
         setItems(updatedItems)
-        // setItems([...items, { id: D  ate.now(), batchId, materialCode, pieces: Number(pieces) }]);
+        // setItems([...items, { id: Date.now(), batchId, materialCode, pieces: Number(pieces) }]);
         setBatchId("");
         setMaterialCode("");
+        // setSearch("")
         setPieces("");
         setErrors({});
     };
 
 
     const handleDelete = (id) => setItems(items.filter((item) => item.id !== id));
-
-    const bgradeMaterialCode = materialCodeOptions.filter((mCode) => {
-        return mCode.slice(-2) === '01'
-    })
 
     const totalPieces = useMemo(() => {
         return items.reduce((sum, item) => sum + Number(item.pieces), 0);
@@ -106,9 +112,12 @@ export default function WipBGradeEntry() {
                 <InputField label="" type="date" value={date} onChange={setDate} error={errors.date} />
             </div>
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-4">
-                <InputField label="Batch ID:" value={batchId} onChange={setBatchId} error={errors.batchId} />
+                {/* <InputField label="Batch ID:" value={batchId} onChange={setBatchId} error={errors.batchId} /> */}
                 <div>
-                    <label className="block text-sm font-medium">Material Code</label>
+                    <CodeInput label="BatchId" code={batchId} setCode={setBatchId} codeOptions={batchIdOptions} />
+                    {errors.batchId && <p className="text-red-600 text-sm">{errors.batchId}</p>}
+                </div>                <div>
+                    {/* <label className="block text-sm font-medium">Material Code</label>
                     <select
                         className="w-full border rounded mt-1 h-9 bg-gray-200"
                         value={materialCode}
@@ -121,6 +130,9 @@ export default function WipBGradeEntry() {
                             </option>
                         ))}
                     </select>
+                    {errors.materialCode && <p className="text-red-600 text-sm">{errors.materialCode}</p>} */}
+                    {/* <InputField label="Mateiral Code" value={materialCode} onChange={setMaterialCode} error={errors.materialCode}/> */}
+                    <CodeInput code={materialCode} setCode={setMaterialCode} codeOptions={bgradeMaterialCode} />
                     {errors.materialCode && <p className="text-red-600 text-sm">{errors.materialCode}</p>}
                 </div>
                 <InputField

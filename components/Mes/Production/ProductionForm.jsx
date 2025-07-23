@@ -5,6 +5,7 @@ import AddItemsButton from "@/components/Mes/components/add-items";
 import { toast } from "react-toastify";
 import { materialCodeForProduction } from "@/app/constant";
 import { Trash2 } from "lucide-react";
+import CodeInput from "../CodeInput/CodeInput";
 
 
 export default function ProductionForm({
@@ -25,27 +26,33 @@ export default function ProductionForm({
 }) {
   const handleAddProductionItem = () => {
     if (materialCode && pieces && batchId && productionInKg) {
-      const newItem = {
-        id: Date.now(),
-        batchId,
-        materialCode,
-        pieces : Number(pieces),
-        productionInKg,
-      };
-      const updated = [...productionItems, newItem];
-      setProductionItems(updated);
-      const total = updated.reduce((sum, item) => sum + parseInt(item.pieces || "0"), 0);
-      setTotalPieces(total.toString());
-      const totalInKg = updated.reduce((sum, item) => sum + parseFloat(item.productionInKg || "0"), 0)
-      // console.log("totalKg", totalKg)
-      setTotalProductionInKg(totalInKg.toString());
-
-      setMaterialCode("");
-      setPieces("");
-      setBatchId("");
-      setProductionInKg("");
-    } else {
+      if (!materialCodeForProduction.includes(materialCode)) {
+        toast.error("Please Enter valid Material code")
+        return;
+      }
+      else {
+        const newItem = {
+          id: Date.now(),
+          batchId,
+          materialCode,
+          pieces: Number(pieces),
+          productionInKg,
+        };
+        const updated = [...productionItems, newItem];
+        setProductionItems(updated);
+        const total = updated.reduce((sum, item) => sum + parseInt(item.pieces || "0"), 0);
+        setTotalPieces(total.toString());
+        const totalInKg = updated.reduce((sum, item) => sum + parseFloat(item.productionInKg || "0"), 0)
+        setTotalProductionInKg(totalInKg.toString());
+        setMaterialCode("");
+        setPieces("");
+        setBatchId("");
+        setProductionInKg("");
+      }
+    }
+    else {
       toast.error("Please fill all required fields in the Production form");
+      return;
     }
   };
 
@@ -67,7 +74,7 @@ export default function ProductionForm({
         {/* <InputField label="Material Code:" value={materialCode} onChange={setMaterialCode} /> */}
         <InputField label="Batch ID:" value={batchId} onChange={setBatchId} readOnly={false} />
         <div>
-          <label className="block  text-sm font-medium">Material Code</label>
+          {/* <label className="block  text-sm font-medium">Material Code</label>
           <select
             className="w-full border rounded mt-1 h-9 bg-gray-200"
             value={materialCode}
@@ -79,7 +86,8 @@ export default function ProductionForm({
                 {code}
               </option>
             ))}
-          </select>
+          </select> */}
+          <CodeInput code={materialCode} setCode={setMaterialCode} codeOptions={materialCodeForProduction} />
           {/* {errors.materialCode && <p className="text-red-600 text-sm">{errors.materialCode}</p>} */}
         </div>
       </div>
@@ -155,7 +163,7 @@ export default function ProductionForm({
                     <td className="py-2 px-3">{item.batchId}</td>
                     <td className="py-2 px-3">{item.materialCode}</td>
                     <td className="py-2 px-3">{item.pieces}</td>
-                     <td className="py-2 px-3">{item.productionInKg}</td>
+                    <td className="py-2 px-3">{item.productionInKg}</td>
                     <td className="py-2 px-3">
                       <button
                         title="Remove item"

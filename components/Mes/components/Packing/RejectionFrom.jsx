@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react"
 import { Loader2, Trash2 } from "lucide-react"
 import InputField from "../input-field"
-import { getNormalizedDate, isValidBatchId, materialCodeOptions } from "@/app/constant"
+import { batchIdOptions, getNormalizedDate, isValidBatchId, materialCodeOptions } from "@/app/constant"
 import { toast } from "react-toastify"
 import axios from "axios"
+import CodeInput from "../../CodeInput/CodeInput"
 
 
 export default function RejectionForm() {
@@ -20,15 +21,19 @@ export default function RejectionForm() {
         const newErrors = {}
         if (!date) newErrors.date = "Date is required"
         if (!batchId) newErrors.batchId = "BatchId is required"
+        else if (!batchIdOptions.includes(batchId))
+            newErrors.batchId = "Invalid batchId"
         // if (!isValidBatchId(batchId) && batchId)
         //     newErrors.batchId = "Invalid Batch Id"
         if (!materialCode) newErrors.materialCode = "Material code is required"
+        else if (!materialCodeOptions.includes(materialCode))
+            newErrors.materialCode = "Invalid material code."
         if (!pieces) newErrors.pieces = "Pieces are required"
         if (!reason) newErrors.reason = "Reason is required"
 
         if (Object.keys(newErrors).length) return setErrors(newErrors)
 
-        setItems([...items, { id: Date.now(), batchId, materialCode, pieces:Number(pieces), reason }])
+        setItems([...items, { id: Date.now(), batchId, materialCode, pieces: Number(pieces), reason }])
         // setDate("") 
         setBatchId("")
         setMaterialCode("")
@@ -106,7 +111,7 @@ export default function RejectionForm() {
                 autoClose: 3000,
             });
         }
-        finally{
+        finally {
             setIsloading(false);
         }
     };
@@ -128,9 +133,13 @@ export default function RejectionForm() {
                 <InputField label="" type="date" value={date} onChange={setDate} error={errors.date} />
             </div>
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-4">
-                <InputField label="Batch ID:" value={batchId} onChange={setBatchId} error={errors.batchId} readOnly={false} />
+                {/* <InputField label="Batch ID:" value={batchId} onChange={setBatchId} error={errors.batchId} readOnly={false} /> */}
                 <div>
-                    <label className="block text-sm font-medium">Material Code</label>
+                    <CodeInput label="BatchId" code={batchId} setCode={setBatchId} codeOptions={batchIdOptions} />
+                    {errors.batchId && <p className="text-red-600 text-sm">{errors.batchId}</p>}
+                </div>                <div>
+                    {/* <InputField label="Mateiral Code" value={materialCode} onChange={setMaterialCode} error={errors.materialCode} /> */}
+                    {/* <label className="block text-sm font-medium">Material Code</label>
                     <select
                         className="w-full border rounded mt-1 h-9 bg-gray-200"
                         value={materialCode}
@@ -143,7 +152,8 @@ export default function RejectionForm() {
                             </option>
                         ))}
                     </select>
-                    {errors.materialCode && <p className="text-red-600 text-sm">{errors.materialCode}</p>}
+                    {errors.materialCode && <p className="text-red-600 text-sm">{errors.materialCode}</p>} */}
+                    <CodeInput code={materialCode} setCode={setMaterialCode} codeOptions={materialCodeOptions} />
                 </div>
                 <InputField
                     label="No. of Pieces"
@@ -203,16 +213,16 @@ export default function RejectionForm() {
                     </table>
                     <div className="mt-4 flex justify-between">
                         <p className="text-xl font-bold text-gray-700 mt-2">Total Pieces = {totalPieces}</p>
-                         <div className="text-right mt-6">
-                        <button
-                            onClick={handleSubmit}
-                            disabled={isLoading}
-                            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded transition disabled:opacity-60 flex items-center justify-center gap-2"
-                        >
-                            {isLoading && <Loader2 className="animate-spin w-4 h-4" />}
-                            {isLoading ? 'Submitting...' : 'Submit Rejection'}
-                        </button>
-                    </div>
+                        <div className="text-right mt-6">
+                            <button
+                                onClick={handleSubmit}
+                                disabled={isLoading}
+                                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded transition disabled:opacity-60 flex items-center justify-center gap-2"
+                            >
+                                {isLoading && <Loader2 className="animate-spin w-4 h-4" />}
+                                {isLoading ? 'Submitting...' : 'Submit Rejection'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

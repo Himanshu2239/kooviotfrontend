@@ -1,18 +1,19 @@
 
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import InputField from "@/components/Mes/components/input-field"
 import AddItemsButton from "@/components/Mes/components/add-items"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Loader2, SendToBack, Trash2 } from "lucide-react"
-import { getNormalizedDate, gradeOptions, isValidBatchId, materialCodeOptions } from "@/app/constant"
+import { batchIdOptions, getNormalizedDate, gradeOptions,  materialCodeOptions } from "@/app/constant"
 import axios from "axios"
 import { toast, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import LogoutButton from "@/components/Mes/logout/logoutButton"
 import { useRouter } from "next/navigation"
+import CodeInput from "@/components/Mes/CodeInput/CodeInput"
 
 
 
@@ -23,7 +24,7 @@ export default function DispatchPage() {
   const [date, setDate] = useState("")
   const [invoiceNo, setInvoiceNo] = useState("")
   const [batchId, setBatchId] = useState("")
-  const [materialCode, setMaterialCode] = useState("Select")
+  const [materialCode, setMaterialCode] = useState("")
   const [grade, setGrade] = useState("")
   const [packagingType, setPackagingType] = useState("Select")
   // const [itemCode, setItemCode] = useState("")
@@ -38,7 +39,7 @@ export default function DispatchPage() {
 
   const resetFields = () => {
     setBatchId("")
-    setMaterialCode("Select")
+    setMaterialCode("")
     setGrade("")
     setPackagingType("Select")
     // setItemCode("")
@@ -53,8 +54,12 @@ export default function DispatchPage() {
     // if (!date) newErrors.date = "Date is required"
     // if (!invoiceNo) newErrors.invoiceNo = "Invoice No is required"
     if (!batchId) newErrors.batchId = "BatchId is required"
+    else if (!batchIdOptions.includes(batchId))
+      newErrors.batchId = "Invalid BatchId"
     // if (!isValidBatchId(batchId) && batchId) newErrors.batchId = "Invalid BatchId"
-    if (materialCode === "Select") newErrors.materialCode = "Select a material code"
+    if (materialCode === "") newErrors.materialCode = "Material code is required"
+    else if (!materialCodeOptions.includes(materialCode))
+      newErrors.materialCode = "Invalid material code"
     if (grade === "Select") newErrors.grade = "Select a grade"
     if (packagingType === "Select") newErrors.packagingType = "Select a packaging type"
     // if (!itemCode) newErrors.itemCode = "Item code is required"
@@ -125,14 +130,26 @@ export default function DispatchPage() {
     }
   }
 
-  const handleChangeMcode = (e) => {
-    const val = e.target.value;
-    if (val.slice(-2) === '01')
-      setGrade('A')
-    else
-      setGrade('B')
-    setMaterialCode(val);
-  }
+  // const handleChangeMcode = (e) => {
+  //   const val = e.target.value;
+  //   if (val.slice(-2) === '01')
+  //     setGrade('A')
+  //   else
+  //     setGrade('B')
+  //   setMaterialCode(val);
+  // }
+
+  useEffect(() => {
+    if (materialCode) {
+      const endWithMaterialCode = materialCode.slice(-2);
+      if (endWithMaterialCode === '01' || endWithMaterialCode === '1R')
+        setGrade('A');
+      else if(endWithMaterialCode === '02')
+        setGrade('B');
+      else
+        setGrade('')
+    }
+  }, [materialCode])
 
   const totalPieces = items.reduce((sum, item) => sum + item.pieces, 0)
 
@@ -161,14 +178,20 @@ export default function DispatchPage() {
         <InputField label="Invoice No:" value={invoiceNo} onChange={setInvoiceNo} error={errors.invoiceNo} />
       </div>
       <div className="grid grid-cols-3 gap-6 mb-6">
-        <InputField label="Batch ID:" value={batchId} onChange={setBatchId} error={errors.batchId} />
+        {/* <InputField label="Batch ID:" value={batchId} onChange={setBatchId} error={errors.batchId} /> */}
         <div>
-          <label className="block mb-1 font-medium">Material Code</label>
+          <CodeInput label="BatchId" code={batchId} setCode={setBatchId} codeOptions={batchIdOptions} />
+          {errors.batchId && <p className="text-red-600 text-sm">{errors.batchId}</p>}
+        </div>        <div>
+          {/* <InputField label="Mateiral Code" value={materialCode} onChange={setMaterialCode} error={errors.materialCode} /> */}
+          <CodeInput code={materialCode} setCode={setMaterialCode} codeOptions={materialCodeOptions} />
+          {errors.materialCode && <p className="text-red-500 text-sm">{errors.materialCode}</p>}
+          {/* <label className="block mb-1 font-medium">Material Code</label>
           <select className="h-9 bg-gray-200 rounded px-2 w-full" value={materialCode} onChange={(e) => handleChangeMcode(e)}>
             <option value="">Select</option>
             {materialCodeOptions.map((opt, index) => <option key={opt}>{opt}</option>)}
           </select>
-          {errors.materialCode && <p className="text-red-500 text-sm">{errors.materialCode}</p>}
+          {errors.materialCode && <p className="text-red-500 text-sm">{errors.materialCode}</p>} */}
         </div>
         <div>
           <InputField label="Grade" value={grade} />
