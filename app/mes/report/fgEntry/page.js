@@ -56,30 +56,39 @@ const PackingTable = () => {
     }, [dateFilter, startDate, endDate, enableFilter, materialCode, data]);
 
 
+    const formatToDDMMYYYY = (dateString) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
+
     const exportToExcel = () => {
-    console.log("filteredData", filteredData)
-    const flattenedData = filteredData.flatMap((record, index) => {
-        const items = record.items.map((item, itemIndex) => ({
-            Date: itemIndex === 0 ? new Date(record.date).toLocaleDateString() :"" ,
-            BatchID: item.batchId,
-            MaterialCode: item.materialCode,
-            Grade: item.grade,
-            PackingType: item.packingType,
-            GloveCount: item.gloveCount,
-            Pieces: item.pieces,
-            TotalPieces: itemIndex === 0 ? record.totalPacking : ""
-        }));
-        // Add empty row after each block
-        return [...items];
-    });
+        console.log("filteredData", filteredData)
+        const flattenedData = filteredData.flatMap((record, index) => {
+            const items = record.items.map((item, itemIndex) => ({
+                Date: itemIndex === 0 ? new Date(record.date).toLocaleDateString() : "",
+                BatchID: item.batchId,
+                MaterialCode: item.materialCode,
+                Grade: item.grade,
+                PackingType: item.packingType,
+                GloveCount: item.gloveCount,
+                Pieces: item.pieces,
+                TotalPieces: itemIndex === 0 ? record.totalPacking : ""
+            }));
+            // Add empty row after each block
+            return [...items];
+        });
 
-    console.log("flattenData", flattenedData);
+        console.log("flattenData", flattenedData);
 
-    const ws = XLSX.utils.json_to_sheet(flattenedData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Packing Report");
-    XLSX.writeFile(wb, "Packing_Report.xlsx");
-};
+        const ws = XLSX.utils.json_to_sheet(flattenedData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Packing Report");
+        XLSX.writeFile(wb, "Packing_Report.xlsx");
+    };
 
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -88,7 +97,7 @@ const PackingTable = () => {
 
     return (
         <div className="px-4 md:px-10 py-6">
-            
+
             <h2 className="text-2xl text-green-600 font-bold mb-6">FG Report</h2>
 
             {/* Filters */}
@@ -133,7 +142,7 @@ const PackingTable = () => {
                                     className={`${index === record.items.length - 1 ? 'border-b' : ''} hover:bg-gray-50`}
                                 >
                                     <td className="px-4 py-2">
-                                        {index === 0 ? new Date(record.date).toLocaleDateString() : ''}
+                                        {index === 0 ?  formatToDDMMYYYY(record.date) : ''}
                                     </td>
                                     <td className="px-4 py-2">{item.batchId}</td>
                                     <td className="px-4 py-2">{item.materialCode}</td>

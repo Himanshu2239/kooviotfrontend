@@ -147,14 +147,14 @@ export default function AdminDashboard() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 to-purple-100 dark:from-gray-900 dark:to-gray-800 text-foreground">
-        <Header />
+      <div className="min-h-screen bg-gradient-to-l from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-foreground">
+        <Header/>
         <div className="flex justify-between bg-white p-4 ml-8 mr-8 rounded-lg border-[1px] sticky top-0 mt-4 shadow-lg">
           <div className="">
-            <label className="font-semibold mr-2 text-red-600">Date overview:</label>
+            <label className="font-semibold mr-2 text-gray-800">Date overview:</label>
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-[240px] justify-start text-left font-normal">
+                <Button variant="outline" className="md:w-[240px] w-32 justify-start text-left font-normal">
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {selectedDate ? format(selectedDate, "PPP") : "Select Date"}
                 </Button>
@@ -197,7 +197,7 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-2xl ml-4 font-bold">Excel Report</h1>
             </div>
-
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {categories.map((category) => (
                 <Dialog key={category.name}>

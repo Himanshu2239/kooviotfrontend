@@ -104,7 +104,7 @@ export default function Header() {
   };
 
   return (
-    <header className=" bg-purple-50 sticky  dark:bg-black top-0 z-20 text-foreground">
+    <header className=" bg-gray-100 sticky  dark:bg-black top-0 z-20 text-foreground">
       <div className="flex justify-between items-center">
         <Image
           src={companyLogo}
@@ -244,24 +244,30 @@ export default function Header() {
                     {/* <ChevronRight className="ml-auto h-4 w-4" /> */}
                   </DropdownMenuSubTrigger>
                   <DropdownMenuSubContent>
-                    <DropdownMenuItem onClick={() => handleReportNavigation('packing', 'fg')}>
+                    <DropdownMenuItem onClick={() => handleReportNavigation('fgEntry')}>
                       FG
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleReportNavigation('packing', 'wip-bgrade')}>
+                    <DropdownMenuItem onClick={() => handleReportNavigation('wipBgradeEntry')}>
                       Wip Bgrade
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleReportNavigation('packing', 'wip-rejection')}>
+                    <DropdownMenuItem onClick={() => handleReportNavigation('wipRejectionEntry')}>
                       Wip Rejection
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleReportNavigation('packing', 'fg-rejection')}>
+                    <DropdownMenuItem onClick={() => handleReportNavigation('fgRejectionEntry')}>
                       Fg Rejection
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
 
-                <DropdownMenuItem onClick={() => handleReportNavigation('dispatch')}>
+                <DropdownMenuItem onClick={() => handleReportNavigation('mCodeStockReport')}>
+                  Stock
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleReportNavigation('dispatchOut')}>
                   Dispatch
                 </DropdownMenuItem>
+                {/* <DropdownMenuItem onClick={() => handleReportNavigation('dispatch')}>
+                  Dispatch
+                </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
 

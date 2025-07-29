@@ -15,145 +15,121 @@ import { CalendarIcon, Package, PackageOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format, parseISO } from "date-fns"; // Import parseISO to handle ISO date format
 
-// const StockItem = ({ title, agradeStocks, bgradeStocks, nonMovingStocks, wipAgradeStocks, wipBgradeStocks, value, icon: Icon }) => (
-//   <div className={`flex flex-col ${title != 'Packed Stocks' ? "items-center" : ""} space-y-2 p-4 border rounded-lg`}>
+
+// const StockItem = ({ title, agradeStocks, bgradeStocks, nonMovingStocks, wipAgradeStocks, wipBgradeStocks, value, icon: Icon }) =>{
+
+//   return  (
+//   <div className={`flex flex-col ${title !== 'Packed Stocks' ? "items-center" : ""} space-y-2 p-4 border rounded-lg`}>
 //     <Icon className="h-6 w-6 mx-auto text-muted-foreground" />
-//     {
-//       title === 'Packed Stocks' ? (
-//         <div className="flex flex-col justify-center ">
-//           <div className="text-center">
-//             <h3 className="text-sm font-medium">{title}</h3>
-//             <p className="text-2xl font-bold">{value}</p>
-//           </div>
-//           <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
-//             <div className="text-center md:pr-0 pr-2">
-//               <h3 className="text-sm text-muted-foreground font-medium">A-grade</h3>
-//               <p className="text-xl font-bold">{agradeStocks ? agradeStocks :
-//                 <div className="font-mono">N/A</div>}</p>
-//             </div>
-//             <div className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
-//               <h3 className="text-sm text-muted-foreground font-medium">B-grade</h3>
-//               <p className="text-xl  font-bold">{bgradeStocks ? bgradeStocks :
-//                 <div className="font-mono">N/A</div>}</p>
-//             </div>
-//             <div className="text-center md:mt-0 mt-2">
-//               <h3 className="text-sm text-muted-foreground font-medium">Non Moving</h3>
-//               <p className="text-xl font-bold">{nonMovingStocks ? nonMovingStocks :
-//                 <div className="font-mono">N/A</div>}</p>
-//             </div>
-//           </div>
 
-//           {/* <div className="flex flex-wrap sm:flex-col justify-between">
-//             <div className="text-center">
-//               <h3 className="text-sm text-muted-foreground font-medium">A-grade</h3>
-//               <p className="text-xl font-bold">
-//                 {agradeStocks ? agradeStocks : <div className="font-mono">N/A</div>}
-//               </p>
-//             </div>
-//             <div className="text-center">
-//               <h3 className="text-sm text-muted-foreground font-medium">B-grade</h3>
-//               <p className="text-xl font-bold">
-//                 {bgradeStocks ? bgradeStocks : <div className="font-mono">N/A</div>}
-//               </p>
-//             </div>
-//             <div className="text-center">
-//               <h3 className="text-sm text-muted-foreground font-medium">Non Moving</h3>
-//               <p className="text-xl font-bold">
-//                 {nonMovingStocks ? nonMovingStocks : <div className="font-mono">N/A</div>}
-//               </p>
-//             </div>
-//           </div> */}
+//     <div className="text-center">
+//       <h3 className="text-lg font-medium">{title}</h3>
+//       <p className="text-2xl font-bold">{value}</p>
+//     </div>
 
-//         </div>
-//       ) :
-//         (
-//           (
-//             title === 'Unpacked Stocks' ?
-//               <>
-//                <h3 className="text-sm font-medium">{title}</h3>
-//                 <div className="text-2xl font-bold mx-auto">
-//                   <div>{value}</div>
-//                 </div>
-//                 <div className="flex justify-between">
-//                   <div className="flex flex-col">
-//                     <div>Wip A</div>
-//                     <div>{wipAgradeStocks}</div>
-//                   </div>
-//                   <div className="flex flex-col">
-//                     <div>Wip B</div>
-//                     <div>{wipBgradeStocks}</div>
-//                   </div>
-//                 </div>
-//               </>
-//               :
-//               <>
-//                 <h3 className="text-sm font-medium">{title}</h3>
-//                 <div className="text-2xl font-bold mx-auto">
-//                   <div>{value}</div>
-//                 </div>
-//               </>
-//           )
-//         )
-//     }
+//     {title === 'Packed Stocks' && (
+//       <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
+//         {[
+//           { label: 'A-grade', value: agradeStocks },
+//           { label: 'B-grade', value: bgradeStocks },
+//           { label: 'Non Moving', value: nonMovingStocks }
+//         ].map((item, index) => (
+//           <div key={index} className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
+//             <h3 className="text-sm text-muted-foreground font-medium">{item.label}</h3>
+//             <p className="text-xl font-bold">{item.value ?? <div className="font-mono">N?A</div>}</p>
+//           </div>
+//         ))}
+//       </div>
+//     )}
+//     {title === 'Unpacked Stocks' && (
+//       <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
+//         {[
+//           { label: 'Wip A', value: (wipAgradeStocks === 0 && wipBgradeStocks === 0 && value !== 0) ? 'N/A' : wipAgradeStocks },
+//           { label: 'Wip B', value: (wipAgradeStocks === 0 && wipBgradeStocks === 0 && value !== 0) ? 'N/A' : wipBgradeStocks }
+//         ].map((item, index) => (
+//           <div key={index} className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
+//             <h3 className="text-sm text-muted-foreground font-medium">{item.label}</h3>
+//             <p className="text-xl font-bold">
+//               {item.value === 'N/A' ? <div className="font-mono">N/A</div> : item.value}
+//             </p>
+//           </div>
+//         ))}
+//       </div>
+//     )}
 
 //   </div>
-// );
+// )};
 
-const StockItem = ({ title, agradeStocks, bgradeStocks, nonMovingStocks, wipAgradeStocks, wipBgradeStocks, value, icon: Icon }) => (
-  <div className={`flex flex-col ${title !== 'Packed Stocks' ? "items-center" : ""} space-y-2 p-4 border rounded-lg`}>
-    <Icon className="h-6 w-6 mx-auto text-muted-foreground" />
+const iconStyles = {
+  "Total Stocks": {
+    color: "text-blue-600",
+    border: "border-b-4 border-blue-600",
+    bg: "bg-blue-100",
+  },
+  "Packed Stocks": {
+    color: "text-green-600",
+    border: "border-b-4 border-green-600",
+    bg: "bg-green-100",
+  },
+  "Unpacked Stocks": {
+    color: "text-yellow-600",
+    border: "border-b-4 border-yellow-600",
+    bg: "bg-yellow-100",
+  },
+};
 
-    <div className="text-center">
-      <h3 className="text-sm font-medium">{title}</h3>
-      <p className="text-2xl font-bold">{value}</p>
+const StockItem = ({ title, agradeStocks, bgradeStocks, nonMovingStocks, wipAgradeStocks, wipBgradeStocks, value, icon: Icon }) => {
+  const styles = iconStyles[title] || {};
+
+  return (
+    <div
+      className={cn(
+        "group flex flex-col space-y-4 p-5 rounded-xl shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer",
+        styles.border,
+        "bg-white"
+      )}
+    >
+      <div className="flex flex-col justify-between items-center">
+        <div className={`p-4 rounded-full mb-2 ${styles.bg}`}>
+          <Icon className={cn("h-8 w-8", styles.color)} />
+        </div>
+        <div className="text-right">
+          <h3 className="text-xl font-semibold text-center text-gray-600">{title}</h3>
+          <p className="text-2xl text-center font-bold text-gray-900">{value}</p>
+        </div>
+      </div>
+
+      {title === 'Packed Stocks' && (
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-3 text-sm text-center">
+          {[
+            { label: 'A-grade', value: agradeStocks },
+            { label: 'B-grade', value: bgradeStocks },
+            { label: 'Non Moving', value: nonMovingStocks }
+          ].map((item, idx) => (
+            <div key={idx}>
+              <h4 className="text-muted-foreground font-medium">{item.label}</h4>
+              <p className="font-bold text-lg">{item.value ?? "N/A"}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {title === 'Unpacked Stocks' && (
+        <div className="flex justify-between flex-col md:flex-row text-sm text-center">
+          {[
+            { label: 'Wip A', value: (wipAgradeStocks === 0 && wipBgradeStocks === 0 && value !== 0) ? 'N/A' : wipAgradeStocks },
+            { label: 'Wip B', value: (wipAgradeStocks === 0 && wipBgradeStocks === 0 && value !== 0) ? 'N/A' : wipBgradeStocks }
+          ].map((item, idx) => (
+            <div key={idx}>
+              <h4 className="text-muted-foreground font-medium">{item.label}</h4>
+              <p className="font-bold text-lg">{item.value === 'N/A' ? 'N/A' : item.value}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-
-    {title === 'Packed Stocks' && (
-      <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
-        {[
-          { label: 'A-grade', value: agradeStocks },
-          { label: 'B-grade', value: bgradeStocks },
-          { label: 'Non Moving', value: nonMovingStocks }
-        ].map((item, index) => (
-          <div key={index} className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
-            <h3 className="text-sm text-muted-foreground font-medium">{item.label}</h3>
-            <p className="text-xl font-bold">{item.value ?? <div className="font-mono">N?A</div>}</p>
-          </div>
-        ))}
-      </div>
-    )}
-
-    {/* {title === 'Unpacked Stocks' && (
-      <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
-        {[
-          { label: 'Wip A', value: wipAgradeStocks },
-          { label: 'Wip B', value: wipBgradeStocks }
-        ].map((item, index) => (
-          <div key={index} className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
-            <h3 className="text-sm text-muted-foreground font-medium">{item.label}</h3>
-            <p className="text-xl font-bold">{item.value !== 0  ? :}</p>
-          </div>
-        ))}
-      </div>
-    )} */}
-    {title === 'Unpacked Stocks' && (
-      <div className="flex flex-col sm:flex-row flex-wrap mt-2 w-full justify-center md:justify-between">
-        {[
-          { label: 'Wip A', value: (wipAgradeStocks === 0 && wipBgradeStocks === 0 && value !== 0) ? 'N/A' : wipAgradeStocks },
-          { label: 'Wip B', value: (wipAgradeStocks === 0 && wipBgradeStocks === 0 && value !== 0) ? 'N/A' : wipBgradeStocks }
-        ].map((item, index) => (
-          <div key={index} className="text-center md:mt-0 mt-2 md:pr-0 pr-2">
-            <h3 className="text-sm text-muted-foreground font-medium">{item.label}</h3>
-            <p className="text-xl font-bold">
-              {item.value === 'N/A' ? <div className="font-mono">N/A</div> : item.value}
-            </p>
-          </div>
-        ))}
-      </div>
-    )}
-
-  </div>
-);
+  );
+};
 
 
 
@@ -275,7 +251,7 @@ const StockCard = ({ selectedDateByMain }) => {
   return (
     <Card className="w-full max-w-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
-        <CardTitle className="text-sm font-medium">Stock Overview</CardTitle>
+        <CardTitle className="text-xl font-bold">Stock Overview</CardTitle>
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -303,46 +279,27 @@ const StockCard = ({ selectedDateByMain }) => {
           </PopoverContent>
         </Popover>
       </CardHeader>
-      <CardContent>
+      {/* <CardContent>
         <div className="grid gap-4 md:grid-cols-3">
-          {/* <StockItem
+          <StockItem
             title="Total Stocks"
-            value={stockData.totalStocks}
+            value={stockData.totalStocks !== 0 ? stockData.totalStocks?.toLocaleString('en-IN') : stockData.totalStocks}
             icon={Package}
           />
           <StockItem
             title="Packed Stocks"
-            value={stockData.packedStocks}
-            agradeStocks={stockData.agradeStocks}
-            bgradeStocks={stockData.bgradeStocks}
-            nonMovingStocks={stockData.nonMovingStocks}
-            unpackedStocks={stockData.unpackedStocks}
+            value={stockData.packedStocks !== 0 ? stockData.packedStocks?.toLocaleString('en-IN') : stockData.packedStocks}
+            agradeStocks={stockData.agradeStocks !== 0 ? stockData.agradeStocks?.toLocaleString('en-IN') : stockData.agradeStocks}
+            bgradeStocks={stockData.bgradeStocks !== 0 ? stockData.bgradeStocks?.toLocaleString('en-IN') : stockData.bgradeStocks}
+            nonMovingStocks={stockData.nonMovingStocks !== 0 ? stockData.nonMovingStocks?.toLocaleString('en-IN') : stockData.nonMovingStocks}
+            unpackedStocks={stockData.unpackedStocks !== 0 ? stockData.unpackedStocks?.toLocaleString('en-IN') : stockData.unpackedStocks}
             icon={Package}
           />
           <StockItem
             title="Unpacked Stocks"
-            value={stockData.unpackedStocks}
-            icon={PackageOpen}
-          /> */}
-          <StockItem
-            title="Total Stocks"
-            value={stockData.totalStocks !== 0 ? stockData.totalStocks?.toLocaleString() : stockData.totalStocks}
-            icon={Package}
-          />
-          <StockItem
-            title="Packed Stocks"
-            value={stockData.packedStocks !== 0 ? stockData.packedStocks?.toLocaleString() : stockData.packedStocks}
-            agradeStocks={stockData.agradeStocks !== 0 ? stockData.agradeStocks?.toLocaleString() : stockData.agradeStocks}
-            bgradeStocks={stockData.bgradeStocks !== 0 ? stockData.bgradeStocks?.toLocaleString() : stockData.bgradeStocks}
-            nonMovingStocks={stockData.nonMovingStocks !== 0 ? stockData.nonMovingStocks?.toLocaleString() : stockData.nonMovingStocks}
-            unpackedStocks={stockData.unpackedStocks !== 0 ? stockData.unpackedStocks?.toLocaleString() : stockData.unpackedStocks}
-            icon={Package}
-          />
-          <StockItem
-            title="Unpacked Stocks"
-            value={stockData.unpackedStocks !== 0 ? stockData.unpackedStocks?.toLocaleString() : stockData.unpackedStocks}
-            wipAgradeStocks={stockData.wipAgradeStocks !== 0 ? stockData.wipAgradeStocks?.toLocaleString() : stockData.wipAgradeStocks}
-            wipBgradeStocks={stockData.wipBgradeStocks !== 0 ? stockData.wipBgradeStocks?.toLocaleString() : stockData.wipBgradeStocks}
+            value={stockData.unpackedStocks !== 0 ? stockData.unpackedStocks?.toLocaleString('en-IN') : stockData.unpackedStocks}
+            wipAgradeStocks={stockData.wipAgradeStocks !== 0 ? stockData.wipAgradeStocks?.toLocaleString('en-IN') : stockData.wipAgradeStocks}
+            wipBgradeStocks={stockData.wipBgradeStocks !== 0 ? stockData.wipBgradeStocks?.toLocaleString('en-IN') : stockData.wipBgradeStocks}
             icon={PackageOpen}
           />
 
@@ -350,7 +307,33 @@ const StockCard = ({ selectedDateByMain }) => {
         {error && (
           <p className="text-red-500 text-sm text-center mt-4">{error}</p>
         )}
+      </CardContent> */}
+
+      <CardContent>
+        <div className="grid gap-6 md:grid-cols-3">
+          <StockItem
+            title="Total Stocks"
+            value={stockData.totalStocks?.toLocaleString('en-IN')}
+            icon={Package}
+          />
+          <StockItem
+            title="Packed Stocks"
+            value={stockData.packedStocks?.toLocaleString('en-IN')}
+            agradeStocks={stockData.agradeStocks?.toLocaleString('en-IN')}
+            bgradeStocks={stockData.bgradeStocks?.toLocaleString('en-IN')}
+            nonMovingStocks={stockData.nonMovingStocks?.toLocaleString('en-IN')}
+            icon={Package}
+          />
+          <StockItem
+            title="Unpacked Stocks"
+            value={stockData.unpackedStocks?.toLocaleString('en-IN')}
+            wipAgradeStocks={stockData.wipAgradeStocks?.toLocaleString('en-IN')}
+            wipBgradeStocks={stockData.wipBgradeStocks?.toLocaleString('en-IN')}
+            icon={PackageOpen}
+          />
+        </div>
       </CardContent>
+
     </Card>
   );
 };
